@@ -15,7 +15,6 @@ public class Scanner {
     private Stack<Integer> indents = new Stack<>();
     private final int TABDIST = 4;
 
-
     public Scanner(String fileName) {
 	curFileName = fileName;
 	indents.push(0);
@@ -30,7 +29,6 @@ public class Scanner {
 	}
     }
 
-
     private void scannerError(String message) {
 	String m = "Asp scanner error";
 	if (curLineNum() > 0)
@@ -40,7 +38,6 @@ public class Scanner {
 	Main.error(m);
     }
 
-
     public Token curToken() {
 	while (curLineTokens.isEmpty()) {
 	    readNextLine();
@@ -48,17 +45,14 @@ public class Scanner {
 	return curLineTokens.get(0);
     }
 
-
     public void readNextToken() {
 	if (! curLineTokens.isEmpty())
 	    curLineTokens.remove(0);
     }
 
-
     private void readNextLine() {
 	curLineTokens.clear();
 
-	// Read the next line:
 	String line = null;
 	try {
 	    line = sourceFile.readLine();
@@ -73,17 +67,32 @@ public class Scanner {
 	    scannerError("Unspecified I/O error!");
 	}
 
-	//-- Must be changed in part 1:
+	int curIndent = findIndent(line);
+
+	if (curIndent > indents.peek()) {
+	    indents.push(curIndent);
+	    curLineTokens.add(new Token(indentToken, curLineNum()));
+	} else if (curIndent < indents.peek()) {
+	    indents.pop();
+	    curLineTokens.add(new Token(dedentToken, curLineNum()));
+	}
+
+	String scannableLine = expandLeadingTabs(line);
+
+	String curTok = "";
+	for (int i = 0; i < scannableLine.length(); i++) {
+	    
+	}
 
 	// Terminate line:
-	curLineTokens.add(new Token(newLineToken,curLineNum()));
+	curLineTokens.add(new Token(newLineToken, curLineNum()));
 
 	for (Token t: curLineTokens) 
 	    Main.log.noteToken(t);
     }
 
     public int curLineNum() {
-	return sourceFile!=null ? sourceFile.getLineNumber() : 0;
+	return sourceFile != null ? sourceFile.getLineNumber() : 0;
     }
 
     private int findIndent(String s) {
@@ -94,20 +103,44 @@ public class Scanner {
     }
 
     private String expandLeadingTabs(String s) {
-	//-- Must be changed in part 1:
-	return null;
-    }
+	StringBuilder tabConverter = new StringBuilder(s);
+	int n = 0;
 
+	for (int i = 0; i < s.length(); i++) {
+	    if (s.charAt(i) == ' ') {
+		++n;
+	    }
+	    else if (s.charAt(i) == '\t') {
+		int tabWidth = TABDIST - (n % TABDIST);
+
+		tabConverter.deleteCharAt(i);
+
+		for (int j = i; j < i + tabWidth; j++) {
+		    // This if check is probably unnecessary in most cases,
+		    // but just in case theres a line that ends with a tab we check this
+		    if (j < s.length()) {
+			tabConverter.setCharAt(j, ' ');
+		    } else {
+			tabConverter.append(' ');
+		    }
+		}
+		
+		n += tabWidth;
+	    } else {
+		break;
+	    }
+	}
+
+	return tabConverter.toString();
+    }
 
     private boolean isLetterAZ(char c) {
 	return ('A'<=c && c<='Z') || ('a'<=c && c<='z') || (c=='_');
     }
 
-
     private boolean isDigit(char c) {
 	return '0'<=c && c<='9';
     }
-
 
     public boolean isCompOpr() {
 	TokenKind k = curToken().kind;
@@ -115,27 +148,23 @@ public class Scanner {
 	return false;
     }
 
-
     public boolean isFactorPrefix() {
 	TokenKind k = curToken().kind;
 	//-- Must be changed in part 2:
 	return false;
     }
 
-
     public boolean isFactorOpr() {
 	TokenKind k = curToken().kind;
 	//-- Must be changed in part 2:
 	return false;
     }
-	
 
     public boolean isTermOpr() {
 	TokenKind k = curToken().kind;
 	//-- Must be changed in part 2:
 	return false;
     }
-
 
     public boolean anyEqualToken() {
 	for (Token t: curLineTokens) {
