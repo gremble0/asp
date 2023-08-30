@@ -72,13 +72,18 @@ public class Scanner {
 	}
 
 	int curIndent = findIndent(line);
-
 	if (curIndent > indents.peek()) {
 	    indents.push(curIndent);
 	    curLineTokens.add(new Token(indentToken, curLineNum()));
-	} else if (curIndent < indents.peek()) {
-	    indents.pop();
-	    curLineTokens.add(new Token(dedentToken, curLineNum()));
+	} else {
+	    while (curIndent < indents.peek()) {
+		indents.pop();
+		curLineTokens.add(new Token(dedentToken, curLineNum()));
+	    }
+	} 
+
+	if (curIndent != indents.peek()) {
+	    scannerError("Indentation Error");
 	}
 
 	String scannableLine = expandLeadingTabs(line);
