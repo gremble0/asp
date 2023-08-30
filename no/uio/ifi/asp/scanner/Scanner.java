@@ -112,20 +112,12 @@ public class Scanner {
 	    }
 	    else if (s.charAt(i) == '\t') {
 		int tabWidth = TABDIST - (n % TABDIST);
+		n += tabWidth;
 
 		tabConverter.deleteCharAt(i);
-
-		for (int j = i; j < i + tabWidth; j++) {
-		    // This if check is probably unnecessary in most cases,
-		    // but just in case theres a line that ends with a tab we check this
-		    if (j < s.length()) {
-			tabConverter.setCharAt(j, ' ');
-		    } else {
-			tabConverter.append(' ');
-		    }
+		for (int j = 0; j < tabWidth; j++) {
+		    tabConverter.insert(i, ' ');
 		}
-		
-		n += tabWidth;
 	    } else {
 		break;
 	    }
