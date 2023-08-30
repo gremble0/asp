@@ -59,7 +59,11 @@ public class Scanner {
 	    if (line == null) {
 		sourceFile.close();
 		sourceFile = null;
+
+		curLineTokens.add(new Token(eofToken, curLineNum()));
+		return;
 	    } else {
+		line = expandLeadingTabs(line);
 		Main.log.noteSourceLine(curLineNum(), line);
 	    }
 	} catch (IOException e) {
