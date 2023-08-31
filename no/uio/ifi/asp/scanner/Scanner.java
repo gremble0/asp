@@ -38,6 +38,11 @@ public class Scanner {
 	Main.error(m);
     }
 
+    private void logCurTokens() {
+	for (Token t : curLineTokens) 
+	    Main.log.noteToken(t);
+    }
+
     public Token curToken() {
 	while (curLineTokens.isEmpty()) {
 	    readNextLine();
@@ -46,7 +51,7 @@ public class Scanner {
     }
 
     public void readNextToken() {
-	if (! curLineTokens.isEmpty())
+	if (!curLineTokens.isEmpty())
 	    curLineTokens.remove(0);
     }
 
@@ -61,6 +66,7 @@ public class Scanner {
 		sourceFile = null;
 
 		curLineTokens.add(new Token(eofToken, curLineNum()));
+		logCurTokens();
 		return;
 	    } else {
 		line = expandLeadingTabs(line);
@@ -96,8 +102,7 @@ public class Scanner {
 	// Terminate line:
 	curLineTokens.add(new Token(newLineToken, curLineNum()));
 
-	for (Token t: curLineTokens) 
-	    Main.log.noteToken(t);
+	logCurTokens();
     }
 
     public int curLineNum() {
