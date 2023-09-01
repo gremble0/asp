@@ -88,17 +88,58 @@ public class Scanner {
 	    scannerError("Indentation Error");
 	}
 
-	String scannableLine = expandLeadingTabs(line);
-
-	String curTok = "";
-	for (int i = 0; i < scannableLine.length(); i++) {
-	    
+	String curTokIter = "";
+	for (int i = 0; i < line.length(); i++) {
+	    curTokIter += line.charAt(i);
+	    if (!isLetterAZ(line.charAt(i + 1)) && !isDigit(line.charAt(i + 1))) {
+		Token curTok;
+		switch(curTokIter) {
+		case "and": curTok = new Token(andToken, curLineNum());
+		case "def": curTok = new Token(defToken, curLineNum());
+		case "elif": curTok = new Token(elifToken, curLineNum());
+		case "else": curTok = new Token(elseToken, curLineNum());
+		case "False": curTok = new Token(falseToken, curLineNum());
+		case "for": curTok = new Token(forToken, curLineNum());
+		case "global": curTok = new Token(globalToken, curLineNum());
+		case "if": curTok = new Token(ifToken, curLineNum());
+		case "in": curTok = new Token(inToken, curLineNum());
+		case "None": curTok = new Token(noneToken, curLineNum());
+		case "not": curTok = new Token(notToken, curLineNum());
+		case "or": curTok = new Token(orToken, curLineNum());
+		case "pass": curTok = new Token(returnToken, curLineNum());
+		case "True": curTok = new Token(trueToken, curLineNum());
+		case "while": curTok = new Token(whileToken, curLineNum());
+		    // Different
+		case "*": curTok = new Token(astToken, curLineNum());
+		case "==": curTok = new Token(doubleEqualToken, curLineNum());
+		case "//": curTok = new Token(doubleSlashToken, curLineNum());
+		case ">": curTok = new Token(greaterToken, curLineNum());
+		case ">=": curTok = new Token(greaterEqualToken, curLineNum());
+		case "<": curTok = new Token(lessToken, curLineNum());
+		case "<=": curTok = new Token(lessEqualToken, curLineNum());
+		case "-": curTok = new Token(minusToken, curLineNum());
+		case "!=": curTok = new Token(notEqualToken, curLineNum());
+		case "%": curTok = new Token(percentToken, curLineNum());
+		case "+": curTok = new Token(plusToken, curLineNum());
+		case "/": curTok = new Token(slashToken, curLineNum());
+		case ":": curTok = new Token(colonToken, curLineNum());
+		case ",": curTok = new Token(commaToken, curLineNum());
+		case "=": curTok = new Token(equalToken, curLineNum());
+		case "{": curTok = new Token(leftBraceToken, curLineNum());
+		case "[": curTok = new Token(leftBracketToken, curLineNum());
+		case "(": curTok = new Token(leftParToken, curLineNum());
+		case "}": curTok = new Token(rightBraceToken, curLineNum());
+		case "]": curTok = new Token(rightBracketToken, curLineNum());
+		case ")": curTok = new Token(rightParToken, curLineNum());
+		case ";": curTok = new Token(semicolonToken, curLineNum());
+		}
+	    }
 	}
 
 	curLineTokens.add(new Token(newLineToken, curLineNum()));
-
-	for (Token t : curLineTokens) 
+	for (Token t : curLineTokens) {
 	    Main.log.noteToken(t);
+	}
     }
 
     public int curLineNum() {
@@ -141,6 +182,20 @@ public class Scanner {
 
     private boolean isDigit(char c) {
 	return '0'<=c && c<='9';
+    }
+
+    private TokenKind parseNumber(String s) {
+	try {
+	    Integer.parseInt(s);
+	    return integerToken;
+	} catch (NumberFormatException i) {
+	    try {
+		Float.parseFloat(s);
+		return floatToken;
+	    } catch (NumberFormatException f) {
+		return null;
+	    }
+	}
     }
 
     public boolean isCompOpr() {
