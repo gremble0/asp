@@ -101,23 +101,23 @@ public class Scanner {
 
 	    if (!isLetterAZ(line.charAt(i)) && !isDigit(line.charAt(i))) {
 		System.out.println("\"" + curTokIter + "\"");
-		switch(curTokIter) {
-		case "and": curTok = new Token(andToken, curLineNum);
-		case "def": curTok = new Token(defToken, curLineNum);
-		case "elif": curTok = new Token(elifToken, curLineNum);
-		case "else": curTok = new Token(elseToken, curLineNum);
-		case "False": curTok = new Token(falseToken, curLineNum);
-		case "for": curTok = new Token(forToken, curLineNum);
-		case "global": curTok = new Token(globalToken, curLineNum);
-		case "if": curTok = new Token(ifToken, curLineNum);
-		case "in": curTok = new Token(inToken, curLineNum);
-		case "None": curTok = new Token(noneToken, curLineNum);
-		case "not": curTok = new Token(notToken, curLineNum);
-		case "or": curTok = new Token(orToken, curLineNum);
-		case "pass": curTok = new Token(returnToken, curLineNum);
-		case "True": curTok = new Token(trueToken, curLineNum);
-		case "while": curTok = new Token(whileToken, curLineNum);
-		default: curTok = new Token(nameToken, curLineNum);
+		switch (curTokIter) {
+		case "and": curTok = new Token(andToken, curLineNum); break;
+		case "def": curTok = new Token(defToken, curLineNum); break;
+		case "elif": curTok = new Token(elifToken, curLineNum); break;
+		case "else": curTok = new Token(elseToken, curLineNum); break;
+		case "False": curTok = new Token(falseToken, curLineNum); break;
+		case "for": curTok = new Token(forToken, curLineNum); break;
+		case "global": curTok = new Token(globalToken, curLineNum); break;
+		case "if": curTok = new Token(ifToken, curLineNum); break;
+		case "in": curTok = new Token(inToken, curLineNum); break;
+		case "None": curTok = new Token(noneToken, curLineNum); break;
+		case "not": curTok = new Token(notToken, curLineNum); break;
+		case "or": curTok = new Token(orToken, curLineNum); break;
+		case "pass": curTok = new Token(returnToken, curLineNum); break;
+		case "True": curTok = new Token(trueToken, curLineNum); break;
+		case "while": curTok = new Token(whileToken, curLineNum); break;
+		default: curTok = new Token(nameToken, curLineNum); break;
 		}
 
 		curLineTokens.add(curTok);
