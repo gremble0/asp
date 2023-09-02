@@ -91,12 +91,9 @@ public class Scanner {
 
 	String curTokIter = "";
 	Token curTok;
-	for (int i = 0; i < line.length(); i++) {
+	for (int i = curIndent; i < line.length(); i++) {
 	    if (line.charAt(i) == '#') {
 		return;
-	    } else if (line.charAt(i) == ' ') {
-		curTokIter = "";
-		continue;
 	    }
 
 	    if (!isLetterAZ(line.charAt(i)) && !isDigit(line.charAt(i))) {
@@ -123,7 +120,10 @@ public class Scanner {
 		curLineTokens.add(curTok);
 		curTokIter = "";
 	    }
-	    curTokIter += line.charAt(i);
+
+	    if (!(line.charAt(i) == ' ')) {
+		curTokIter += line.charAt(i);
+	    }
 	}
 
 	curLineTokens.add(new Token(newLineToken, curLineNum));
