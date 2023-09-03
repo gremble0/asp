@@ -96,26 +96,16 @@ public class Scanner {
 		return;
 	    }
 
+	    // if (!isLetterAZ(curTokIter.charAt(0))) {
+		// Different
+	    // }
+
 	    if (!isLetterAZ(line.charAt(i)) && !isDigit(line.charAt(i))) {
 		System.out.println("\"" + curTokIter + "\"");
-		switch (curTokIter) {
-		case "and": curTok = new Token(andToken, curLineNum); break;
-		case "def": curTok = new Token(defToken, curLineNum); break;
-		case "elif": curTok = new Token(elifToken, curLineNum); break;
-		case "else": curTok = new Token(elseToken, curLineNum); break;
-		case "False": curTok = new Token(falseToken, curLineNum); break;
-		case "for": curTok = new Token(forToken, curLineNum); break;
-		case "global": curTok = new Token(globalToken, curLineNum); break;
-		case "if": curTok = new Token(ifToken, curLineNum); break;
-		case "in": curTok = new Token(inToken, curLineNum); break;
-		case "None": curTok = new Token(noneToken, curLineNum); break;
-		case "not": curTok = new Token(notToken, curLineNum); break;
-		case "or": curTok = new Token(orToken, curLineNum); break;
-		case "pass": curTok = new Token(returnToken, curLineNum); break;
-		case "True": curTok = new Token(trueToken, curLineNum); break;
-		case "while": curTok = new Token(whileToken, curLineNum); break;
-		default: curTok = new Token(nameToken, curLineNum); break;
-		}
+
+		TokenKind curTokKind = findKeywordKind(curTokIter);
+		curTok = new Token(curTokKind, curLineNum);
+		if (curTokKind == nameToken) curTok.name = curTokIter;
 
 		curLineTokens.add(curTok);
 		curTokIter = "";
@@ -130,33 +120,59 @@ public class Scanner {
 	for (Token t : curLineTokens) {
 	    Main.log.noteToken(t);
 	}
-	// Different
-	// case "*": curTok = new Token(astToken, curLineNum);
-	// case "==": curTok = new Token(doubleEqualToken, curLineNum);
-	// case "//": curTok = new Token(doubleSlashToken, curLineNum);
-	// case ">": curTok = new Token(greaterToken, curLineNum);
-	// case ">=": curTok = new Token(greaterEqualToken, curLineNum);
-	// case "<": curTok = new Token(lessToken, curLineNum);
-	// case "<=": curTok = new Token(lessEqualToken, curLineNum);
-	// case "-": curTok = new Token(minusToken, curLineNum);
-	// case "!=": curTok = new Token(notEqualToken, curLineNum);
-	// case "%": curTok = new Token(percentToken, curLineNum);
-	// case "+": curTok = new Token(plusToken, curLineNum);
-	// case "/": curTok = new Token(slashToken, curLineNum);
-	// case ":": curTok = new Token(colonToken, curLineNum);
-	// case ",": curTok = new Token(commaToken, curLineNum);
-	// case "=": curTok = new Token(equalToken, curLineNum);
-	// case "{": curTok = new Token(leftBraceToken, curLineNum);
-	// case "[": curTok = new Token(leftBracketToken, curLineNum);
-	// case "(": curTok = new Token(leftParToken, curLineNum);
-	// case "}": curTok = new Token(rightBraceToken, curLineNum);
-	// case "]": curTok = new Token(rightBracketToken, curLineNum);
-	// case ")": curTok = new Token(rightParToken, curLineNum);
-	// case ";": curTok = new Token(semicolonToken, curLineNum);
     }
 
     public int curLineNum() {
 	return sourceFile != null ? sourceFile.getLineNumber() : 0;
+    }
+
+    private TokenKind findKeywordKind(String tokString) {
+	switch (tokString) {
+	case "and": return andToken;
+	case "def": return defToken;
+	case "elif": return elifToken;
+	case "else": return elseToken;
+	case "False": return falseToken;
+	case "for": return forToken;
+	case "global": return globalToken;
+	case "if": return ifToken;
+	case "in": return inToken;
+	case "None": return noneToken;
+	case "not": return notToken;
+	case "or": return orToken;
+	case "pass": return passToken;
+	case "True": return trueToken;
+	case "while": return whileToken;
+	default: return nameToken;
+	}
+    }
+
+    private TokenKind findOperatorKind(String tokString) {
+	switch (tokString) {
+	case "*": return astToken;
+	case ">": return greaterToken;
+	case ">=": return greaterEqualToken;
+	case "<": return lessToken;
+	case "<=": return lessEqualToken;
+	case "-": return minusToken;
+	case "!=": return notEqualToken;
+	case "%": return percentToken;
+	case "+": return plusToken;
+	case "/": return slashToken;
+	case "//": return doubleSlashToken;
+	case ":": return colonToken;
+	case ",": return commaToken;
+	case "=": return equalToken;
+	case "==": return doubleEqualToken;
+	case "{": return leftBraceToken;
+	case "[": return leftBracketToken;
+	case "(": return leftParToken;
+	case "}": return rightBraceToken;
+	case "]": return rightBracketToken;
+	case ")": return rightParToken;
+	case ";": return semicolonToken;
+	default: return null;
+	}
     }
 
     private int findIndent(String s) {
