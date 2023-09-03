@@ -108,15 +108,15 @@ public class Scanner {
 		if (line.charAt(i) == '"') {
 		    curTok = new Token(stringToken, curLineNum);
 		    curTok.stringLit = "";
-		    while (line.charAt(i++) != '"')
-			curTok.name += line.charAt(i);
+		    while (line.charAt(++i) != '"')
+			curTok.stringLit += line.charAt(i);
 		} else {
 		    TokenKind curTokKind = findKeywordKind(curTokIter);
 		    curTok = new Token(curTokKind, curLineNum);
-		    if (curTokKind == nameToken) curTok.name = curTokIter;
-		    
-		    curTokIter = "";
+		    if (curTokKind == nameToken)
+			curTok.name = curTokIter;
 		}
+		curTokIter = "";
 		curLineTokens.add(curTok);
 	    }
 
