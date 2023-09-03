@@ -91,28 +91,27 @@ public class Scanner {
 	if (curIndent != indents.peek()) 
 	    scannerError("Indentation Error");
 
-	String curTokIter = "";
 	Token curTok;
+	String curTokIter = "";
 	for (int i = curIndent; i < line.length(); i++) {
-	    if (line.charAt(i) == '#') {
+	    char curChar = line.charAt(i);
+	    if (curChar == '#') {
 		return;
 	    }
 
-	    // if (!isLetterAZ(curTokIter.charAt(0))) {
-		// Different
-	    // }
-
-	    if (!isLetterAZ(line.charAt(i)) && !isDigit(line.charAt(i))) {
+	    if (!isLetterAZ(curChar) && !isDigit(curChar)) {
 		// TODO: Make function getStringLiteral()
 		// TODO: match both ' and "
-		if (line.charAt(i) == '"') {
+		if (curChar == '"') {
 		    curTok = new Token(stringToken, curLineNum);
 		    curTok.stringLit = "";
+
 		    while (line.charAt(++i) != '"')
-			curTok.stringLit += line.charAt(i);
+			curTok.stringLit += curChar;
 		} else {
 		    TokenKind curTokKind = findKeywordKind(curTokIter);
 		    curTok = new Token(curTokKind, curLineNum);
+
 		    if (curTokKind == nameToken)
 			curTok.name = curTokIter;
 		}
@@ -120,8 +119,8 @@ public class Scanner {
 		curLineTokens.add(curTok);
 	    }
 
-	    if (!(line.charAt(i) == ' '))
-		curTokIter += line.charAt(i);
+	    if (curChar != ' ')
+		curTokIter += curChar;
 	}
 
 	curLineTokens.add(new Token(newLineToken, curLineNum));
