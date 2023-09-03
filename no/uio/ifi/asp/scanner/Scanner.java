@@ -74,6 +74,9 @@ public class Scanner {
 	    scannerError("Unspecified I/O error!");
 	}
 
+	if (line.length() == 0 || line.charAt(0) == '#')
+	    return;
+
 	int curIndent = findIndent(line);
 	if (curIndent > indents.peek()) {
 	    indents.push(curIndent);
@@ -85,9 +88,8 @@ public class Scanner {
 	    }
 	} 
 
-	if (curIndent != indents.peek()) {
+	if (curIndent != indents.peek()) 
 	    scannerError("Indentation Error");
-	}
 
 	String curTokIter = "";
 	Token curTok;
@@ -101,25 +103,31 @@ public class Scanner {
 	    // }
 
 	    if (!isLetterAZ(line.charAt(i)) && !isDigit(line.charAt(i))) {
-		System.out.println("\"" + curTokIter + "\"");
-
-		TokenKind curTokKind = findKeywordKind(curTokIter);
-		curTok = new Token(curTokKind, curLineNum);
-		if (curTokKind == nameToken) curTok.name = curTokIter;
-
+		// TODO: Make function getStringLiteral()
+		// TODO: match both ' and "
+		if (line.charAt(i) == '"') {
+		    curTok = new Token(stringToken, curLineNum);
+		    curTok.stringLit = "";
+		    while (line.charAt(i++) != '"')
+			curTok.name += line.charAt(i);
+		} else {
+		    TokenKind curTokKind = findKeywordKind(curTokIter);
+		    curTok = new Token(curTokKind, curLineNum);
+		    if (curTokKind == nameToken) curTok.name = curTokIter;
+		    
+		    curTokIter = "";
+		}
 		curLineTokens.add(curTok);
-		curTokIter = "";
 	    }
 
-	    if (!(line.charAt(i) == ' ')) {
+	    if (!(line.charAt(i) == ' '))
 		curTokIter += line.charAt(i);
-	    }
 	}
 
 	curLineTokens.add(new Token(newLineToken, curLineNum));
-	for (Token t : curLineTokens) {
+
+	for (Token t : curLineTokens)
 	    Main.log.noteToken(t);
-	}
     }
 
     public int curLineNum() {

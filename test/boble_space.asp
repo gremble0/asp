@@ -1,6 +1,17 @@
 # Boblesortering
 # (Den enkleste men akk så ineffektive sorteringsmetoden)
 
+
+
+
+
+
+
+
+
+
+
+
 def boblesorter (a):
     global ombyttinger
     while True:
