@@ -98,29 +98,41 @@ public class Scanner {
             if (curChar == '#')
                 break;
 
-            if (!isLetterAZ(curChar) && !isDigit(curChar)) {
-                // TODO: Make function getStringLiteral()
-                // TODO: match both ' and "
-                if (curChar == '"' || curChar == '\'') {
-                    curTok = new Token(stringToken, curLineNum);
-                    curTok.stringLit = "";
 
-                    char startQuote = curChar;
-                    while ((curChar  = line.charAt(++i)) != startQuote)
-			curTok.stringLit += curChar;
+            if (isLetterAZ(curChar) || isDigit(curChar)) {
+		if (curChar != ' ')
+		    curTokIter += curChar;
+		continue;
+	    }
+	    
+	    System.out.println("\"" + curTokIter + "\"");
+	    if (curChar == '"' || curChar == '\'') {
+		// TODO: Make function getStringLiteral()
+		curTok = new Token(stringToken, curLineNum);
+		curTok.stringLit = "";
+		
+		char startQuote = curChar;
+		while ((curChar = line.charAt(++i)) != startQuote)
+		    curTok.stringLit += curChar;
+	    } else if (curTokIter.length() > 0 && isDigit(curTokIter.charAt(0))) {
+		// TODO: fix number parsing - probably outer if check
+		if (curTokIter.contains(".")) {
+		    curTok = new Token(floatToken, curLineNum);
+		    curTok.floatLit = Double.parseDouble(curTokIter);
 		} else {
-                    TokenKind curTokKind = findKeywordKind(curTokIter);
-                    curTok = new Token(curTokKind, curLineNum);
-
-                    if (curTokKind == nameToken)
-                        curTok.name = curTokIter;
-                }
-                curTokIter = "";
-                curLineTokens.add(curTok);
-            }
-
-            if (curChar != ' ')
-                curTokIter += curChar;
+		    curTok = new Token(integerToken, curLineNum);
+		    curTok.floatLit = Integer.parseInt(curTokIter);
+		}
+	    } else {
+		TokenKind curTokKind = findKeywordKind(curTokIter);
+		curTok = new Token(curTokKind, curLineNum);
+		
+		if (curTokKind == nameToken)
+		    curTok.name = curTokIter;
+	    }
+	    curTokIter = "";
+	    curLineTokens.add(curTok);
+	    
         }
 
         curLineTokens.add(new Token(newLineToken, curLineNum));
