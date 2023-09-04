@@ -98,24 +98,29 @@ public class Scanner {
             if (curChar == '#')
                 break;
 
-
-            if (isLetterAZ(curChar) || isDigit(curChar)) {
-		if (curChar != ' ')
-		    curTokIter += curChar;
+	    if (curChar == ' ')
 		continue;
-	    }
 	    
-	    System.out.println("\"" + curTokIter + "\"");
 	    if (curChar == '"' || curChar == '\'') {
-		// TODO: Make function getStringLiteral()
 		curTok = new Token(stringToken, curLineNum);
 		curTok.stringLit = "";
-		
 		char startQuote = curChar;
-		while ((curChar = line.charAt(++i)) != startQuote)
+		
+		while (i < line.length() && (curChar = line.charAt(++i)) != startQuote)
 		    curTok.stringLit += curChar;
-	    } else if (curTokIter.length() > 0 && isDigit(curTokIter.charAt(0))) {
-		// TODO: fix number parsing - probably outer if check
+	    } else if (isLetterAZ(curChar)) {
+		while (i < line.length() && (isLetterAZ(curChar = line.charAt(i++)) || isDigit(curChar)))
+		    curTokIter += curChar;
+
+		TokenKind curTokKind = findKeywordKind(curTokIter);
+		curTok = new Token(curTokKind, curLineNum);
+
+		if (curTokKind == nameToken)
+		    curTok.name = curTokIter;
+	    } else if (isDigit(curChar)) {
+		while (i < line.length() && isDigit(curChar = line.charAt(i++)))
+		    curTokIter += curChar;
+
 		if (curTokIter.contains(".")) {
 		    curTok = new Token(floatToken, curLineNum);
 		    curTok.floatLit = Double.parseDouble(curTokIter);
@@ -124,16 +129,16 @@ public class Scanner {
 		    curTok.floatLit = Integer.parseInt(curTokIter);
 		}
 	    } else {
-		TokenKind curTokKind = findKeywordKind(curTokIter);
-		curTok = new Token(curTokKind, curLineNum);
+		while (i < line.length() && isOperator(curChar = line.charAt(++i)))
+		    curTokIter += curChar;
 		
-		if (curTokKind == nameToken)
-		    curTok.name = curTokIter;
+		TokenKind curTokKind = findOperatorKind(curTokIter);
+		curTok = new Token(curTokKind, curLineNum);
 	    }
+
 	    curTokIter = "";
 	    curLineTokens.add(curTok);
-	    
-        }
+	}
 
         curLineTokens.add(new Token(newLineToken, curLineNum));
 
@@ -230,6 +235,10 @@ public class Scanner {
 
     private boolean isDigit(char c) {
         return '0'<=c && c<='9';
+    }
+
+    private boolean isOperator(char c) {
+	return !(isLetterAZ(c) || isDigit(c) || c == ' ');
     }
 
     private TokenKind parseNumber(String s) {
