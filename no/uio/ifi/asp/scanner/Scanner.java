@@ -94,45 +94,51 @@ public class Scanner {
         Token curTok;
         String curTokIter = "";
         for (int i = curIndent; i < line.length(); i++) {
-            char curChar = line.charAt(i);
-            if (curChar == '#')
-                break;
+	    char curChar = line.charAt(i);
+	    if (curChar == '#')
+		break;
 
 	    if (curChar == ' ')
 		continue;
-	    
-	    if (curChar == '"' || curChar == '\'') {
+
+	    if (isQuote(curChar)) {
+		char startQuote = curChar;
 		curTok = new Token(stringToken, curLineNum);
 		curTok.stringLit = "";
-		char startQuote = curChar;
-		
+
 		while (i < line.length() && (curChar = line.charAt(++i)) != startQuote)
 		    curTok.stringLit += curChar;
-	    } else if (isLetterAZ(curChar)) {
-		while (i < line.length() && (isLetterAZ(curChar = line.charAt(i++)) || isDigit(curChar)))
-		    curTokIter += curChar;
+	    }
+	    else if (isLetterAZ(curChar)) {
+		while (i < line.length() && (isLetterAZ(line.charAt(i)) || isDigit(line.charAt(i)))) {
+		    curTokIter += line.charAt(i);
+		    i++;
+		}
 
 		TokenKind curTokKind = findKeywordKind(curTokIter);
 		curTok = new Token(curTokKind, curLineNum);
 
 		if (curTokKind == nameToken)
 		    curTok.name = curTokIter;
-	    } else if (isDigit(curChar)) {
-		while (i < line.length() && isDigit(curChar = line.charAt(i++)))
-		    curTokIter += curChar;
+	    }
+	    else if (isDigit(curChar)) {
+		// TODO: Handle errors for misformed floats (multiple .'s etc)
+		while (i < line.length() && (isDigit(line.charAt(i)) || line.charAt(i) == '.')) {
+		    curTokIter += line.charAt(i);
+		    i++;
+		}
 
 		if (curTokIter.contains(".")) {
 		    curTok = new Token(floatToken, curLineNum);
 		    curTok.floatLit = Double.parseDouble(curTokIter);
 		} else {
 		    curTok = new Token(integerToken, curLineNum);
-		    curTok.floatLit = Integer.parseInt(curTokIter);
+		    curTok.integerLit = Integer.parseInt(curTokIter);
 		}
-	    } else {
-		while (i < line.length() && isOperator(curChar = line.charAt(++i)))
-		    curTokIter += curChar;
-		
-		TokenKind curTokKind = findOperatorKind(curTokIter);
+	    }
+	    else {
+		System.out.println(curChar);
+		TokenKind curTokKind = findOperatorKind(String.valueOf(curChar));
 		curTok = new Token(curTokKind, curLineNum);
 	    }
 
@@ -238,7 +244,11 @@ public class Scanner {
     }
 
     private boolean isOperator(char c) {
-	return !(isLetterAZ(c) || isDigit(c) || c == ' ');
+	return !(isLetterAZ(c) || isDigit(c) || isQuote(c) || c == ' ');
+    }
+
+    private boolean isQuote(char c) {
+	return c == '"' || c == '\'';
     }
 
     private TokenKind parseNumber(String s) {
