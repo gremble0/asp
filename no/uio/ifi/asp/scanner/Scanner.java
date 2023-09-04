@@ -95,18 +95,18 @@ public class Scanner {
 	String curTokIter = "";
 	for (int i = curIndent; i < line.length(); i++) {
 	    char curChar = line.charAt(i);
-	    if (curChar == '#') {
-		return;
-	    }
+	    if (curChar == '#')
+		break;
 
 	    if (!isLetterAZ(curChar) && !isDigit(curChar)) {
 		// TODO: Make function getStringLiteral()
 		// TODO: match both ' and "
-		if (curChar == '"') {
+		if (curChar == '"' || curChar == '\'') {
 		    curTok = new Token(stringToken, curLineNum);
 		    curTok.stringLit = "";
 
-		    while (line.charAt(++i) != '"')
+		    char startQuote = curChar;
+		    while ((curChar  = line.charAt(++i)) != startQuote)
 			curTok.stringLit += curChar;
 		} else {
 		    TokenKind curTokKind = findKeywordKind(curTokIter);
