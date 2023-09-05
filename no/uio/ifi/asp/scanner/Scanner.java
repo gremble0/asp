@@ -50,6 +50,22 @@ public class Scanner {
             curLineTokens.remove(0);
     }
 
+    private void stopScanning() {
+	try {
+	    sourceFile.close();
+	} catch (IOException e) {
+	    scannerError("Error trying to close file");
+	}
+	sourceFile = null;
+
+	while (indents.pop() != 0)
+	    Main.log.noteToken(new Token(dedentToken, curLineNum()));
+	
+	Token eof = new Token(eofToken, curLineNum());
+	Main.log.noteToken(eof);
+	curLineTokens.add(eof);
+    }
+
     private void readNextLine() {
         curLineTokens.clear();
         int curLineNum = curLineNum();
@@ -58,12 +74,7 @@ public class Scanner {
         try {
             line = sourceFile.readLine();
             if (line == null) {
-                sourceFile.close();
-                sourceFile = null;
-
-                Token eof = new Token(eofToken, curLineNum);
-                Main.log.noteToken(eof);
-                curLineTokens.add(eof);
+		stopScanning();
                 return;
             } else {
                 line = expandLeadingTabs(line);
@@ -120,6 +131,7 @@ public class Scanner {
 
 		if (curTokKind == nameToken)
 		    curTok.name = curTokIter;
+		i--; // TODO: find a better way of doing this
 	    }
 	    else if (isDigit(curChar)) {
 		// TODO: Handle errors for misformed floats (multiple .'s etc)
@@ -135,10 +147,12 @@ public class Scanner {
 		    curTok = new Token(integerToken, curLineNum);
 		    curTok.integerLit = Integer.parseInt(curTokIter);
 		}
+		i--; // TODO: find a better way of doing this
 	    }
 	    else {
-		System.out.println(curChar);
-		TokenKind curTokKind = findOperatorKind(String.valueOf(curChar));
+		// TODO: Fix else statement
+		TokenKind curTokKind;
+		curTokKind = findOperatorKind(String.valueOf(line.charAt(i)));
 		curTok = new Token(curTokKind, curLineNum);
 	    }
 
@@ -153,7 +167,7 @@ public class Scanner {
     }
 
     public int curLineNum() {
-        return sourceFile != null ? sourceFile.getLineNumber() : 0;
+        return sourceFile != null ? sourceFile.getLineNumber() + 1 : 0;
     }
 
     private TokenKind findKeywordKind(String tokString) {
@@ -170,6 +184,7 @@ public class Scanner {
         case "None": return noneToken;
         case "not": return notToken;
         case "or": return orToken;
+	case "return": return returnToken;
         case "pass": return passToken;
         case "True": return trueToken;
         case "while": return whileToken;
