@@ -31,13 +31,8 @@ public class Scanner {
         }
     }
 
-    private void scannerError(String message) {
-        String m = "Asp scanner error";
-        if (curLineNum() > 0)
-            m += " on line " + curLineNum();
-        m += ": " + message;
-
-        Main.error(m);
+    public int curLineNum() {
+        return sourceFile != null ? sourceFile.getLineNumber() : 0;
     }
 
     public Token curToken() {
@@ -50,6 +45,15 @@ public class Scanner {
     public void readNextToken() {
         if (!curLineTokens.isEmpty())
             curLineTokens.remove(0);
+    }
+
+    private void scannerError(String message) {
+        String m = "Asp scanner error";
+        if (curLineNum() > 0)
+            m += " on line " + curLineNum();
+        m += ": " + message;
+
+        Main.error(m);
     }
 
     private void stopScanning() {
@@ -111,25 +115,20 @@ public class Scanner {
 		continue;
 
 	    // TODO: split each branch into a separate function and use the curLinePos variable
-	    if (isQuote(curChar)) {
+	    if (isQuote(curChar))
 		curLineTokens.add(scanString());
-	    } else if (isLetterAZ(curChar)) {
+	    else if (isLetterAZ(curChar))
 		curLineTokens.add(scanKeywordOrName());
-	    } else if (isDigit(curChar)) {
+	    else if (isDigit(curChar))
 		curLineTokens.add(scanNumber());
-	    } else {
+	    else
 		curLineTokens.add(scanOperator());
-	    }
 	}
 
         curLineTokens.add(new Token(newLineToken, curLineNum()));
 
         for (Token t : curLineTokens)
             Main.log.noteToken(t);
-    }
-
-    public int curLineNum() {
-        return sourceFile != null ? sourceFile.getLineNumber() : 0;
     }
 
     private Token scanString() {
@@ -195,50 +194,8 @@ public class Scanner {
     }
 
     private TokenKind findTokenKind(String tokString) {
-        switch (tokString) {
-	    // Keywords
-	case "and": return andToken;
-        case "def": return defToken;
-        case "elif": return elifToken;
-        case "else": return elseToken;
-        case "False": return falseToken;
-        case "for": return forToken;
-        case "global": return globalToken;
-        case "if": return ifToken;
-        case "in": return inToken;
-        case "None": return noneToken;
-        case "not": return notToken;
-        case "or": return orToken;
-	case "return": return returnToken;
-        case "pass": return passToken;
-        case "True": return trueToken;
-	case "while": return whileToken;
-	    // Operators
-        case "*": return astToken;
-        case ">": return greaterToken;
-        case ">=": return greaterEqualToken;
-        case "<": return lessToken;
-        case "<=": return lessEqualToken;
-        case "-": return minusToken;
-        case "!=": return notEqualToken;
-        case "%": return percentToken;
-        case "+": return plusToken;
-        case "/": return slashToken;
-        case "//": return doubleSlashToken;
-        case ":": return colonToken;
-        case ",": return commaToken;
-        case "=": return equalToken;
-        case "==": return doubleEqualToken;
-        case "{": return leftBraceToken;
-        case "[": return leftBracketToken;
-        case "(": return leftParToken;
-        case "}": return rightBraceToken;
-        case "]": return rightBracketToken;
-        case ")": return rightParToken;
-        case ";": return semicolonToken;
-	    // If its neither a keyword nor an operator assume its a name
-        default: return nameToken;
-        }
+	TokenKind t = TokenKind.findByKey(tokString);
+	return t == null ? nameToken : t;
     }
 
     private int findIndent(String s) {

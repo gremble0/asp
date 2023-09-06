@@ -2,6 +2,9 @@
 
 package no.uio.ifi.asp.scanner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import no.uio.ifi.asp.main.*;
 
 public enum TokenKind {
@@ -105,6 +108,18 @@ public enum TokenKind {
 
     TokenKind(String s) {
 	image = s;
+    }
+
+    private static final Map<String, TokenKind> tokenKinds;
+    static {
+	tokenKinds = new HashMap<String, TokenKind>();
+	for (TokenKind t : TokenKind.values()) {
+	    tokenKinds.put(t.image, t);
+	}
+    }
+
+    public static TokenKind findByKey(String s) {
+	return tokenKinds.get(s);
     }
 
     @Override
