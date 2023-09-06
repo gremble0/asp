@@ -89,10 +89,10 @@ public class Scanner {
             scannerError("Unspecified I/O error!");
         }
 
-        if (curLine.length() == 0 || curLine.charAt(0) == '#')
-            return;
-
         int curIndent = findIndent(curLine);
+	if (curIndent == curLine.length() || curLine.length() == 0 || curLine.charAt(curIndent) == '#')
+	    return;
+
         if (curIndent > indents.peek()) {
             indents.push(curIndent);
             curLineTokens.add(new Token(indentToken, curLineNum()));
@@ -106,15 +106,16 @@ public class Scanner {
         if (curIndent != indents.peek()) 
             scannerError("Indentation Error");
 
+
         for (curLinePos = curIndent; curLinePos < curLine.length(); curLinePos++) {
 	    char curChar = curLine.charAt(curLinePos);
-	    if (curChar == '#')
+	    if (curChar == '#') {
 		break;
+	    }
 
 	    if (curChar == ' ')
 		continue;
 
-	    // TODO: split each branch into a separate function and use the curLinePos variable
 	    if (isQuote(curChar))
 		curLineTokens.add(scanString());
 	    else if (isLetterAZ(curChar))
