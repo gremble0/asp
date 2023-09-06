@@ -150,7 +150,7 @@ public class Scanner {
 	    curLinePos++;
 	}
 	
-	TokenKind curTokKind = findKeywordKind(curWord);
+	TokenKind curTokKind = findTokenKind(curWord);
 	Token curTok = new Token(curTokKind, curLineNum());
 	
 	if (curTokKind == nameToken)
@@ -186,17 +186,18 @@ public class Scanner {
     private Token scanOperator() {
 	String curOperator = String.valueOf(curLine.charAt(curLinePos++));
 
-	while (curLinePos < curLine.length() && findOperatorKind(curOperator + curLine.charAt(curLinePos)) != null) {
+	while (curLinePos < curLine.length() && findTokenKind(curOperator + curLine.charAt(curLinePos)) != nameToken) {
 	    curOperator += curLine.charAt(curLinePos++);
 	}
 	curLinePos--;
 
-	return new Token(findOperatorKind(curOperator), curLineNum());
+	return new Token(findTokenKind(curOperator), curLineNum());
     }
 
-    private TokenKind findKeywordKind(String tokString) {
+    private TokenKind findTokenKind(String tokString) {
         switch (tokString) {
-        case "and": return andToken;
+	    // Keywords
+	case "and": return andToken;
         case "def": return defToken;
         case "elif": return elifToken;
         case "else": return elseToken;
@@ -211,14 +212,8 @@ public class Scanner {
 	case "return": return returnToken;
         case "pass": return passToken;
         case "True": return trueToken;
-        case "while": return whileToken;
-        default: return nameToken;
-        }
-    }
-
-    // TODO: Maybe combine with findKeywordKind
-    private TokenKind findOperatorKind(String tokString) {
-        switch (tokString) {
+	case "while": return whileToken;
+	    // Operators
         case "*": return astToken;
         case ">": return greaterToken;
         case ">=": return greaterEqualToken;
@@ -241,7 +236,8 @@ public class Scanner {
         case "]": return rightBracketToken;
         case ")": return rightParToken;
         case ";": return semicolonToken;
-        default: return null;
+	    // If its neither a keyword nor an operator assume its a name
+        default: return nameToken;
         }
     }
 
@@ -285,24 +281,6 @@ public class Scanner {
 
     private boolean isQuote(char c) {
 	return c == '"' || c == '\'';
-    }
-
-    private boolean isOperator(char c) {
-	return !(isLetterAZ(c) || isDigit(c) || isQuote(c) || c == ' ');
-    }
-
-    private TokenKind parseNumber(String s) {
-        try {
-            Integer.parseInt(s);
-            return integerToken;
-        } catch (NumberFormatException i) {
-            try {
-                Float.parseFloat(s);
-                return floatToken;
-            } catch (NumberFormatException f) {
-                return null;
-            }
-        }
     }
 
     public boolean isCompOpr() {
