@@ -124,13 +124,7 @@ public class Scanner {
 		curTok = scanNumber();
 	    }
 	    else {
-		curTokIter += curLine.charAt(curLinePos++);
-		while (curLinePos < curLine.length() && findOperatorKind(curTokIter + curLine.charAt(curLinePos)) != null) {
-		    curTokIter += curLine.charAt(curLinePos++);
-		}
-		curLinePos--;
-
-		curTok = new Token(findOperatorKind(curTokIter), curLineNum);
+		curTok = scanOperator();
 	    }
 
 	    curTokIter = "";
@@ -196,6 +190,17 @@ public class Scanner {
 	curLinePos--; // TODO: find a better way of doing this
 
 	return curTok;
+    }
+
+    private Token scanOperator() {
+	String curOperator = String.valueOf(curLine.charAt(curLinePos++));
+
+	while (curLinePos < curLine.length() && findOperatorKind(curOperator + curLine.charAt(curLinePos)) != null) {
+	    curOperator += curLine.charAt(curLinePos++);
+	}
+	curLinePos--;
+
+	return new Token(findOperatorKind(curOperator), curLineNum());
     }
 
     private TokenKind findKeywordKind(String tokString) {
