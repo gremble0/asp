@@ -150,9 +150,19 @@ public class Scanner {
 		i--; // TODO: find a better way of doing this
 	    }
 	    else {
-		// TODO: Fix else statement
 		TokenKind curTokKind;
-		curTokKind = findOperatorKind(String.valueOf(line.charAt(i)));
+		String curChar2 = String.valueOf(line.charAt(i));
+		if (i + 1 < line.length()) {
+		    String nextChar = String.valueOf(line.charAt(i + 1));
+		    if (findOperatorKind(curChar2 + nextChar) != null) {
+			curTokKind = findOperatorKind(curChar2 + nextChar);
+			++i;
+		    } else {
+			curTokKind = findOperatorKind(curChar2);
+		    }
+		} else {
+		    curTokKind = findOperatorKind(curChar2);
+		}
 		curTok = new Token(curTokKind, curLineNum);
 	    }
 
