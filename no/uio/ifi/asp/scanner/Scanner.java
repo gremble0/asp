@@ -70,7 +70,6 @@ public class Scanner {
 
     private void readNextLine() {
         curLineTokens.clear();
-        int curLineNum = curLineNum();
 
         try {
             curLine = sourceFile.readLine();
@@ -79,7 +78,7 @@ public class Scanner {
                 return;
             } else {
                 curLine = expandLeadingTabs(curLine);
-                Main.log.noteSourceLine(curLineNum, curLine);
+                Main.log.noteSourceLine(curLineNum(), curLine);
             }
         } catch (IOException e) {
             sourceFile = null;
@@ -92,19 +91,17 @@ public class Scanner {
         int curIndent = findIndent(curLine);
         if (curIndent > indents.peek()) {
             indents.push(curIndent);
-            curLineTokens.add(new Token(indentToken, curLineNum));
+            curLineTokens.add(new Token(indentToken, curLineNum()));
         } else {
             while (curIndent < indents.peek()) {
                 indents.pop();
-                curLineTokens.add(new Token(dedentToken, curLineNum));
+                curLineTokens.add(new Token(dedentToken, curLineNum()));
             }
         } 
 
         if (curIndent != indents.peek()) 
             scannerError("Indentation Error");
 
-        Token curTok;
-        String curTokIter = "";
         for (curLinePos = curIndent; curLinePos < curLine.length(); curLinePos++) {
 	    char curChar = curLine.charAt(curLinePos);
 	    if (curChar == '#')
@@ -115,30 +112,24 @@ public class Scanner {
 
 	    // TODO: split each branch into a separate function and use the curLinePos variable
 	    if (isQuote(curChar)) {
-		curTok = scanString();
+		curLineTokens.add(scanString());
+	    } else if (isLetterAZ(curChar)) {
+		curLineTokens.add(scanKeywordOrName());
+	    } else if (isDigit(curChar)) {
+		curLineTokens.add(scanNumber());
+	    } else {
+		curLineTokens.add(scanOperator());
 	    }
-	    else if (isLetterAZ(curChar)) {
-		curTok = scanKeywordOrName();
-	    }
-	    else if (isDigit(curChar)) {
-		curTok = scanNumber();
-	    }
-	    else {
-		curTok = scanOperator();
-	    }
-
-	    curTokIter = "";
-	    curLineTokens.add(curTok);
 	}
 
-        curLineTokens.add(new Token(newLineToken, curLineNum));
+        curLineTokens.add(new Token(newLineToken, curLineNum()));
 
         for (Token t : curLineTokens)
             Main.log.noteToken(t);
     }
 
     public int curLineNum() {
-        return sourceFile != null ? sourceFile.getLineNumber() + 1 : 0;
+        return sourceFile != null ? sourceFile.getLineNumber() : 0;
     }
 
     private Token scanString() {
