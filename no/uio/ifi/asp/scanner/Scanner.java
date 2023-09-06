@@ -11,6 +11,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 public class Scanner {
     private LineNumberReader sourceFile = null;
     private String curFileName;
+    private String curLine;
     private int curLinePos = 0;
     private ArrayList<Token> curLineTokens = new ArrayList<>();
     private Stack<Integer> indents = new Stack<>();
@@ -71,25 +72,24 @@ public class Scanner {
         curLineTokens.clear();
         int curLineNum = curLineNum();
 
-        String line = null;
         try {
-            line = sourceFile.readLine();
-            if (line == null) {
+            curLine = sourceFile.readLine();
+            if (curLine == null) {
 		stopScanning();
                 return;
             } else {
-                line = expandLeadingTabs(line);
-                Main.log.noteSourceLine(curLineNum, line);
+                curLine = expandLeadingTabs(curLine);
+                Main.log.noteSourceLine(curLineNum, curLine);
             }
         } catch (IOException e) {
             sourceFile = null;
             scannerError("Unspecified I/O error!");
         }
 
-        if (line.length() == 0 || line.charAt(0) == '#')
+        if (curLine.length() == 0 || curLine.charAt(0) == '#')
             return;
 
-        int curIndent = findIndent(line);
+        int curIndent = findIndent(curLine);
         if (curIndent > indents.peek()) {
             indents.push(curIndent);
             curLineTokens.add(new Token(indentToken, curLineNum));
@@ -105,8 +105,8 @@ public class Scanner {
 
         Token curTok;
         String curTokIter = "";
-        for (int i = curIndent; i < line.length(); i++) {
-	    char curChar = line.charAt(i);
+        for (curLinePos = curIndent; curLinePos < curLine.length(); curLinePos++) {
+	    char curChar = curLine.charAt(curLinePos);
 	    if (curChar == '#')
 		break;
 
@@ -115,17 +115,12 @@ public class Scanner {
 
 	    // TODO: split each branch into a separate function and use the curLinePos variable
 	    if (isQuote(curChar)) {
-		char startQuote = curChar;
-		curTok = new Token(stringToken, curLineNum);
-		curTok.stringLit = "";
-
-		while (i < line.length() && (curChar = line.charAt(++i)) != startQuote)
-		    curTok.stringLit += curChar;
+		curTok = scanString();
 	    }
 	    else if (isLetterAZ(curChar)) {
-		while (i < line.length() && (isLetterAZ(line.charAt(i)) || isDigit(line.charAt(i)))) {
-		    curTokIter += line.charAt(i);
-		    i++;
+		while (curLinePos < curLine.length() && (isLetterAZ(curLine.charAt(curLinePos)) || isDigit(curLine.charAt(curLinePos)))) {
+		    curTokIter += curLine.charAt(curLinePos);
+		    curLinePos++;
 		}
 
 		TokenKind curTokKind = findKeywordKind(curTokIter);
@@ -133,13 +128,13 @@ public class Scanner {
 
 		if (curTokKind == nameToken)
 		    curTok.name = curTokIter;
-		i--; // TODO: find a better way of doing this
+		curLinePos--; // TODO: find a better way of doing this
 	    }
 	    else if (isDigit(curChar)) {
 		// TODO: Handle errors for misformed floats (multiple .'s etc)
-		while (i < line.length() && (isDigit(line.charAt(i)) || line.charAt(i) == '.')) {
-		    curTokIter += line.charAt(i);
-		    i++;
+		while (curLinePos < curLine.length() && (isDigit(curLine.charAt(curLinePos)) || curLine.charAt(curLinePos) == '.')) {
+		    curTokIter += curLine.charAt(curLinePos);
+		    curLinePos++;
 		}
 
 		if (curTokIter.contains(".")) {
@@ -149,14 +144,14 @@ public class Scanner {
 		    curTok = new Token(integerToken, curLineNum);
 		    curTok.integerLit = Integer.parseInt(curTokIter);
 		}
-		i--; // TODO: find a better way of doing this
+		curLinePos--; // TODO: find a better way of doing this
 	    }
 	    else {
-		curTokIter += line.charAt(i++);
-		while (i < line.length() && findOperatorKind(curTokIter + line.charAt(i)) != null) {
-		    curTokIter += line.charAt(i++);
+		curTokIter += curLine.charAt(curLinePos++);
+		while (curLinePos < curLine.length() && findOperatorKind(curTokIter + curLine.charAt(curLinePos)) != null) {
+		    curTokIter += curLine.charAt(curLinePos++);
 		}
-		i--;
+		curLinePos--;
 
 		curTok = new Token(findOperatorKind(curTokIter), curLineNum);
 	    }
@@ -173,6 +168,17 @@ public class Scanner {
 
     public int curLineNum() {
         return sourceFile != null ? sourceFile.getLineNumber() + 1 : 0;
+    }
+
+    private Token scanString() {
+	char startQuote = curLine.charAt(curLinePos);
+	Token curTok = new Token(stringToken, curLineNum());
+	curTok.stringLit = "";
+
+	while (curLinePos < curLine.length() && (curLine.charAt(++curLinePos)) != startQuote)
+	    curTok.stringLit += curLine.charAt(curLinePos);
+
+	return curTok;
     }
 
     private TokenKind findKeywordKind(String tokString) {
