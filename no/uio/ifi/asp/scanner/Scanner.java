@@ -11,6 +11,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 public class Scanner {
     private LineNumberReader sourceFile = null;
     private String curFileName;
+    private int curLinePos = 0;
     private ArrayList<Token> curLineTokens = new ArrayList<>();
     private Stack<Integer> indents = new Stack<>();
     private final int TABDIST = 4;
@@ -112,6 +113,7 @@ public class Scanner {
 	    if (curChar == ' ')
 		continue;
 
+	    // TODO: split each branch into a separate function and use the curLinePos variable
 	    if (isQuote(curChar)) {
 		char startQuote = curChar;
 		curTok = new Token(stringToken, curLineNum);
@@ -150,20 +152,13 @@ public class Scanner {
 		i--; // TODO: find a better way of doing this
 	    }
 	    else {
-		TokenKind curTokKind;
-		String curChar2 = String.valueOf(line.charAt(i));
-		if (i + 1 < line.length()) {
-		    String nextChar = String.valueOf(line.charAt(i + 1));
-		    if (findOperatorKind(curChar2 + nextChar) != null) {
-			curTokKind = findOperatorKind(curChar2 + nextChar);
-			++i;
-		    } else {
-			curTokKind = findOperatorKind(curChar2);
-		    }
-		} else {
-		    curTokKind = findOperatorKind(curChar2);
+		curTokIter += line.charAt(i++);
+		while (i < line.length() && findOperatorKind(curTokIter + line.charAt(i)) != null) {
+		    curTokIter += line.charAt(i++);
 		}
-		curTok = new Token(curTokKind, curLineNum);
+		i--;
+
+		curTok = new Token(findOperatorKind(curTokIter), curLineNum);
 	    }
 
 	    curTokIter = "";
@@ -202,6 +197,7 @@ public class Scanner {
         }
     }
 
+    // TODO: Maybe combine with findKeywordKind
     private TokenKind findOperatorKind(String tokString) {
         switch (tokString) {
         case "*": return astToken;
@@ -268,12 +264,12 @@ public class Scanner {
         return '0'<=c && c<='9';
     }
 
-    private boolean isOperator(char c) {
-	return !(isLetterAZ(c) || isDigit(c) || isQuote(c) || c == ' ');
-    }
-
     private boolean isQuote(char c) {
 	return c == '"' || c == '\'';
+    }
+
+    private boolean isOperator(char c) {
+	return !(isLetterAZ(c) || isDigit(c) || isQuote(c) || c == ' ');
     }
 
     private TokenKind parseNumber(String s) {
