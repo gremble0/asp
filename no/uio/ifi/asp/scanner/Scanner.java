@@ -118,33 +118,10 @@ public class Scanner {
 		curTok = scanString();
 	    }
 	    else if (isLetterAZ(curChar)) {
-		while (curLinePos < curLine.length() && (isLetterAZ(curLine.charAt(curLinePos)) || isDigit(curLine.charAt(curLinePos)))) {
-		    curTokIter += curLine.charAt(curLinePos);
-		    curLinePos++;
-		}
-
-		TokenKind curTokKind = findKeywordKind(curTokIter);
-		curTok = new Token(curTokKind, curLineNum);
-
-		if (curTokKind == nameToken)
-		    curTok.name = curTokIter;
-		curLinePos--; // TODO: find a better way of doing this
+		curTok = scanKeywordOrName();
 	    }
 	    else if (isDigit(curChar)) {
-		// TODO: Handle errors for misformed floats (multiple .'s etc)
-		while (curLinePos < curLine.length() && (isDigit(curLine.charAt(curLinePos)) || curLine.charAt(curLinePos) == '.')) {
-		    curTokIter += curLine.charAt(curLinePos);
-		    curLinePos++;
-		}
-
-		if (curTokIter.contains(".")) {
-		    curTok = new Token(floatToken, curLineNum);
-		    curTok.floatLit = Double.parseDouble(curTokIter);
-		} else {
-		    curTok = new Token(integerToken, curLineNum);
-		    curTok.integerLit = Integer.parseInt(curTokIter);
-		}
-		curLinePos--; // TODO: find a better way of doing this
+		curTok = scanNumber();
 	    }
 	    else {
 		curTokIter += curLine.charAt(curLinePos++);
@@ -177,6 +154,46 @@ public class Scanner {
 
 	while (curLinePos < curLine.length() && (curLine.charAt(++curLinePos)) != startQuote)
 	    curTok.stringLit += curLine.charAt(curLinePos);
+
+	return curTok;
+    }
+
+    private Token scanKeywordOrName() {
+	String curWord = "";
+	while (curLinePos < curLine.length() && (isLetterAZ(curLine.charAt(curLinePos)) || isDigit(curLine.charAt(curLinePos)))) {
+	    curWord += curLine.charAt(curLinePos);
+	    curLinePos++;
+	}
+	
+	TokenKind curTokKind = findKeywordKind(curWord);
+	Token curTok = new Token(curTokKind, curLineNum());
+	
+	if (curTokKind == nameToken)
+	    curTok.name = curWord;
+
+	curLinePos--; // TODO: find a better way of doing this
+
+	return curTok;
+    }
+
+    private Token scanNumber() {
+	// TODO: Handle errors for misformed floats (multiple .'s etc)
+	String curNum = "";
+	while (curLinePos < curLine.length() && (isDigit(curLine.charAt(curLinePos)) || curLine.charAt(curLinePos) == '.')) {
+	    curNum += curLine.charAt(curLinePos);
+	    curLinePos++;
+	}
+
+	Token curTok;
+	if (curNum.contains(".")) {
+	    curTok = new Token(floatToken, curLineNum());
+	    curTok.floatLit = Double.parseDouble(curNum);
+	} else {
+	    curTok = new Token(integerToken, curLineNum());
+	    curTok.integerLit = Integer.parseInt(curNum);
+	}
+
+	curLinePos--; // TODO: find a better way of doing this
 
 	return curTok;
     }
