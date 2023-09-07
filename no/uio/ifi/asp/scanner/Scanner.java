@@ -10,7 +10,6 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class Scanner {
     private LineNumberReader sourceFile = null;
-    private String curFileName;
     private String curLine;
     private int curLinePos = 0;
     private ArrayList<Token> curLineTokens = new ArrayList<>();
@@ -18,7 +17,6 @@ public class Scanner {
     private final int TABDIST = 4;
 
     public Scanner(String fileName) {
-        curFileName = fileName;
         indents.push(0);
 
         try {
@@ -36,9 +34,9 @@ public class Scanner {
     }
 
     public Token curToken() {
-        while (curLineTokens.isEmpty()) {
+        while (curLineTokens.isEmpty())
             readNextLine();
-        }
+
         return curLineTokens.get(0);
     }
 
@@ -81,8 +79,11 @@ public class Scanner {
 		stopScanning();
                 return;
             } else {
-                curLine = expandLeadingTabs(curLine);
+                // It gives a cleaner output to call expandLeadingTabs on curLine before
+                // logging it, but in order to match the referance interpreter I will 
+                // do it in reverse order.
                 Main.log.noteSourceLine(curLineNum(), curLine);
+                curLine = expandLeadingTabs(curLine);
             }
         } catch (IOException e) {
             sourceFile = null;
@@ -90,7 +91,7 @@ public class Scanner {
         }
 
         int curIndent = findIndent(curLine);
-	if (curIndent == curLine.length() || curLine.length() == 0 || curLine.charAt(curIndent) == '#')
+	if (curIndent == curLine.length() || curLine.charAt(curIndent) == '#')
 	    return;
 
         if (curIndent > indents.peek()) {
@@ -106,12 +107,10 @@ public class Scanner {
         if (curIndent != indents.peek()) 
             scannerError("Indentation Error");
 
-
         for (curLinePos = curIndent; curLinePos < curLine.length(); curLinePos++) {
 	    char curChar = curLine.charAt(curLinePos);
-	    if (curChar == '#') {
+	    if (curChar == '#')
 		break;
-	    }
 
 	    if (curChar == ' ')
 		continue;
@@ -174,6 +173,13 @@ public class Scanner {
 	    curTok = new Token(floatToken, curLineNum());
 	    curTok.floatLit = Double.parseDouble(curNum);
 	} else {
+	    if (curNum.startsWith("0") && curNum.length() > 1) {
+		// probably easier to just raise a scanner error here but text wants us to  wait until parser
+		Token zeroTok = new Token(integerToken, curLineNum());
+		zeroTok.integerLit = 0;
+		curLineTokens.add(zeroTok);
+	    }
+
 	    curTok = new Token(integerToken, curLineNum());
 	    curTok.integerLit = Integer.parseInt(curNum);
 	}
