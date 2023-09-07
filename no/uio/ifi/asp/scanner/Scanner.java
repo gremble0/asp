@@ -55,19 +55,19 @@ public class Scanner {
     }
 
     private void stopScanning() {
-	try {
-	    sourceFile.close();
-	} catch (IOException e) {
-	    scannerError("Error trying to close file");
-	}
-	sourceFile = null;
-
-	while (indents.pop() != 0)
-	    Main.log.noteToken(new Token(dedentToken, curLineNum()));
-	
-	Token eof = new Token(eofToken, curLineNum());
-	Main.log.noteToken(eof);
-	curLineTokens.add(eof);
+        try {
+            sourceFile.close();
+        } catch (IOException e) {
+            scannerError("Error trying to close file");
+        }
+        sourceFile = null;
+        
+        while (indents.pop() != 0)
+            Main.log.noteToken(new Token(dedentToken, curLineNum()));
+    
+        Token eof = new Token(eofToken, curLineNum());
+        Main.log.noteToken(eof);
+        curLineTokens.add(eof);
     }
 
     private void readNextLine() {
@@ -76,7 +76,7 @@ public class Scanner {
         try {
             curLine = sourceFile.readLine();
             if (curLine == null) {
-		stopScanning();
+                stopScanning();
                 return;
             } else {
                 // It gives a cleaner output to call expandLeadingTabs on curLine before
@@ -91,8 +91,8 @@ public class Scanner {
         }
 
         int curIndent = findIndent(curLine);
-	if (curIndent == curLine.length() || curLine.charAt(curIndent) == '#')
-	    return;
+        if (curIndent == curLine.length() || curLine.charAt(curIndent) == '#')
+            return;
 
         if (curIndent > indents.peek()) {
             indents.push(curIndent);
@@ -108,101 +108,101 @@ public class Scanner {
             scannerError("Indentation Error");
 
         for (curLinePos = curIndent; curLinePos < curLine.length(); curLinePos++) {
-	    char curChar = curLine.charAt(curLinePos);
-	    if (curChar == '#')
-		break;
+            char curChar = curLine.charAt(curLinePos);
+            if (curChar == '#')
+                break;
 
-	    if (curChar == ' ')
-		continue;
+            if (curChar == ' ')
+                continue;
 
-	    if (isQuote(curChar))
-		curLineTokens.add(scanString());
-	    else if (isLetterAZ(curChar))
-		curLineTokens.add(scanKeywordOrName());
-	    else if (isDigit(curChar))
-		curLineTokens.add(scanNumber());
-	    else
-		curLineTokens.add(scanOperator());
-	}
-
+            if (isQuote(curChar))
+                curLineTokens.add(scanString());
+            else if (isLetterAZ(curChar))
+                curLineTokens.add(scanKeywordOrName());
+            else if (isDigit(curChar))
+                curLineTokens.add(scanNumber());
+            else
+                curLineTokens.add(scanOperator());
+        }
+        
         curLineTokens.add(new Token(newLineToken, curLineNum()));
-
+        
         for (Token t : curLineTokens)
             Main.log.noteToken(t);
     }
 
     private Token scanString() {
-	char startQuote = curLine.charAt(curLinePos);
-	Token curTok = new Token(stringToken, curLineNum());
-	curTok.stringLit = "";
-
-	while (curLinePos < curLine.length() && (curLine.charAt(++curLinePos)) != startQuote)
-	    curTok.stringLit += curLine.charAt(curLinePos);
-
-	return curTok;
+        char startQuote = curLine.charAt(curLinePos);
+        Token curTok = new Token(stringToken, curLineNum());
+        curTok.stringLit = "";
+        
+        while (curLinePos < curLine.length() && (curLine.charAt(++curLinePos)) != startQuote)
+            curTok.stringLit += curLine.charAt(curLinePos);
+        
+        return curTok;
     }
 
     private Token scanKeywordOrName() {
-	String curWord = "";
-	while (curLinePos < curLine.length() && (isLetterAZ(curLine.charAt(curLinePos)) || isDigit(curLine.charAt(curLinePos)))) {
-	    curWord += curLine.charAt(curLinePos);
-	    curLinePos++;
-	}
-	
-	TokenKind curTokKind = findTokenKind(curWord);
-	Token curTok = new Token(curTokKind, curLineNum());
-	
-	if (curTokKind == nameToken)
-	    curTok.name = curWord;
+        String curWord = "";
+        while (curLinePos < curLine.length() && (isLetterAZ(curLine.charAt(curLinePos)) || isDigit(curLine.charAt(curLinePos)))) {
+            curWord += curLine.charAt(curLinePos);
+            curLinePos++;
+        }
+        
+        TokenKind curTokKind = findTokenKind(curWord);
+        Token curTok = new Token(curTokKind, curLineNum());
+    
+        if (curTokKind == nameToken)
+            curTok.name = curWord;
 
-	curLinePos--; // TODO: find a better way of doing this
+        curLinePos--; // TODO: find a better way of doing this
 
-	return curTok;
+        return curTok;
     }
 
     private Token scanNumber() {
-	// TODO: Handle errors for misformed floats (multiple .'s etc)
-	String curNum = "";
-	while (curLinePos < curLine.length() && (isDigit(curLine.charAt(curLinePos)) || curLine.charAt(curLinePos) == '.')) {
-	    curNum += curLine.charAt(curLinePos);
-	    curLinePos++;
-	}
+        // TODO: Handle errors for misformed floats (multiple .'s etc)
+        String curNum = "";
+        while (curLinePos < curLine.length() && (isDigit(curLine.charAt(curLinePos)) || curLine.charAt(curLinePos) == '.')) {
+            curNum += curLine.charAt(curLinePos);
+            curLinePos++;
+        }
 
-	Token curTok;
-	if (curNum.contains(".")) {
-	    curTok = new Token(floatToken, curLineNum());
-	    curTok.floatLit = Double.parseDouble(curNum);
-	} else {
-	    if (curNum.startsWith("0") && curNum.length() > 1) {
-		// probably easier to just raise a scanner error here but text wants us to  wait until parser
-		Token zeroTok = new Token(integerToken, curLineNum());
-		zeroTok.integerLit = 0;
-		curLineTokens.add(zeroTok);
-	    }
-
-	    curTok = new Token(integerToken, curLineNum());
-	    curTok.integerLit = Integer.parseInt(curNum);
-	}
-
-	curLinePos--; // TODO: find a better way of doing this
-
-	return curTok;
+        Token curTok;
+        if (curNum.contains(".")) {
+            curTok = new Token(floatToken, curLineNum());
+            curTok.floatLit = Double.parseDouble(curNum);
+        } else {
+            if (curNum.startsWith("0") && curNum.length() > 1) {
+                // probably easier to just raise a scanner error here but text wants us to wait until parser
+                Token zeroTok = new Token(integerToken, curLineNum());
+                zeroTok.integerLit = 0;
+                curLineTokens.add(zeroTok);
+            }
+            
+            curTok = new Token(integerToken, curLineNum());
+            curTok.integerLit = Integer.parseInt(curNum);
+        }
+        
+        curLinePos--; // TODO: find a better way of doing this
+        
+        return curTok;
     }
 
     private Token scanOperator() {
-	String curOperator = String.valueOf(curLine.charAt(curLinePos++));
+        String curOperator = String.valueOf(curLine.charAt(curLinePos++));
 
-	while (curLinePos < curLine.length() && findTokenKind(curOperator + curLine.charAt(curLinePos)) != nameToken) {
-	    curOperator += curLine.charAt(curLinePos++);
-	}
-	curLinePos--;
-
-	return new Token(findTokenKind(curOperator), curLineNum());
+        while (curLinePos < curLine.length() && findTokenKind(curOperator + curLine.charAt(curLinePos)) != nameToken) {
+            curOperator += curLine.charAt(curLinePos++);
+        }
+        curLinePos--;
+        
+        return new Token(findTokenKind(curOperator), curLineNum());
     }
 
     private TokenKind findTokenKind(String tokString) {
-	TokenKind t = TokenKind.findByKey(tokString);
-	return t == null ? nameToken : t;
+        TokenKind t = TokenKind.findByKey(tokString);
+        return t == null ? nameToken : t;
     }
 
     private int findIndent(String s) {
@@ -244,7 +244,7 @@ public class Scanner {
     }
 
     private boolean isQuote(char c) {
-	return c == '"' || c == '\'';
+        return c == '"' || c == '\'';
     }
 
     public boolean isCompOpr() {
