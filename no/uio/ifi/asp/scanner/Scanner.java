@@ -149,14 +149,14 @@ public class Scanner {
             curWord += curLine.charAt(curLinePos);
             curLinePos++;
         }
-        
+
         TokenKind curTokKind = findTokenKind(curWord);
         Token curTok = new Token(curTokKind, curLineNum());
     
         if (curTokKind == nameToken)
             curTok.name = curWord;
 
-        curLinePos--; // TODO: find a better way of doing this
+        curLinePos--;
 
         return curTok;
     }
@@ -185,7 +185,7 @@ public class Scanner {
             curTok.integerLit = Integer.parseInt(curNum);
         }
         
-        curLinePos--; // TODO: find a better way of doing this
+        curLinePos--;
         
         return curTok;
     }
