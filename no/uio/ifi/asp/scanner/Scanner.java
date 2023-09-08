@@ -91,6 +91,7 @@ public class Scanner {
         }
 
         int curIndent = findIndent(curLine);
+        
         if (curIndent == curLine.length() || curLine.charAt(curIndent) == '#')
             return;
 
@@ -216,17 +217,16 @@ public class Scanner {
         StringBuilder tabConverter = new StringBuilder(s);
         int n = 0;
 
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ' ') {
+        for (int i = 0; i < tabConverter.length(); i++) {
+            if (tabConverter.charAt(i) == ' ') {
                 ++n;
-            } else if (s.charAt(i) == '\t') {
+            } else if (tabConverter.charAt(i) == '\t') {
                 int tabWidth = TABDIST - (n % TABDIST);
                 n += tabWidth;
 
                 tabConverter.deleteCharAt(i);
-                for (int j = 0; j < tabWidth; j++) {
+                for (int j = 0; j < tabWidth; j++)
                     tabConverter.insert(i, ' ');
-                }
             } else {
                 break;
             }
