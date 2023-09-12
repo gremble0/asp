@@ -107,23 +107,23 @@ public enum TokenKind {
     String image;
 
     TokenKind(String s) {
-	image = s;
+        image = s;
     }
 
     private static final Map<String, TokenKind> tokenKinds;
     static {
-	tokenKinds = new HashMap<String, TokenKind>();
-	for (TokenKind t : TokenKind.values()) {
-	    tokenKinds.put(t.image, t);
-	}
+        tokenKinds = new HashMap<String, TokenKind>();
+        for (TokenKind t : TokenKind.values()) {
+            tokenKinds.put(t.image, t);
+        }
     }
 
     public static TokenKind findByKey(String s) {
-	return tokenKinds.get(s);
+        return tokenKinds.get(s);
     }
 
     @Override
     public String toString() {
-	return image;
+        return image;
     }
 }
