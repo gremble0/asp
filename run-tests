@@ -1,12 +1,14 @@
 #!/bin/sh
 
+TESTCHECKPOINT="-testscanner"
+
 aspfiles=$(ls "./test")
 
 for file in $aspfiles; do
-    java -jar ref-asp.jar -testscanner "./test/$file" > /dev/null 2>&1
+    java -jar ref-asp.jar "$TESTCHECKPOINT" "./test/$file" > /dev/null 2>&1
     mv "./test/${file%.asp}.log" "./test/${file%.asp}-ref.log"
 
-    java -jar asp.jar -testscanner "./test/$file" > /dev/null 2>&1
+    java -jar asp.jar "$TESTCHECKPOINT" "./test/$file" > /dev/null 2>&1
 
     diffs="$(diff ./test/${file%.asp}-ref.log ./test/${file%.asp}.log)"
     if [ -z "$diffs" ]; then
