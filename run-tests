@@ -7,10 +7,12 @@ for file in $aspfiles; do
     mv "./test/${file%.asp}.log" "./test/${file%.asp}-ref.log"
 
     java -jar asp.jar -testscanner "./test/$file" > /dev/null 2>&1
+
     diffs="$(diff ./test/${file%.asp}-ref.log ./test/${file%.asp}.log)"
     if [ -z "$diffs" ]; then
         echo -e "\033[0;32mNo differences in file $file\033[0m"
     else
-        echo "\033[0;31mFound differences in file $file\n $diffs\033[0m"
+        echo -e "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests..."
+        exit
     fi
 done
