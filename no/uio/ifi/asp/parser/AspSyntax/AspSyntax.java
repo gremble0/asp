@@ -9,7 +9,7 @@ import no.uio.ifi.asp.scanner.*;
 public abstract class AspSyntax {
     public int lineNum;
 
-    AspSyntax(int n) {
+    public AspSyntax(int n) {
         lineNum = n;
     }
 
