@@ -1,12 +1,13 @@
 // © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
 
-package no.uio.ifi.asp.parser;
+package no.uio.ifi.asp.parser.aspstmt;
 
 import no.uio.ifi.asp.main.*;
+import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
-abstract class AspStmt extends AspSyntax {
+public abstract class AspStmt extends AspSyntax {
     AspStmt(int n) {
         super(n);
     }

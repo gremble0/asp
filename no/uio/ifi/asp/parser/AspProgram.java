@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.parser.AspStmt.*;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspProgram extends AspSyntax {

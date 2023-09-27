@@ -17,7 +17,7 @@ public abstract class AspSyntax {
 
     abstract RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue;
 
-    static void parserError(String message, int lineNum) {
+    protected static void parserError(String message, int lineNum) {
         String m = "Asp parser error";
         if (lineNum > 0)
             m += " on line " + lineNum;
