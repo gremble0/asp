@@ -13,9 +13,9 @@ public abstract class AspSyntax {
         lineNum = n;
     }
 
-    abstract void prettyPrint();
+    public abstract void prettyPrint();
 
-    abstract RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue;
+    public abstract RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue;
 
     protected static void parserError(String message, int lineNum) {
         String m = "Asp parser error";

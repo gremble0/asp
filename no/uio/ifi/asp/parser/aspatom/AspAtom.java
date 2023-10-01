@@ -8,7 +8,7 @@ abstract class AspAtom extends AspSyntax {
         super(n);
     }
     
-    static AspAtom parse(Scanner s) {
+    public static AspAtom parse(Scanner s) {
         AspAtom aa = null;
 
         switch (s.curToken().kind) {
