@@ -6,6 +6,8 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspTerm extends AspSyntax {
+    ArrayList<AspFactor> factors = new ArrayList<AspFactor>();
+    
     static AspTerm parse(Scanner s) {
         return null;
     }
