@@ -6,13 +6,13 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspInnerExpr extends AspAtom {
-    static AspAtom parse(Scanner s) {
+    public static AspAtom parse(Scanner s) {
         return null;
     }
 
     @Override
-    void prettyPrint() {
-
+    public void prettyPrint() {
+        System.out.println("(");
     }
 
     @Override

@@ -9,6 +9,7 @@ abstract class AspAtom extends AspSyntax {
     }
     
     public static AspAtom parse(Scanner s) {
+        enterParser("atom");
         AspAtom aa = null;
 
         switch (s.curToken().kind) {
@@ -20,10 +21,10 @@ abstract class AspAtom extends AspSyntax {
             aa = AspBooleanLiteral.parse(s);
             break;
         case leftBraceToken:
-            aa = AspInnerExpr.parse(s);
+            aa = AspDictDisplay.parse(s);
             break;
         case leftBracketToken:
-            aa = AspInnerExpr.parse(s);
+            aa = AspListDisplay.parse(s);
             break;
         case leftParToken:
             aa = AspInnerExpr.parse(s);
@@ -42,6 +43,7 @@ abstract class AspAtom extends AspSyntax {
                         s.curLineNum());
         }
 
+        leaveParser("atom");
         return aa;
     }
 }

@@ -6,7 +6,7 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspBooleanLiteral extends AspAtom {
-    static AspBooleanLiteral parse(Scanner s) {
+    public static AspBooleanLiteral parse(Scanner s) {
         return null;
     }
 
