@@ -6,6 +6,10 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspDictDisplay extends AspAtom {
+    AspDictDisplay(int n) {
+        super(n);
+    }
+
     public static AspDictDisplay parse(Scanner s) {
         return null;
     }

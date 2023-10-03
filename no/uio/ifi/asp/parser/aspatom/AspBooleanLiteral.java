@@ -6,6 +6,10 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspBooleanLiteral extends AspAtom {
+    public AspBooleanLiteral(int n) {
+        super(n);
+    }
+
     public static AspBooleanLiteral parse(Scanner s) {
         return null;
     }
@@ -17,7 +21,6 @@ public class AspBooleanLiteral extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

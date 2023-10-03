@@ -12,7 +12,7 @@ import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspProgram extends AspSyntax {
-    ArrayList<AspStmt> stmts = new ArrayList<>();
+    ArrayList<AspStmt> statements = new ArrayList<>();
 
     AspProgram(int n) {
         super(n);
@@ -23,7 +23,7 @@ public class AspProgram extends AspSyntax {
 
         AspProgram ap = new AspProgram(s.curLineNum());
         while (s.curToken().kind != eofToken) {
-            ap.stmts.add(AspStmt.parse(s));
+            ap.statements.add(AspStmt.parse(s));
         }
 
         leaveParser("program");
@@ -32,7 +32,8 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        // -- Must be changed in part 2:
+        for (AspStmt statement: statements)
+            statement.prettyPrint();
     }
 
     @Override

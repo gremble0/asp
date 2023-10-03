@@ -6,6 +6,10 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspListDisplay extends AspAtom {
+    AspListDisplay(int n) {
+        super(n);
+    }
+
     public static AspAtom parse(Scanner s) {
         return null;
     }

@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser;
 
+import java.util.ArrayList;
+
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -7,6 +9,10 @@ import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspTerm extends AspSyntax {
     ArrayList<AspFactor> factors = new ArrayList<AspFactor>();
+
+    public AspTerm(int n) {
+        super(n);
+    }
     
     static AspTerm parse(Scanner s) {
         return null;

@@ -5,15 +5,15 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
-public class AspFactor extends AspSyntax {
-    ArrayList<AspFactorPrefix> prefixes = new ArrayList<AspFactorPrefix>();
-    ArrayList<AspPrimary> primaries = new ArrayList<AspPrimary>();
+public class AspCompOpr extends AspSyntax {
+    // ArrayList<AspFactorPrefix> prefixes = new ArrayList<AspFactorPrefix>();
+    // ArrayList<AspPrimary> primaries = new ArrayList<AspPrimary>();
     
-    public AspFactor(int n) {
+    public AspCompOpr(int n) {
         super(n);
     }
 
-    static AspFactor parse(Scanner s) {
+    static AspCompOpr parse(Scanner s) {
         return null;
     }
 

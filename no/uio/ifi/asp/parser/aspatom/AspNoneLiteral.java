@@ -6,6 +6,10 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspNoneLiteral extends AspAtom {
+    AspNoneLiteral(int n) {
+        super(n);
+    }
+
     public static AspNoneLiteral parse(Scanner s) {
         return null;
     }
