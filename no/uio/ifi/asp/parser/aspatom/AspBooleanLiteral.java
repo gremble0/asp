@@ -4,19 +4,31 @@ import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspBooleanLiteral extends AspAtom {
+    private boolean tokBool;
+    
     public AspBooleanLiteral(int n) {
         super(n);
     }
 
     public static AspBooleanLiteral parse(Scanner s) {
-        return null;
+        enterParser("boolean literal");
+
+        AspBooleanLiteral booleanLiteral = new AspBooleanLiteral(s.curLineNum());
+
+        if (s.curToken().kind == trueToken)
+            booleanLiteral.tokBool = true;
+        else
+            booleanLiteral.tokBool = false;
+
+        leaveParser("boolean literal");
+        return booleanLiteral;
     }
 
     @Override
     public void prettyPrint() {
-
     }
 
     @Override

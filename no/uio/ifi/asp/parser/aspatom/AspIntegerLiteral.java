@@ -6,7 +6,9 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspIntegerLiteral extends AspAtom {
-    AspIntegerLiteral(int n) {
+    
+    
+    public AspIntegerLiteral(int n) {
         super(n);
     }
 

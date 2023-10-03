@@ -6,12 +6,20 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspName extends AspAtom {
-    AspName(int n) {
+    private String tokName;
+    
+    public AspName(int n) {
         super(n);
     }
 
     public static AspName parse(Scanner s) {
-        return null;
+        enterParser("name");
+
+        AspName name = new AspName(s.curLineNum());
+        name.tokName = s.curToken().name;
+        
+        leaveParser("name");
+        return name;
     }
 
     @Override

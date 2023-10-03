@@ -12,16 +12,16 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 public class AspExpr extends AspSyntax {
     ArrayList<AspAndTest> andTests = new ArrayList<>();
 
-    AspExpr(int n) {
+    public AspExpr(int n) {
         super(n);
     }
-
 
     public static AspExpr parse(Scanner s) {
         enterParser("expr");
 
         // -- Must be changed in part 2:
-        AspExpr ae = null;
+        AspExpr ae = new AspExpr(s.curLineNum());
+        // ae.andTests.add();
 
         leaveParser("expr");
         return ae;

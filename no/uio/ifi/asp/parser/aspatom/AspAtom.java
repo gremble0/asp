@@ -4,7 +4,7 @@ import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.*;
 
 abstract class AspAtom extends AspSyntax {
-    AspAtom(int n) {
+    public AspAtom(int n) {
         super(n);
     }
     
@@ -44,6 +44,7 @@ abstract class AspAtom extends AspSyntax {
         }
 
         leaveParser("atom");
+
         return aa;
     }
 }

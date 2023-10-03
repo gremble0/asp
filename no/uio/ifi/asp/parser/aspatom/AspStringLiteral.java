@@ -6,17 +6,25 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspStringLiteral extends AspAtom {
+    String tokStringLit;
+    
     AspStringLiteral(int n) {
         super(n);
     }
 
     public static AspStringLiteral parse(Scanner s) {
-        return null;
+        enterParser("string literal");
+
+        AspStringLiteral stringLiteral = new AspStringLiteral(s.curLineNum());
+        stringLiteral.tokStringLit = s.curToken().stringLit;
+
+        leaveParser("string literal");
+        return stringLiteral;
     }
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(String.format("\"%s\"", tokStringLit));
     }
 
     @Override
