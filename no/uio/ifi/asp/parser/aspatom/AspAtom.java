@@ -3,13 +3,14 @@ package no.uio.ifi.asp.parser.aspatom;
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.*;
 
-abstract class AspAtom extends AspSyntax {
+public abstract class AspAtom extends AspSyntax {
     public AspAtom(int n) {
         super(n);
     }
     
     public static AspAtom parse(Scanner s) {
         enterParser("atom");
+
         AspAtom aa = null;
 
         switch (s.curToken().kind) {
