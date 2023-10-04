@@ -1,6 +1,5 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
-import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -12,12 +11,12 @@ public class AspGlobalStmt extends AspSmallStmt {
     }
 
     public static AspGlobalStmt parse(Scanner s) {
-        enterParser("small stmt");
+        enterParser("global stmt");
 
-        AspGlobalStmt smallStmt = new AspGlobalStmt(s.curLineNum());
+        AspGlobalStmt globalStmt = new AspGlobalStmt(s.curLineNum());
 
-        leaveParser("small stmt");
-        return smallStmt;
+        leaveParser("global stmt");
+        return globalStmt;
     }
 
     @Override

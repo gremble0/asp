@@ -1,7 +1,5 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
-import java.util.ArrayList;
-
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -13,7 +11,12 @@ public class AspAssignment extends AspSmallStmt {
     }
 
     public static AspAssignment parse(Scanner s) {
-        return null;
+        enterParser("assignment");
+
+        AspAssignment assignment = new AspAssignment(s.curLineNum());
+
+        leaveParser("assignment");
+        return assignment;
     }
 
     @Override

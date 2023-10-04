@@ -1,6 +1,5 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
-import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -12,12 +11,12 @@ public class AspReturnStmt extends AspSmallStmt {
     }
 
     public static AspReturnStmt parse(Scanner s) {
-        enterParser("small stmt");
+        enterParser("return stmt");
 
-        AspReturnStmt smallStmt = new AspReturnStmt(s.curLineNum());
+        AspReturnStmt returnStmt = new AspReturnStmt(s.curLineNum());
 
-        leaveParser("small stmt");
-        return smallStmt;
+        leaveParser("return stmt");
+        return returnStmt;
     }
 
     @Override
