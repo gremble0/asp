@@ -1,25 +1,34 @@
 package no.uio.ifi.asp.parser.aspstmt;
 
+import java.util.ArrayList;
+
+import no.uio.ifi.asp.parser.aspsmallstmt.AspSmallStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.scanner.Scanner;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
-public abstract class AspSmallStmtList extends AspStmt {
+public class AspSmallStmtList extends AspStmt {
+    ArrayList<AspSmallStmt> smallStmts = new ArrayList<>();
+    
     public AspSmallStmtList(int n) {
         super(n);
     }
 
-    public static AspStmt parse(Scanner s) {
+    public static AspSmallStmtList parse(Scanner s) {
         enterParser("stmt");
 
-        AspStmt statement = null;
-
-        // TODO some logic to call either AspSmallStmtList.parse or AspCompoundStmt.parse
+        AspSmallStmtList smallStmtList = new AspSmallStmtList(s.curLineNum());
+        while (s.curToken().kind != newLineToken) {
+            if (s.curToken().kind == semicolonToken)
+                continue;
+            smallStmtList.smallStmts.add(AspSmallStmt.parse(s));
+        }
         
         leaveParser("stmt");
 
-        return statement;
+        return smallStmtList;
     }
 
     @Override
