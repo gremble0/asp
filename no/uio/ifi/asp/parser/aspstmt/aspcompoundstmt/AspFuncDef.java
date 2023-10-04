@@ -5,7 +5,7 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.*;
 
-public abstract class AspFuncDef extends AspCompoundStmt {
+public class AspFuncDef extends AspCompoundStmt {
     public AspFuncDef(int n) {
         super(n);
     }

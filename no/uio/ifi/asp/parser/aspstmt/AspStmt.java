@@ -3,10 +3,12 @@
 package no.uio.ifi.asp.parser.aspstmt;
 
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt.AspCompoundStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.*;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public abstract class AspStmt extends AspSyntax {
     public AspStmt(int n) {
@@ -18,10 +20,15 @@ public abstract class AspStmt extends AspSyntax {
 
         AspStmt stmt = null;
 
-        // TODO some logic to call either AspSmallStmtList.parse or AspCompoundStmt.parse
-        if (s.curToken().kind == TokenKind.defToken)
-            stmt = new AspDefStmt(s.curLineNum());
-        
+        TokenKind curTokenKind = s.curToken().kind;
+        if (curTokenKind == forToken ||
+            curTokenKind == defToken ||
+            curTokenKind == ifToken ||
+            curTokenKind == whileToken)
+            stmt = AspCompoundStmt.parse(s);
+        else
+            stmt = AspSmallStmtList.parse(s);
+
         leaveParser("stmt");
 
         return stmt;

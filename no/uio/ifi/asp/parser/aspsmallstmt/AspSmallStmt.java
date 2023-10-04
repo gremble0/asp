@@ -23,6 +23,8 @@ public abstract class AspSmallStmt extends AspSyntax {
             smallStmt = AspGlobalStmt.parse(s);
         else if (s.curToken().kind == passToken)
             smallStmt = AspPassStmt.parse(s);
+        else if (s.curToken().kind == returnToken)
+            smallStmt = AspReturnStmt.parse(s);
         else
             smallStmt = AspExprStmt.parse(s);
 

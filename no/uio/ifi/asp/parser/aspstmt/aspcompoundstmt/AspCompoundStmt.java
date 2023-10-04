@@ -1,6 +1,5 @@
 package no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt;
 
-import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
@@ -17,9 +16,21 @@ public abstract class AspCompoundStmt extends AspStmt {
 
         AspStmt stmt = null;
 
-        // TODO some logic to call either AspSmallStmtList.parse or AspCompoundStmt.parse
-        if (s.curToken().kind == TokenKind.defToken)
-            stmt = new AspFuncDef(s.curLineNum());
+        switch (s.curToken().kind) {
+        case forToken:
+            stmt = AspForStmt.parse(s);
+            break;
+        case ifToken:
+            stmt = AspIfStmt.parse(s);
+            break;
+        case whileToken:
+            stmt = AspWhileStmt.parse(s);
+            break;
+        case defToken:
+            stmt = AspFuncDef.parse(s);
+            break;
+        default: parserError("Illegal token for compound statement: " + s.curToken().kind, s.curLineNum());
+        }
         
         leaveParser("stmt");
 

@@ -5,7 +5,7 @@ import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.*;
 
-public abstract class AspWhileStmt extends AspCompoundStmt {
+public class AspWhileStmt extends AspCompoundStmt {
     public AspWhileStmt(int n) {
         super(n);
     }
