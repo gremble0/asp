@@ -16,13 +16,15 @@ public abstract class AspStmt extends AspSyntax {
     public static AspStmt parse(Scanner s) {
         enterParser("stmt");
 
-        AspStmt statement = null;
+        AspStmt stmt = null;
 
         // TODO some logic to call either AspSmallStmtList.parse or AspCompoundStmt.parse
+        if (s.curToken().kind == TokenKind.defToken)
+            stmt = new AspDefStmt(s.curLineNum());
         
         leaveParser("stmt");
 
-        return statement;
+        return stmt;
     }
 
     @Override
