@@ -1,15 +1,14 @@
-// © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
-
 package no.uio.ifi.asp.parser;
+
+import static no.uio.ifi.asp.scanner.TokenKind.eofToken;
 
 import java.util.ArrayList;
 
-import no.uio.ifi.asp.main.*;
-import no.uio.ifi.asp.runtime.*;
-import no.uio.ifi.asp.scanner.*;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
-
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspProgram extends AspSyntax {
     private ArrayList<AspStmt> statements = new ArrayList<>();
