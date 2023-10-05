@@ -15,6 +15,8 @@ public class AspComparison extends AspSyntax {
     }
 
     public static AspComparison parse(Scanner s) {
+        enterParser("comparison");
+        leaveParser("comparison");
         return null;
     }
 

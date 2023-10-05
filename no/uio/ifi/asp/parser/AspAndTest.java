@@ -17,6 +17,7 @@ public class AspAndTest extends AspSyntax {
     }
 
     public static AspAndTest parse(Scanner s) {
+        enterParser("and test");
         AspAndTest andTest = new AspAndTest(s.curLineNum());
 
         // TODO refactor while true loop
@@ -27,6 +28,7 @@ public class AspAndTest extends AspSyntax {
             skip(s, andToken);
         }
 
+        leaveParser("and test");
         return andTest;
     }
 
