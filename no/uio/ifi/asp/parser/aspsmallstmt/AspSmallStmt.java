@@ -29,6 +29,7 @@ public abstract class AspSmallStmt extends AspSyntax {
             smallStmt = AspExprStmt.parse(s);
 
         leaveParser("small stmt");
+        System.exit(0);
         return smallStmt;
     }
 

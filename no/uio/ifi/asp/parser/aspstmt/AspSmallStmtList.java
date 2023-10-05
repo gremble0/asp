@@ -17,15 +17,18 @@ public class AspSmallStmtList extends AspStmt {
     }
 
     public static AspSmallStmtList parse(Scanner s) {
-        enterParser("stmt");
+        enterParser("small stmt list");
 
         AspSmallStmtList smallStmtList = new AspSmallStmtList(s.curLineNum());
         while (s.curToken().kind != newLineToken) {
-            if (s.curToken().kind != semicolonToken)
-                smallStmtList.smallStmts.add(AspSmallStmt.parse(s));
+            // System.out.println(smallStmtList.smallStmts);
+            if (s.curToken().kind == semicolonToken)
+                skip(s, semicolonToken);
+            smallStmtList.smallStmts.add(AspSmallStmt.parse(s));
+            s.readNextToken();
         }
         
-        leaveParser("stmt");
+        leaveParser("small stmt list");
 
         return smallStmtList;
     }

@@ -10,7 +10,7 @@ public class AspSuite extends AspSyntax {
         super(n);
     }
 
-    static AspSuite parse(Scanner s) {
+    public static AspSuite parse(Scanner s) {
         return null;
     }
 

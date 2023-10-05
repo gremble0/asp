@@ -19,6 +19,7 @@ public class AspAndTest extends AspSyntax {
     public static AspAndTest parse(Scanner s) {
         AspAndTest andTest = new AspAndTest(s.curLineNum());
 
+        // TODO refactor while true loop
         while (true) {
             andTest.notTests.add(AspNotTest.parse(s));
             if (s.curToken().kind != andToken)

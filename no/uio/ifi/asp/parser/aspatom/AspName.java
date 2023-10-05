@@ -6,7 +6,7 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspName extends AspAtom {
-    private String tokName;
+    private String varName;
     
     public AspName(int n) {
         super(n);
@@ -16,7 +16,8 @@ public class AspName extends AspAtom {
         enterParser("name");
 
         AspName name = new AspName(s.curLineNum());
-        name.tokName = s.curToken().name;
+        name.varName = s.curToken().name;
+        s.readNextToken();
         
         leaveParser("name");
         return name;
