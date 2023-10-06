@@ -19,7 +19,6 @@ public class AspIntegerLiteral extends AspAtom {
         AspIntegerLiteral integerLiteral = new AspIntegerLiteral(s.curLineNum());
 
         integerLiteral.tokInt = s.curToken().integerLit;
-        // s.readNextToken();
         skip(s, integerToken);
 
         leaveParser("integer literal");
@@ -28,7 +27,7 @@ public class AspIntegerLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(Long.toString(tokInt));
     }
 
     @Override

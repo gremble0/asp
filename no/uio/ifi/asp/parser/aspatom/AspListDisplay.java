@@ -30,7 +30,16 @@ public class AspListDisplay extends AspAtom {
 
     @Override
     public void prettyPrint() {
+        prettyWrite("[");
 
+        int n = 0;
+        while (expressions.get(n) != null) {
+            expressions.get(n).prettyPrint();
+            if (n != expressions.size() - 1)
+                prettyWrite(", ");
+        }
+        
+        prettyWrite("]");
     }
 
     @Override

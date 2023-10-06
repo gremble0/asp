@@ -11,8 +11,8 @@ import no.uio.ifi.asp.scanner.Scanner;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspDictDisplay extends AspAtom {
-    ArrayList<AspStringLiteral> stringLiterals = new ArrayList<>();
-    ArrayList<AspExpr> expressions = new ArrayList<>();
+    ArrayList<AspStringLiteral> keys = new ArrayList<>();
+    ArrayList<AspExpr> values = new ArrayList<>();
     
     public AspDictDisplay(int n) {
         super(n);
@@ -24,8 +24,8 @@ public class AspDictDisplay extends AspAtom {
         AspDictDisplay dictDisplay = new AspDictDisplay(s.curLineNum());
         // TODO: progress the scanner? Or maybe only progress in atoms?
         while (s.curToken().kind != rightBracketToken) {
-            dictDisplay.stringLiterals.add(AspStringLiteral.parse(s));
-            dictDisplay.expressions.add(AspExpr.parse(s));
+            dictDisplay.keys.add(AspStringLiteral.parse(s));
+            dictDisplay.values.add(AspExpr.parse(s));
         }
         
         leaveParser("dict display");
@@ -34,7 +34,15 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public void prettyPrint() {
+        int n = 0;
 
+        prettyWrite("{\n");
+        while (keys.get(n) != null) {
+            keys.get(n).prettyPrint();
+            prettyWrite(": ");
+            values.get(n).prettyPrint();
+        }
+        prettyWrite("}");
     }
 
     @Override
