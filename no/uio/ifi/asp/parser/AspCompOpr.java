@@ -9,7 +9,9 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspCompOpr extends AspSyntax {
+    // TODO maybe make separate inheritance tree for AspXOpr
     public static TokenKind[] compOprs = { lessToken, greaterToken, equalToken, greaterEqualToken, lessEqualToken, notEqualToken };
+    public TokenKind compOprKind;
     
     public AspCompOpr(int n) {
         super(n);
@@ -17,16 +19,20 @@ public class AspCompOpr extends AspSyntax {
 
     public static boolean isCompOpr(TokenKind tokKind) {
         for (TokenKind compOpr : AspCompOpr.compOprs) {
-            if (tokKind == compOpr) {
+            if (tokKind == compOpr)
                 return true;
-            }
         }
 
         return false;
     }
 
     public static AspCompOpr parse(Scanner s) {
-        return null;
+        enterParser("comp opr");
+        AspCompOpr compOpr = new AspCompOpr(s.curLineNum());
+        compOpr.compOprKind = s.curToken().kind;
+        
+        leaveParser("comp opr");
+        return compOpr;
     }
 
     @Override

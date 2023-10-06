@@ -10,6 +10,7 @@ import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspTermOpr extends AspSyntax {
     public static TokenKind[] termOprs = { plusToken, minusToken };
+    public TokenKind termOprKind;
     
     public AspTermOpr(int n) {
         super(n);
@@ -17,16 +18,20 @@ public class AspTermOpr extends AspSyntax {
 
     public static boolean isTermOpr(TokenKind tokKind) {
         for (TokenKind termOpr : AspTermOpr.termOprs) {
-            if (tokKind == termOpr) {
+            if (tokKind == termOpr)
                 return true;
-            }
         }
 
         return false;
     }
 
     public static AspTermOpr parse(Scanner s) {
-        return null;
+        enterParser("term opr");
+        AspTermOpr termOpr = new AspTermOpr(s.curLineNum());
+        termOpr.termOprKind = s.curToken().kind;
+        
+        leaveParser("term opr");
+        return termOpr;
     }
 
     @Override
