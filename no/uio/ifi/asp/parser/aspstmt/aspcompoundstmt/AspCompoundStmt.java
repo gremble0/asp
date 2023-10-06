@@ -12,7 +12,7 @@ public abstract class AspCompoundStmt extends AspStmt {
     }
 
     public static AspStmt parse(Scanner s) {
-        enterParser("stmt");
+        enterParser("compound stmt");
         AspStmt stmt = null;
 
         switch (s.curToken().kind) {
@@ -31,7 +31,7 @@ public abstract class AspCompoundStmt extends AspStmt {
         default: parserError("Illegal token for compound statement: " + s.curToken().kind, s.curLineNum());
         }
         
-        leaveParser("stmt");
+        leaveParser("compound stmt");
         return stmt;
     }
 

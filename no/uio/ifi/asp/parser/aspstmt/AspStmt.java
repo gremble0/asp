@@ -20,6 +20,7 @@ public abstract class AspStmt extends AspSyntax {
         AspStmt stmt = null;
 
         TokenKind curTokenKind = s.curToken().kind;
+        // TODO maybe revisit this if else
         if (curTokenKind == forToken ||
             curTokenKind == defToken ||
             curTokenKind == ifToken ||
