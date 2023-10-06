@@ -13,7 +13,6 @@ public class AspSubscription extends AspPrimarySuffix {
     public static AspSubscription parse(Scanner s) {
         // TODO write method
         enterParser("assignment");
-
         AspSubscription subscription = null;
 
         leaveParser("assignment");

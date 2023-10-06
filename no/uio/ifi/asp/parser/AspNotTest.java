@@ -17,8 +17,8 @@ public class AspNotTest extends AspSyntax {
 
     public static AspNotTest parse(Scanner s) {
         enterParser("not test");
-
         AspNotTest notTest = new AspNotTest(s.curLineNum());
+
         if (s.curToken().kind == notToken) {
             notTest.not = true;
             skip(s, notToken);

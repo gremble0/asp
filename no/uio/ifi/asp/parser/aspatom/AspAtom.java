@@ -10,7 +10,6 @@ public abstract class AspAtom extends AspSyntax {
     
     public static AspAtom parse(Scanner s) {
         enterParser("atom");
-
         AspAtom aa = null;
 
         switch (s.curToken().kind) {
@@ -45,7 +44,6 @@ public abstract class AspAtom extends AspSyntax {
         }
 
         leaveParser("atom");
-
         return aa;
     }
 }

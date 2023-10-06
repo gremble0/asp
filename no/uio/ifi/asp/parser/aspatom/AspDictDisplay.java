@@ -20,8 +20,8 @@ public class AspDictDisplay extends AspAtom {
 
     public static AspDictDisplay parse(Scanner s) {
         enterParser("dict display");
-
         AspDictDisplay dictDisplay = new AspDictDisplay(s.curLineNum());
+
         // TODO: progress the scanner? Or maybe only progress in atoms?
         while (s.curToken().kind != rightBracketToken) {
             dictDisplay.keys.add(AspStringLiteral.parse(s));

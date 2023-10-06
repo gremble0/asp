@@ -18,7 +18,6 @@ public class AspFactor extends AspSyntax {
 
     static AspFactor parse(Scanner s) {
         enterParser("factor");
-
         AspFactor factor = new AspFactor(s.curLineNum());
 
         // TODO fix while true loop

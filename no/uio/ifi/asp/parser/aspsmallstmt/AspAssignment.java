@@ -24,8 +24,8 @@ public class AspAssignment extends AspSmallStmt {
 
     public static AspAssignment parse(Scanner s) {
         enterParser("assignment");
-
         AspAssignment assignment = new AspAssignment(s.curLineNum());
+
         assignment.name = AspName.parse(s);
 
         // TODO: Handle subscriptions

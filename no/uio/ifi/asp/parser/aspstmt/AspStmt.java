@@ -19,8 +19,6 @@ public abstract class AspStmt extends AspSyntax {
         enterParser("stmt");
         AspStmt stmt = null;
 
-        System.out.println(s.curToken());
-
         TokenKind curTokenKind = s.curToken().kind;
         if (curTokenKind == forToken ||
             curTokenKind == defToken ||

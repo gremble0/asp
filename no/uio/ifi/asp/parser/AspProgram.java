@@ -19,22 +19,23 @@ public class AspProgram extends AspSyntax {
 
     public static AspProgram parse(Scanner s) {
         enterParser("program");
+        AspProgram program = new AspProgram(s.curLineNum());
 
-        AspProgram ap = new AspProgram(s.curLineNum());
         while (s.curToken().kind != eofToken)
-            ap.statements.add(AspStmt.parse(s));
+            program.statements.add(AspStmt.parse(s));
 
         leaveParser("program");
-        return ap;
+        return program;
     }
 
     @Override
     public void prettyPrint() {
         int n = 0;
-        while (statements.get(n) != null) {
+        while (n < statements.size()) {
             statements.get(n).prettyPrint();
             if (n != statements.size() - 1)
                 prettyWrite("\n");
+            ++n;
         }
     }
 

@@ -15,7 +15,6 @@ public class AspBooleanLiteral extends AspAtom {
 
     public static AspBooleanLiteral parse(Scanner s) {
         enterParser("boolean literal");
-
         AspBooleanLiteral booleanLiteral = new AspBooleanLiteral(s.curLineNum());
 
         if (s.curToken().kind == trueToken)
