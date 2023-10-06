@@ -8,7 +8,9 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspTerm extends AspSyntax {
-    ArrayList<AspFactor> factors = new ArrayList<AspFactor>();
+    public ArrayList<AspFactor> factors = new ArrayList<>();
+    public ArrayList<AspTermOpr> termOprs = new ArrayList<>();
+    public ArrayList<AspFactorPrefix> prefixes = new ArrayList<>();
 
     public AspTerm(int n) {
         super(n);
@@ -21,7 +23,9 @@ public class AspTerm extends AspSyntax {
         // TODO fix while true loop (do while?)
         while (true) {
             term.factors.add(AspFactor.parse(s));
-            if (!AspCompOpr.isCompOpr(s.curToken().kind))
+            if (AspTermOpr.isTermOpr(s.curToken().kind))
+                term.termOprs.add(AspTermOpr.parse(s));
+            else
                 break;
         }
         

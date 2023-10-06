@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
@@ -8,15 +10,25 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFactor extends AspSyntax {
-    ArrayList<AspFactorPrefix> prefixes = new ArrayList<AspFactorPrefix>();
-    ArrayList<AspPrimary> primaries = new ArrayList<AspPrimary>();
+    public ArrayList<AspFactorPrefix> prefixes = new ArrayList<>();
+    public ArrayList<AspPrimary> primaries = new ArrayList<>();
+    public ArrayList<AspFactorOpr> factorOprs = new ArrayList<>();
     
     public AspFactor(int n) {
         super(n);
     }
 
     static AspFactor parse(Scanner s) {
-        return null;
+        enterParser("factor");
+
+        AspFactor factor = new AspFactor(s.curLineNum());
+
+        while (true) {
+            if (AspFactorPrefix
+        }
+        
+        leaveParser("factor");
+        return factor;
     }
 
     @Override

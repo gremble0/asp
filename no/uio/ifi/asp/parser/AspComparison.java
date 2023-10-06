@@ -8,7 +8,8 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspComparison extends AspSyntax {
-    ArrayList<AspTerm> aspTerms = new ArrayList<AspTerm>();
+    public ArrayList<AspTerm> aspTerms = new ArrayList<>();
+    public ArrayList<AspCompOpr> compOprs = new ArrayList<>();
     
     public AspComparison(int n) {
         super(n);
@@ -21,7 +22,9 @@ public class AspComparison extends AspSyntax {
         // TODO fix while true loop (do while?)
         while (true) {
             comparison.aspTerms.add(AspTerm.parse(s));
-            if (!AspCompOpr.isCompOpr(s.curToken().kind))
+            if (AspCompOpr.isCompOpr(s.curToken().kind))
+                comparison.compOprs.add(AspCompOpr.parse(s));
+            else
                 break;
         }
 
