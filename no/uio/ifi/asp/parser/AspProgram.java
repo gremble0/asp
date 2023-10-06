@@ -30,8 +30,12 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        for (AspStmt statement : statements)
-            statement.prettyPrint();
+        int n = 0;
+        while (statements.get(n) != null) {
+            statements.get(n).prettyPrint();
+            if (n != statements.size() - 1)
+                prettyWrite("\n");
+        }
     }
 
     @Override
