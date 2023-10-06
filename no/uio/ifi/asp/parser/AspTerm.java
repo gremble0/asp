@@ -30,12 +30,17 @@ public class AspTerm extends AspSyntax {
         }
         
         leaveParser("term");
-        return null;
+        return term;
     }
 
     @Override
     public void prettyPrint() {
-
+        for (AspFactor factor : factors)
+            factor.prettyPrint();
+        for (AspTermOpr termOpr : termOprs)
+            termOpr.prettyPrint();
+        for (AspFactorPrefix prefix : prefixes)
+            prefix.prettyPrint();
     }
 
     @Override

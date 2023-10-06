@@ -36,10 +36,10 @@ public class AspAndTest extends AspSyntax {
     public void prettyPrint() {
         int n = 0;
 
-        for (AspNotTest ant: notTests) {
+        for (AspNotTest notTest : notTests) {
             if (n > 0)
                 prettyWrite(" and ");
-            ant.prettyPrint();
+            notTest.prettyPrint();
             ++n;
         }
     }

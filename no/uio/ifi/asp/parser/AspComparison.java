@@ -29,16 +29,17 @@ public class AspComparison extends AspSyntax {
         }
 
         leaveParser("comparison");
-        return null;
+        return comparison;
     }
 
     @Override
     public void prettyPrint() {
         int n = 0;
 
-        for (AspTerm aspTerm: aspTerms) {
+        // TODO is this right?
+        for (AspTerm aspTerm : aspTerms) {
             if (n > 0)
-                prettyWrite(" and ");
+                prettyWrite(" == ");
             aspTerm.prettyPrint();
             ++n;
         }

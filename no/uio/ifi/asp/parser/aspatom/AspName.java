@@ -25,7 +25,7 @@ public class AspName extends AspAtom {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(varName);
     }
 
     @Override

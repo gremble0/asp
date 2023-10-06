@@ -30,7 +30,7 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        for (AspStmt statement: statements)
+        for (AspStmt statement : statements)
             statement.prettyPrint();
     }
 

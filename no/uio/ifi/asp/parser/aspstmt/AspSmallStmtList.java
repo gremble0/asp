@@ -34,7 +34,8 @@ public class AspSmallStmtList extends AspStmt {
 
     @Override
     public void prettyPrint() {
-
+        for (AspSmallStmt smallStmt : smallStmts)
+            smallStmt.prettyPrint();
     }
 
     @Override

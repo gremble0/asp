@@ -2,12 +2,14 @@
 
 package no.uio.ifi.asp.parser;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import java.util.ArrayList;
 
-import no.uio.ifi.asp.main.*;
-import no.uio.ifi.asp.runtime.*;
-import no.uio.ifi.asp.scanner.*;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspExpr extends AspSyntax {
     ArrayList<AspAndTest> andTests = new ArrayList<>();
@@ -35,7 +37,8 @@ public class AspExpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        //-- Must be changed in part 2:
+        for (AspAndTest andTest : andTests)
+            andTest.prettyPrint();
     }
 
 

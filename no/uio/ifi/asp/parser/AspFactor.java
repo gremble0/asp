@@ -40,7 +40,12 @@ public class AspFactor extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-
+        for (AspFactorPrefix prefix : prefixes)
+            prefix.prettyPrint();
+        for (AspPrimary primary : primaries)
+            primary.prettyPrint();
+        for (AspFactorOpr factorOpr : factorOprs)
+            factorOpr.prettyPrint();
     }
 
     @Override

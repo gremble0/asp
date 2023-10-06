@@ -9,7 +9,8 @@ import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspSubscription;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.
+runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspAssignment extends AspSmallStmt {
@@ -39,7 +40,14 @@ public class AspAssignment extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
+        name.prettyPrint();
+        // TODO uncomment when AspSubscription is written
+        // for (AspSubscription subscription : subscriptions)
+        //     subscription.prettyPrint();
 
+        prettyWrite(" = ");
+        
+        expr.prettyPrint();
     }
 
     @Override

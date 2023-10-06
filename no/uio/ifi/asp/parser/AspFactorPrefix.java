@@ -38,7 +38,7 @@ public class AspFactorPrefix extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(factorPrefixKind.toString());
     }
 
     @Override

@@ -28,12 +28,14 @@ public class AspNotTest extends AspSyntax {
         notTest.comparison = AspComparison.parse(s);
         
         leaveParser("not test");
-        return null;
+        return notTest;
     }
 
     @Override
     public void prettyPrint() {
-
+        if (not)
+            prettyWrite(" not ");
+        comparison.prettyPrint();
     }
 
     @Override
