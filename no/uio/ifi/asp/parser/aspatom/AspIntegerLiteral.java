@@ -6,14 +6,20 @@ import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspIntegerLiteral extends AspAtom {
-    
+    long tokInt;
     
     public AspIntegerLiteral(int n) {
         super(n);
     }
 
     public static AspIntegerLiteral parse(Scanner s) {
-        return null;
+        enterParser("integer literal");
+        AspIntegerLiteral integerLiteral = new AspIntegerLiteral(s.curLineNum());
+
+        integerLiteral.tokInt = s.curToken().integerLit;
+
+        leaveParser("integer literal");
+        return integerLiteral;
     }
 
     @Override

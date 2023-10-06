@@ -1,20 +1,32 @@
 package no.uio.ifi.asp.parser;
 
+import java.util.ArrayList;
+
+import no.uio.ifi.asp.parser.aspatom.AspAtom;
+import no.uio.ifi.asp.parser.aspprimarysuffix.AspPrimarySuffix;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspPrimary extends AspSyntax {
-    // ArrayList<AspAtom> atoms = new ArrayList<AspFactorPrefix>();
-    // ArrayList<AspPrimary> primaries = new ArrayList<AspPrimary>();
+    public AspAtom atom;
+    public ArrayList<AspPrimarySuffix> suffixes = new ArrayList<>();
     
     public AspPrimary(int n) {
         super(n);
     }
 
-    static AspPrimary parse(Scanner s) {
-        return null;
+    public static AspPrimary parse(Scanner s) {
+        enterParser("primary");
+        AspPrimary primary = new AspPrimary(s.curLineNum());
+
+        primary.atom = AspAtom.parse(s);
+        // TODO figure out AspPrimarySuffix.parse here 
+        // primary.suffixes.add(AspPrimarySuffix.parse(s));
+        
+        leaveParser("primary");
+        return primary;
     }
 
     @Override

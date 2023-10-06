@@ -19,7 +19,7 @@ public abstract class AspAtom extends AspSyntax {
             aa = AspBooleanLiteral.parse(s);
             break;
         case integerToken:
-            aa = AspBooleanLiteral.parse(s);
+            aa = AspIntegerLiteral.parse(s);
             break;
         case leftBraceToken:
             aa = AspDictDisplay.parse(s);
