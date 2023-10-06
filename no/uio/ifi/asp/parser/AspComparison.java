@@ -16,6 +16,15 @@ public class AspComparison extends AspSyntax {
 
     public static AspComparison parse(Scanner s) {
         enterParser("comparison");
+        AspComparison comparison = new AspComparison(s.curLineNum());
+
+        // TODO fix while true loop (do while?)
+        while (true) {
+            comparison.aspTerms.add(AspTerm.parse(s));
+            if (!AspCompOpr.isCompOpr(s.curToken().kind))
+                break;
+        }
+
         leaveParser("comparison");
         return null;
     }
