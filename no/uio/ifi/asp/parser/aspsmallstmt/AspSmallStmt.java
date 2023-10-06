@@ -14,7 +14,6 @@ public abstract class AspSmallStmt extends AspSyntax {
 
     public static AspSmallStmt parse(Scanner s) {
         enterParser("small stmt");
-
         AspSmallStmt smallStmt = null;
 
         if (s.anyEqualToken())
@@ -29,7 +28,6 @@ public abstract class AspSmallStmt extends AspSyntax {
             smallStmt = AspExprStmt.parse(s);
 
         leaveParser("small stmt");
-        System.exit(0);
         return smallStmt;
     }
 

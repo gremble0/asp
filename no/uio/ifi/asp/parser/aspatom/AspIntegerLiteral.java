@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser.aspatom;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -17,6 +19,8 @@ public class AspIntegerLiteral extends AspAtom {
         AspIntegerLiteral integerLiteral = new AspIntegerLiteral(s.curLineNum());
 
         integerLiteral.tokInt = s.curToken().integerLit;
+        // s.readNextToken();
+        skip(s, integerToken);
 
         leaveParser("integer literal");
         return integerLiteral;

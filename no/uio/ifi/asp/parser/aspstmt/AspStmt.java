@@ -17,8 +17,9 @@ public abstract class AspStmt extends AspSyntax {
 
     public static AspStmt parse(Scanner s) {
         enterParser("stmt");
-
         AspStmt stmt = null;
+
+        System.out.println(s.curToken());
 
         TokenKind curTokenKind = s.curToken().kind;
         if (curTokenKind == forToken ||
@@ -30,7 +31,6 @@ public abstract class AspStmt extends AspSyntax {
             stmt = AspSmallStmtList.parse(s);
 
         leaveParser("stmt");
-
         return stmt;
     }
 
