@@ -31,7 +31,7 @@ public class AspFuncDef extends AspCompoundStmt {
         while (s.curToken().kind != rightParToken) {
             funcDef.params.add(AspName.parse(s));
             if (s.curToken().kind == commaToken)
-                skip(s, commaToken);
+                s.readNextToken();
         }
 
         skip(s, rightParToken);

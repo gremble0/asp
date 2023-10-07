@@ -21,8 +21,15 @@ public class AspListDisplay extends AspAtom {
         enterParser("list display");
         AspListDisplay listDisplay = new AspListDisplay(s.curLineNum());
 
-        while (s.curToken().kind != rightBraceToken)
+        skip(s, leftBracketToken);
+
+        while (s.curToken().kind != rightBracketToken) {
             listDisplay.expressions.add(AspExpr.parse(s));
+            if (s.curToken().kind == commaToken)
+                s.readNextToken();
+        }
+
+        skip(s, rightBracketToken);
         
         leaveParser("list display");
         return listDisplay;
@@ -33,10 +40,11 @@ public class AspListDisplay extends AspAtom {
         prettyWrite("[");
 
         int n = 0;
-        while (n++ < expressions.size() - 1) {
+        while (n < expressions.size()) {
             expressions.get(n).prettyPrint();
             if (n != expressions.size() - 1)
                 prettyWrite(", ");
+            ++n;
         }
         
         prettyWrite("]");
