@@ -1,6 +1,6 @@
 package no.uio.ifi.asp.parser.aspatom;
 
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+import static no.uio.ifi.asp.scanner.TokenKind.integerToken;
 
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;

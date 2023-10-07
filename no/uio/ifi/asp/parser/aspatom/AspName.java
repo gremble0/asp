@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser.aspatom;
 
+import static no.uio.ifi.asp.scanner.TokenKind.nameToken;;
+
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -17,7 +19,7 @@ public class AspName extends AspAtom {
         AspName name = new AspName(s.curLineNum());
 
         name.varName = s.curToken().name;
-        s.readNextToken();
+        skip(s, nameToken);
         
         leaveParser("name");
         return name;

@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser.aspatom;
 
+import static no.uio.ifi.asp.scanner.TokenKind.noneToken;
+
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -12,6 +14,8 @@ public class AspNoneLiteral extends AspAtom {
 
     public static AspNoneLiteral parse(Scanner s) {
         enterParser("none literal");
+
+        skip(s, noneToken);
 
         leaveParser("none literal");
         return new AspNoneLiteral(s.curLineNum());
