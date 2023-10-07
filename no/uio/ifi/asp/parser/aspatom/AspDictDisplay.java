@@ -23,11 +23,19 @@ public class AspDictDisplay extends AspAtom {
         enterParser("dict display");
         AspDictDisplay dictDisplay = new AspDictDisplay(s.curLineNum());
 
-        // TODO: progress the scanner? Or maybe only progress in atoms?
-        while (s.curToken().kind != rightBracketToken) {
+        skip(s, leftBraceToken);
+
+        while (s.curToken().kind != rightBraceToken) {
             dictDisplay.keys.add(AspStringLiteral.parse(s));
+            skip(s, colonToken);
             dictDisplay.values.add(AspExpr.parse(s));
+
+            test(s, commaToken, rightBraceToken);
+            if (s.curToken().kind == commaToken)
+                s.readNextToken();
         }
+
+        skip(s, rightBraceToken);
         
         leaveParser("dict display");
         return dictDisplay;
@@ -35,13 +43,16 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public void prettyPrint() {
-        int n = 0;
+        prettyWrite("{");
 
-        prettyWrite("{\n");
-        while (keys.get(n) != null) {
+        int n = 0;
+        while (n < keys.size()) {
             keys.get(n).prettyPrint();
-            prettyWrite(": ");
+            prettyWrite(":");
             values.get(n).prettyPrint();
+            if (n != keys.size() - 1)
+                prettyWrite(", ");
+            ++n;
         }
         prettyWrite("}");
     }
