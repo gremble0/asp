@@ -33,7 +33,7 @@ public class AspSuiteSmallStmtList extends AspSuite {
 
     @Override
     public void prettyPrint() {
-
+        smallStmtList.prettyPrint();
     }
 
     @Override

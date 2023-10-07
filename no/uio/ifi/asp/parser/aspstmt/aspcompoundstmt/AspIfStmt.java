@@ -28,15 +28,19 @@ public class AspIfStmt extends AspCompoundStmt {
         while (s.curToken().kind == elifToken)
             parseIfKind(s, ifStmt, elifToken);
 
-        while (s.curToken().kind == elseToken)
-            parseIfKind(s, ifStmt, elseToken);
+        if (s.curToken().kind == elseToken) {
+            skip(s, elseToken);
+            skip(s, colonToken);
+            // If bodies.size() > tests.size() we know there is an else in the if statement
+            ifStmt.bodies.add(AspSuite.parse(s));
+        }
 
         leaveParser("if stmt");
         return ifStmt;
     }
 
     /**
-      * Helper function to skip over a specific type of if (if, elif or else)
+      * Helper function to skip over a specific type of if (if or elif)
       * when parsing an {@code AspIfStmt}
       *
       * @param s      {@code Scanner} used for parsing the {@code AspIfStmt}
@@ -52,7 +56,23 @@ public class AspIfStmt extends AspCompoundStmt {
 
     @Override
     public void prettyPrint() {
-
+        int n = 0;
+        while (n < tests.size()) {
+            if (n == 0) {
+                prettyWrite("if ");
+                tests.get(n).prettyPrint();
+                prettyWrite(": ");
+            } else if (n == tests.size() - 1) {
+                prettyWrite("else: ");
+            } else {
+                prettyWrite("elif ");
+                tests.get(n).prettyPrint();
+                prettyWrite(": ");
+            }
+            prettyWriteLn();
+            bodies.get(n).prettyPrint();
+            ++n;
+        }
     }
 
     @Override
