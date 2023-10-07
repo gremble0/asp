@@ -15,7 +15,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspAssignment extends AspSmallStmt {
     public AspName name;
-    public ArrayList<AspSubscription> subscriptions;
+    public ArrayList<AspSubscription> subscriptions = new ArrayList<>();
     public AspExpr expr;
     
     public AspAssignment(int n) {
@@ -28,8 +28,8 @@ public class AspAssignment extends AspSmallStmt {
 
         assignment.name = AspName.parse(s);
 
-        // TODO: Handle subscriptions
-        // while ... rightBracketToken ... 
+        while (s.curToken().kind == leftBracketToken)
+            assignment.subscriptions.add(AspSubscription.parse(s));
         
         skip(s, equalToken);
         assignment.expr = AspExpr.parse(s);
@@ -41,9 +41,8 @@ public class AspAssignment extends AspSmallStmt {
     @Override
     public void prettyPrint() {
         name.prettyPrint();
-        // TODO uncomment when AspSubscription is written
-        // for (AspSubscription subscription : subscriptions)
-        //     subscription.prettyPrint();
+        for (AspSubscription subscription : subscriptions)
+            subscription.prettyPrint();
 
         prettyWrite(" = ");
         

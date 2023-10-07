@@ -35,8 +35,6 @@ public class AspComparison extends AspSyntax {
     @Override
     public void prettyPrint() {
         int n = 0;
-
-        // TODO is this right?
         for (AspTerm aspTerm : aspTerms) {
             if (n > 0)
                 prettyWrite(" == ");

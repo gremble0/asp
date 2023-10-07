@@ -1,20 +1,22 @@
 #!/bin/sh
 
-TESTCHECKPOINT="-testscanner"
+TESTCHECKPOINT="parser"
 
-aspfiles=$(ls "./test")
+aspfiles=$(ls "./test/$TESTCHECKPOINT")
 
 for file in $aspfiles; do
-    java -jar ref-asp.jar "$TESTCHECKPOINT" "./test/$file" > /dev/null 2>&1
-    mv "./test/${file%.asp}.log" "./test/${file%.asp}-ref.log"
+    java -jar ref-asp.jar "-test$TESTCHECKPOINT" "./test/$TESTCHECKPOINT/$file" > /dev/null 2>&1
+    mv "./test/$TESTCHECKPOINT/${file%.asp}.log" "./test/$TESTCHECKPOINT/${file%.asp}-ref.log"
 
-    java -jar asp.jar "$TESTCHECKPOINT" "./test/$file" > /dev/null 2>&1
+    java -jar asp.jar "-test$TESTCHECKPOINT" "./test/$TESTCHECKPOINT/$file" > /dev/null 2>&1
 
-    diffs="$(diff ./test/${file%.asp}-ref.log ./test/${file%.asp}.log)"
+    diffs="$(diff ./test/$TESTCHECKPOINT/${file%.asp}-ref.log ./test/$TESTCHECKPOINT/${file%.asp}.log)"
     if [ -z "$diffs" ]; then
-        echo -e "\033[0;32mNo differences in file $file\033[0m"
+        echo "\033[0;32mNo differences in file $file\033[0m"
     else
-        echo -e "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests..."
+        echo "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests..."
         exit
     fi
 done
+
+rm ./test/$TESTCHECKPOINT/*.log

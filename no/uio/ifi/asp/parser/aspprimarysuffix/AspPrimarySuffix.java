@@ -10,11 +10,9 @@ public abstract class AspPrimarySuffix extends AspSyntax {
     
     public static AspPrimarySuffix parse(Scanner s) {
         enterParser("primary suffix");
-
         AspPrimarySuffix primarySuffix = null;
 
         leaveParser("primary suffix");
-
         return primarySuffix;
     }
 }
