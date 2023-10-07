@@ -1,9 +1,6 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
 import no.uio.ifi.asp.parser.AspSyntax;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
@@ -29,11 +26,5 @@ public abstract class AspSmallStmt extends AspSyntax {
 
         leaveParser("small stmt");
         return smallStmt;
-    }
-
-    @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
-        return null;
     }
 }

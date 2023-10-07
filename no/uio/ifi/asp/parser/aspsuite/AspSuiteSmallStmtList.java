@@ -1,4 +1,4 @@
-package no.uio.ifi.asp.parser;
+package no.uio.ifi.asp.parser.aspsuite;
 
 import no.uio.ifi.asp.parser.aspstmt.AspSmallStmtList;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;

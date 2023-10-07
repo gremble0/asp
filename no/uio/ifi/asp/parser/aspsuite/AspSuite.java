@@ -1,14 +1,8 @@
-package no.uio.ifi.asp.parser;
+package no.uio.ifi.asp.parser.aspsuite;
 
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
-import java.util.ArrayList;
-
-import no.uio.ifi.asp.parser.aspstmt.AspSmallStmtList;
-import no.uio.ifi.asp.parser.aspstmt.AspStmt;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.Scanner;
 
 /*
@@ -45,16 +39,5 @@ public abstract class AspSuite extends AspSyntax {
 
         leaveParser("suite");
         return suite;
-    }
-
-    @Override
-    public void prettyPrint() {
-
-    }
-
-    @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
-        return null;
     }
 }

@@ -1,4 +1,4 @@
-package no.uio.ifi.asp.parser;
+package no.uio.ifi.asp.parser.aspsuite;
 
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 

@@ -4,9 +4,6 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt.AspCompoundStmt;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
@@ -31,11 +28,5 @@ public abstract class AspStmt extends AspSyntax {
 
         leaveParser("stmt");
         return stmt;
-    }
-
-    @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
-        return null;
     }
 }
