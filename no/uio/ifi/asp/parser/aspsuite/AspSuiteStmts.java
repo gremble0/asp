@@ -40,6 +40,7 @@ public class AspSuiteStmts extends AspSuite {
 
     @Override
     public void prettyPrint() {
+        prettyWriteLn();
         prettyIndent();
         for (AspStmt stmt : stmts)
             stmt.prettyPrint();
