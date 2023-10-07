@@ -30,6 +30,7 @@ public class AspFuncDef extends AspCompoundStmt {
 
         while (s.curToken().kind != rightParToken) {
             funcDef.params.add(AspName.parse(s));
+
             test(s, commaToken, rightParToken);
             if (s.curToken().kind == commaToken)
                 s.readNextToken();
@@ -47,7 +48,9 @@ public class AspFuncDef extends AspCompoundStmt {
     public void prettyPrint() {
         prettyWrite("def ");
         funcName.prettyPrint();
-        prettyWrite("(");
+        // In my opinion its "prettier" to not have the space before the "("
+        // but i'll add it to match the reference interpreter
+        prettyWrite(" (");
 
         int n = 0;
         while (n < params.size()) {

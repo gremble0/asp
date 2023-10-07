@@ -45,6 +45,9 @@ public class AspSuiteStmts extends AspSuite {
         for (AspStmt stmt : stmts)
             stmt.prettyPrint();
         prettyDedent();
+
+        // Reference interpreter adds a blank line here which i'll also add i guess
+        prettyWriteLn("");
     }
 
     @Override
