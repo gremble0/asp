@@ -1,8 +1,11 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
+import static no.uio.ifi.asp.scanner.TokenKind.globalToken;
+import static no.uio.ifi.asp.scanner.TokenKind.passToken;
+import static no.uio.ifi.asp.scanner.TokenKind.returnToken;
+
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.Scanner;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public abstract class AspSmallStmt extends AspSyntax {
     public AspSmallStmt(int n) {

@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser.aspsmallstmt;
 
+import static no.uio.ifi.asp.scanner.TokenKind.passToken;
+
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.RuntimeValue;
@@ -12,8 +14,9 @@ public class AspPassStmt extends AspSmallStmt {
 
     public static AspPassStmt parse(Scanner s) {
         enterParser("pass stmt");
-
         AspPassStmt passStmt = new AspPassStmt(s.curLineNum());
+
+        skip(s, passToken);
 
         leaveParser("pass stmt");
         return passStmt;
@@ -21,7 +24,7 @@ public class AspPassStmt extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite("pass");
     }
 
     @Override

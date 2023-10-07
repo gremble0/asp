@@ -15,8 +15,8 @@ public class AspExprStmt extends AspSmallStmt {
 
     public static AspExprStmt parse(Scanner s) {
         enterParser("expr stmt");
-
         AspExprStmt exprStmt = new AspExprStmt(s.curLineNum());
+
         exprStmt.expr = AspExpr.parse(s);
 
         leaveParser("expr stmt");
@@ -25,7 +25,7 @@ public class AspExprStmt extends AspSmallStmt {
 
     @Override
     public void prettyPrint() {
-
+        expr.prettyPrint();
     }
 
     @Override
