@@ -25,6 +25,7 @@ public class AspListDisplay extends AspAtom {
 
         while (s.curToken().kind != rightBracketToken) {
             listDisplay.expressions.add(AspExpr.parse(s));
+            test(s, commaToken, rightBracketToken);
             if (s.curToken().kind == commaToken)
                 s.readNextToken();
         }
