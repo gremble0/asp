@@ -22,6 +22,7 @@ public class AspComparison extends AspSyntax {
         // TODO fix while true loop (do while?)
         while (true) {
             comparison.aspTerms.add(AspTerm.parse(s));
+            // TODO inverse this if else
             if (AspCompOpr.isCompOpr(s.curToken().kind))
                 comparison.compOprs.add(AspCompOpr.parse(s));
             else

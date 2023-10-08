@@ -31,9 +31,4 @@ public abstract class AspCompoundStmt extends AspStmt {
         leaveParser("compound stmt");
         return stmt;
     }
-
-    @Override
-    public void prettyPrint() {
-
-    }
 }

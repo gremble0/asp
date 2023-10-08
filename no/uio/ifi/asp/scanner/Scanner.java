@@ -247,32 +247,8 @@ public class Scanner {
         return c == '"' || c == '\'';
     }
 
-    public boolean isCompOpr() {
-        TokenKind k = curToken().kind;
-        //-- Must be changed in part 2:
-        return false;
-    }
-
-    public boolean isFactorPrefix() {
-        TokenKind k = curToken().kind;
-        //-- Must be changed in part 2:
-        return false;
-    }
-
-    public boolean isFactorOpr() {
-        TokenKind k = curToken().kind;
-        //-- Must be changed in part 2:
-        return false;
-    }
-
-    public boolean isTermOpr() {
-        TokenKind k = curToken().kind;
-        //-- Must be changed in part 2:
-        return false;
-    }
-
     public boolean anyEqualToken() {
-        for (Token t: curLineTokens) {
+        for (Token t : curLineTokens) {
             if (t.kind == equalToken) return true;
             if (t.kind == semicolonToken) return false;
         }

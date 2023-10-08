@@ -69,6 +69,7 @@ public class AspIfStmt extends AspCompoundStmt {
                 tests.get(n).prettyPrint();
                 prettyWrite(": ");
             }
+
             bodies.get(n).prettyPrint();
             ++n;
         }

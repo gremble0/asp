@@ -26,7 +26,9 @@ public class AspGlobalStmt extends AspSmallStmt {
         skip(s, globalToken);
         while (s.curToken().kind != newLineToken) {
             globalStmt.globals.add(AspName.parse(s));
+
             test(s, commaToken, newLineToken);
+            // TODO write method skipIfToken in AspSyntax
             if (s.curToken().kind == commaToken)
                 s.readNextToken();
         }
@@ -46,6 +48,8 @@ public class AspGlobalStmt extends AspSmallStmt {
                 prettyWrite(", ");
             ++n;
         }
+
+        prettyWriteLn();
     }
 
     @Override

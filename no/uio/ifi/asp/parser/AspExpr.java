@@ -1,5 +1,3 @@
-// © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
-
 package no.uio.ifi.asp.parser;
 
 import static no.uio.ifi.asp.scanner.TokenKind.*;
@@ -21,6 +19,7 @@ public class AspExpr extends AspSyntax {
     public static AspExpr parse(Scanner s) {
         enterParser("expr");
         AspExpr expr = new AspExpr(s.curLineNum());
+
 
         // TODO refactor while true loop
         while (true) {

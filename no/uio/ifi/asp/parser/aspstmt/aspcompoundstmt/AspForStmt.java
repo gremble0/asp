@@ -42,7 +42,6 @@ public class AspForStmt extends AspCompoundStmt {
         prettyWrite(" in ");
         iterable.prettyPrint();
         prettyWrite(": ");
-
         body.prettyPrint();
     }
 
