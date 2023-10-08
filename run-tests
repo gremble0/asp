@@ -2,6 +2,7 @@
 
 TESTCHECKPOINT="parser"
 
+rm ./test/$TESTCHECKPOINT/*.log
 aspfiles=$(ls "./test/$TESTCHECKPOINT")
 
 for file in $aspfiles; do

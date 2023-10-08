@@ -20,7 +20,6 @@ public class AspExpr extends AspSyntax {
         enterParser("expr");
         AspExpr expr = new AspExpr(s.curLineNum());
 
-
         // TODO refactor while true loop
         while (true) {
             expr.andTests.add(AspAndTest.parse(s));
@@ -36,8 +35,14 @@ public class AspExpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        for (AspAndTest andTest : andTests)
-            andTest.prettyPrint();
+        int n = 0;
+        while (n < andTests.size()) {
+            if (n > 0)
+                prettyWrite(" or ");
+
+            andTests.get(n).prettyPrint();
+            ++n;
+        }
     }
 
 
