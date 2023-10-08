@@ -24,7 +24,6 @@ public class AspPrimary extends AspSyntax {
         AspPrimary primary = new AspPrimary(s.curLineNum());
 
         primary.atom = AspAtom.parse(s);
-        // TODO figure out AspPrimarySuffix.parse here 
         while (s.curToken().kind == leftBracketToken || s.curToken().kind == leftParToken)
             primary.suffixes.add(AspPrimarySuffix.parse(s));
         
@@ -35,6 +34,7 @@ public class AspPrimary extends AspSyntax {
     @Override
     public void prettyPrint() {
         atom.prettyPrint();
+
         for (AspPrimarySuffix suffix : suffixes)
             suffix.prettyPrint();
     }

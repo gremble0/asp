@@ -36,6 +36,7 @@ public class AspAndTest extends AspSyntax {
     public void prettyPrint() {
         int n = 0;
 
+        // TODO convert to while loop
         for (AspNotTest notTest : notTests) {
             if (n > 0)
                 prettyWrite(" and ");

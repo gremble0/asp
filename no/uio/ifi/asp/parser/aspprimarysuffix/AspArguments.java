@@ -34,7 +34,7 @@ public class AspArguments extends AspPrimarySuffix {
         
         skip(s, rightParToken);
 
-        leaveParser("subscription");
+        leaveParser("arguments");
         return arguments;
     }
 

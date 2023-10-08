@@ -21,6 +21,7 @@ public class AspFactor extends AspSyntax {
         AspFactor factor = new AspFactor(s.curLineNum());
 
         // TODO fix while true loop
+        // OLD VERSION
         while (true) {
             if (AspFactorPrefix.isFactorPrefix(s.curToken().kind)) {
                 factor.prefixes.add(AspFactorPrefix.parse(s));
@@ -32,6 +33,18 @@ public class AspFactor extends AspSyntax {
                     break;
             }
         }
+        // Makes more sense but wrong?
+        // while (true) {
+        //     if (AspFactorPrefix.isFactorPrefix(s.curToken().kind)) {
+        //         factor.prefixes.add(AspFactorPrefix.parse(s));
+        //     }
+
+        //     factor.primaries.add(AspPrimary.parse(s));
+        //     if (!AspFactorOpr.isFactorOpr(s.curToken().kind))
+        //         break;
+
+        //     factor.factorOprs.add(AspFactorOpr.parse(s));
+        // }
         
         leaveParser("factor");
         return factor;

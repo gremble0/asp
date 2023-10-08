@@ -35,7 +35,6 @@ public class AspWhileStmt extends AspCompoundStmt {
         prettyWrite("while ");
         test.prettyPrint();
         prettyWrite(": ");
-
         body.prettyPrint();
     }
 

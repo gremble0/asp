@@ -36,6 +36,7 @@ public class AspComparison extends AspSyntax {
     @Override
     public void prettyPrint() {
         int n = 0;
+        // TODO convert to while loop or maybe convert while loops to for loops?
         for (AspTerm aspTerm : aspTerms) {
             if (n > 0)
                 prettyWrite(" == ");

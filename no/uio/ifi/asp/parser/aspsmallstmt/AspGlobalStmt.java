@@ -48,8 +48,6 @@ public class AspGlobalStmt extends AspSmallStmt {
                 prettyWrite(", ");
             ++n;
         }
-
-        prettyWriteLn();
     }
 
     @Override

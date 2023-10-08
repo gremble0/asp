@@ -4,6 +4,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import java.util.ArrayList;
 
+import no.uio.ifi.asp.parser.aspstmt.AspSmallStmtList;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
@@ -45,8 +46,11 @@ public class AspSuiteStmts extends AspSuite {
         prettyWriteLn();
         prettyIndent();
 
-        for (AspStmt stmt : stmts)
+        for (AspStmt stmt : stmts) {
             stmt.prettyPrint();
+            if (stmt instanceof AspSmallStmtList)
+                prettyWriteLn();
+        }
 
         prettyDedent();
 

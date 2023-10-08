@@ -23,7 +23,7 @@ public class AspNoneLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-        prettyWrite(" None ");
+        prettyWrite("None");
     }
 
     @Override
