@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.parser;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.aspatom.AspAtom;
@@ -23,7 +25,8 @@ public class AspPrimary extends AspSyntax {
 
         primary.atom = AspAtom.parse(s);
         // TODO figure out AspPrimarySuffix.parse here 
-        // primary.suffixes.add(AspPrimarySuffix.parse(s));
+        while (s.curToken().kind == leftBracketToken || s.curToken().kind == leftParToken)
+            primary.suffixes.add(AspPrimarySuffix.parse(s));
         
         leaveParser("primary");
         return primary;
@@ -32,9 +35,8 @@ public class AspPrimary extends AspSyntax {
     @Override
     public void prettyPrint() {
         atom.prettyPrint();
-        // TODO uncomment when AspPrimarySuffix subclasses have their prettyPrints implemented
-        // for (AspPrimarySuffix suffix : suffixes)
-        //     suffix.prettyPrint();
+        for (AspPrimarySuffix suffix : suffixes)
+            suffix.prettyPrint();
     }
 
     @Override

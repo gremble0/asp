@@ -30,6 +30,7 @@ public class AspFactorOpr extends AspSyntax {
         AspFactorOpr factorOpr = new AspFactorOpr(s.curLineNum());
 
         factorOpr.factorOprKind = s.curToken().kind;
+        s.readNextToken();
         
         leaveParser("factor opr");
         return factorOpr;

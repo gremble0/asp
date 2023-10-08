@@ -32,6 +32,8 @@ public class AspSuiteStmts extends AspSuite {
         skip(s, indentToken);
         while (s.curToken().kind != dedentToken && s.curToken().kind != eofToken)
             suite.stmts.add(AspStmt.parse(s));
+
+        skip(s, dedentToken);
         
         // To make the logfile represent the architectural changes uncomment the line below
         // leaveParser("suite stmts");
@@ -42,12 +44,14 @@ public class AspSuiteStmts extends AspSuite {
     public void prettyPrint() {
         prettyWriteLn();
         prettyIndent();
+
         for (AspStmt stmt : stmts)
             stmt.prettyPrint();
+
         prettyDedent();
 
         // Reference interpreter adds a blank line here which i'll also add i guess
-        prettyWriteLn("");
+        // prettyWriteLn("");
     }
 
     @Override

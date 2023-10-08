@@ -10,7 +10,6 @@ import no.uio.ifi.asp.scanner.Scanner;
 public class AspTerm extends AspSyntax {
     public ArrayList<AspFactor> factors = new ArrayList<>();
     public ArrayList<AspTermOpr> termOprs = new ArrayList<>();
-    public ArrayList<AspFactorPrefix> prefixes = new ArrayList<>();
 
     public AspTerm(int n) {
         super(n);
@@ -23,10 +22,11 @@ public class AspTerm extends AspSyntax {
         // TODO fix while true loop (do while?)
         while (true) {
             term.factors.add(AspFactor.parse(s));
-            if (AspTermOpr.isTermOpr(s.curToken().kind))
-                term.termOprs.add(AspTermOpr.parse(s));
-            else
+
+            if (!AspTermOpr.isTermOpr(s.curToken().kind))
                 break;
+
+            term.termOprs.add(AspTermOpr.parse(s));
         }
         
         leaveParser("term");
@@ -35,12 +35,16 @@ public class AspTerm extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        for (AspFactor factor : factors)
-            factor.prettyPrint();
-        for (AspTermOpr termOpr : termOprs)
-            termOpr.prettyPrint();
-        for (AspFactorPrefix prefix : prefixes)
-            prefix.prettyPrint();
+        int n = 0;
+        while (n < factors.size()) {
+            if (n > 0) {
+                prettyWrite(" ");
+                termOprs.get(n - 1).prettyPrint();
+                prettyWrite(" ");
+            }
+            factors.get(n).prettyPrint();
+            ++n;
+        }
     }
 
     @Override

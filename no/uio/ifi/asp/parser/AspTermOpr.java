@@ -30,6 +30,7 @@ public class AspTermOpr extends AspSyntax {
         AspTermOpr termOpr = new AspTermOpr(s.curLineNum());
 
         termOpr.termOprKind = s.curToken().kind;
+        s.readNextToken();
         
         leaveParser("term opr");
         return termOpr;
@@ -37,7 +38,7 @@ public class AspTermOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(termOprKind.toString());
     }
 
     @Override

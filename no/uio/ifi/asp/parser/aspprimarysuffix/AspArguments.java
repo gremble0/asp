@@ -40,6 +40,17 @@ public class AspArguments extends AspPrimarySuffix {
 
     @Override
     public void prettyPrint() {
+        prettyWrite("(");
+        
+        int n = 0;
+        while (n < args.size()) {
+            args.get(n).prettyPrint();
+            if (n < args.size() - 1)
+                prettyWrite(", ");
+            ++n;
+        }
+
+        prettyWrite(")");
     }
 
     @Override
