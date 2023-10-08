@@ -21,8 +21,11 @@ public class AspSmallStmtList extends AspStmt {
         AspSmallStmtList smallStmtList = new AspSmallStmtList(s.curLineNum());
 
         while (s.curToken().kind != newLineToken) {
-            if (s.curToken().kind == semicolonToken)
-                skip(s, semicolonToken);
+            if (s.curToken().kind == semicolonToken) {
+                s.readNextToken();
+                continue;
+            }
+
             smallStmtList.smallStmts.add(AspSmallStmt.parse(s));
         }
 
