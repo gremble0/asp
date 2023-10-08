@@ -34,7 +34,8 @@ public class AspSuiteStmts extends AspSuite {
         while (s.curToken().kind != dedentToken && s.curToken().kind != eofToken)
             suite.stmts.add(AspStmt.parse(s));
 
-        skip(s, dedentToken);
+        if (s.curToken().kind != eofToken)
+            skip(s, dedentToken);
         
         // To make the logfile represent the architectural changes uncomment the line below
         // leaveParser("suite stmts");

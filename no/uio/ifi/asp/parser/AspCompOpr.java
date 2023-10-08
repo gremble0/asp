@@ -39,7 +39,7 @@ public class AspCompOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-
+        prettyWrite(" " + compOprKind.toString() + " ");
     }
 
     @Override

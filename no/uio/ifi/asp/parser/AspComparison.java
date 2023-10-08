@@ -39,7 +39,7 @@ public class AspComparison extends AspSyntax {
         // TODO convert to while loop or maybe convert while loops to for loops?
         for (AspTerm aspTerm : aspTerms) {
             if (n > 0)
-                prettyWrite(" == ");
+                compOprs.get(n - 1).prettyPrint();
             aspTerm.prettyPrint();
             ++n;
         }
