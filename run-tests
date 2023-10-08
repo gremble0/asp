@@ -15,6 +15,7 @@ for file in $aspfiles; do
         echo "\033[0;32mNo differences in file $file\033[0m"
     else
         echo "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests..."
+        rm ./test/$TESTCHECKPOINT/*.log
         exit
     fi
 done
