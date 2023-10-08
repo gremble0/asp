@@ -31,7 +31,6 @@ public class AspIfStmt extends AspCompoundStmt {
         if (s.curToken().kind == elseToken) {
             skip(s, elseToken);
             skip(s, colonToken);
-            // If bodies.size() > tests.size() we know there is an else in the if statement
             ifStmt.bodies.add(AspSuite.parse(s));
         }
 
@@ -62,8 +61,6 @@ public class AspIfStmt extends AspCompoundStmt {
                 prettyWrite("if ");
                 tests.get(n).prettyPrint();
                 prettyWrite(": ");
-            } else if (n == tests.size() - 1) {
-                prettyWrite("else: ");
             } else {
                 prettyWrite("elif ");
                 tests.get(n).prettyPrint();
@@ -72,6 +69,11 @@ public class AspIfStmt extends AspCompoundStmt {
 
             bodies.get(n).prettyPrint();
             ++n;
+        }
+
+        if (bodies.size() > tests.size()) {
+            prettyWrite("else: ");
+            bodies.get(bodies.size() - 1).prettyPrint();
         }
     }
 
