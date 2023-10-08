@@ -2,13 +2,11 @@ package no.uio.ifi.asp.parser.aspatom;
 
 import static no.uio.ifi.asp.scanner.TokenKind.stringToken;
 
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspStringLiteral extends AspAtom {
-    String tokStringLit;
+    String stringLit;
     
     AspStringLiteral(int n) {
         super(n);
@@ -18,7 +16,7 @@ public class AspStringLiteral extends AspAtom {
         enterParser("string literal");
         AspStringLiteral stringLiteral = new AspStringLiteral(s.curLineNum());
 
-        stringLiteral.tokStringLit = s.curToken().stringLit;
+        stringLiteral.stringLit = s.curToken().stringLit;
         skip(s, stringToken);
 
         leaveParser("string literal");
@@ -28,13 +26,12 @@ public class AspStringLiteral extends AspAtom {
     @Override
     public void prettyPrint() {
         prettyWrite("\"");
-        prettyWrite(tokStringLit);
+        prettyWrite(stringLit);
         prettyWrite("\"");
     }
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

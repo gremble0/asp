@@ -4,10 +4,8 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspWhileStmt extends AspCompoundStmt {
     public AspExpr test;

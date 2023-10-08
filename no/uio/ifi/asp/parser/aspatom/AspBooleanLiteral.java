@@ -2,9 +2,7 @@ package no.uio.ifi.asp.parser.aspatom;
 
 import static no.uio.ifi.asp.scanner.TokenKind.trueToken;
 
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspBooleanLiteral extends AspAtom {

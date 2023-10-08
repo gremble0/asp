@@ -1,7 +1,7 @@
 package no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt;
 
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public abstract class AspCompoundStmt extends AspStmt {
     public AspCompoundStmt(int n) {

@@ -6,10 +6,8 @@ import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspForStmt extends AspCompoundStmt {
     public AspName iterator;
@@ -47,7 +45,6 @@ public class AspForStmt extends AspCompoundStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

@@ -1,9 +1,7 @@
 package no.uio.ifi.asp.parser.aspsuite;
 
 import no.uio.ifi.asp.parser.aspstmt.AspSmallStmtList;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspSuiteSmallStmtList extends AspSuite {

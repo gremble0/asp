@@ -1,17 +1,15 @@
 package no.uio.ifi.asp.parser.aspatom;
 
-import java.util.ArrayList;
-
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
+import java.util.ArrayList;
+
 import no.uio.ifi.asp.parser.AspExpr;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspListDisplay extends AspAtom {
-    private ArrayList<AspExpr> expressions = new ArrayList<AspExpr>();
+    private ArrayList<AspExpr> exprs = new ArrayList<AspExpr>();
     
     public AspListDisplay(int n) {
         super(n);
@@ -24,7 +22,7 @@ public class AspListDisplay extends AspAtom {
         skip(s, leftBracketToken);
 
         while (s.curToken().kind != rightBracketToken) {
-            listDisplay.expressions.add(AspExpr.parse(s));
+            listDisplay.exprs.add(AspExpr.parse(s));
 
             test(s, commaToken, rightBracketToken);
             if (s.curToken().kind == commaToken)
@@ -42,9 +40,9 @@ public class AspListDisplay extends AspAtom {
         prettyWrite("[");
 
         int n = 0;
-        while (n < expressions.size()) {
-            expressions.get(n).prettyPrint();
-            if (n != expressions.size() - 1)
+        while (n < exprs.size()) {
+            exprs.get(n).prettyPrint();
+            if (n != exprs.size() - 1)
                 prettyWrite(", ");
             ++n;
         }
@@ -54,7 +52,6 @@ public class AspListDisplay extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

@@ -6,10 +6,9 @@ import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.scanner.Scanner;
+import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspIfStmt extends AspCompoundStmt {
     public ArrayList<AspExpr> tests = new ArrayList<>();

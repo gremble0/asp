@@ -1,12 +1,9 @@
 package no.uio.ifi.asp.parser.aspprimarysuffix;
 
-import static no.uio.ifi.asp.scanner.TokenKind.leftBracketToken;
-import static no.uio.ifi.asp.scanner.TokenKind.rightBracketToken;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import no.uio.ifi.asp.parser.AspExpr;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspSubscription extends AspPrimarySuffix {
@@ -37,7 +34,6 @@ public class AspSubscription extends AspPrimarySuffix {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

@@ -1,6 +1,6 @@
 package no.uio.ifi.asp.parser.aspsuite;
 
-import static no.uio.ifi.asp.scanner.TokenKind.*;
+import static no.uio.ifi.asp.scanner.TokenKind.newLineToken;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.scanner.Scanner;

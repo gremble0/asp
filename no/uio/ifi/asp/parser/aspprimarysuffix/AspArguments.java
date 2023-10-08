@@ -1,15 +1,11 @@
 package no.uio.ifi.asp.parser.aspprimarysuffix;
 
-import static no.uio.ifi.asp.scanner.TokenKind.leftParToken;
-import static no.uio.ifi.asp.scanner.TokenKind.rightParToken;
-import static no.uio.ifi.asp.scanner.TokenKind.commaToken;
+import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspExpr;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspArguments extends AspPrimarySuffix {
@@ -45,6 +41,7 @@ public class AspArguments extends AspPrimarySuffix {
         int n = 0;
         while (n < args.size()) {
             args.get(n).prettyPrint();
+
             if (n < args.size() - 1)
                 prettyWrite(", ");
             ++n;
@@ -55,7 +52,6 @@ public class AspArguments extends AspPrimarySuffix {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

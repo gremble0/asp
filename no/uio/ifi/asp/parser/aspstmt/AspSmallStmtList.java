@@ -1,13 +1,12 @@
 package no.uio.ifi.asp.parser.aspstmt;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.aspsmallstmt.AspSmallStmt;
-import no.uio.ifi.asp.runtime.RuntimeReturnValue;
-import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
-import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 public class AspSmallStmtList extends AspStmt {
     ArrayList<AspSmallStmt> smallStmts = new ArrayList<>();
@@ -48,7 +47,6 @@ public class AspSmallStmtList extends AspStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

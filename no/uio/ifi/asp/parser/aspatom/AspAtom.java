@@ -1,7 +1,7 @@
 package no.uio.ifi.asp.parser.aspatom;
 
 import no.uio.ifi.asp.parser.AspSyntax;
-import no.uio.ifi.asp.scanner.*;
+import no.uio.ifi.asp.scanner.Scanner;
 
 public abstract class AspAtom extends AspSyntax {
     public AspAtom(int n) {
