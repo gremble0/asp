@@ -1,7 +1,10 @@
 package no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt;
 
+import static no.uio.ifi.asp.scanner.TokenKind.*;
+
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.scanner.Scanner;
+import no.uio.ifi.asp.scanner.TokenKind;
 
 public abstract class AspCompoundStmt extends AspStmt {
     public AspCompoundStmt(int n) {
@@ -30,5 +33,12 @@ public abstract class AspCompoundStmt extends AspStmt {
         
         leaveParser("compound stmt");
         return stmt;
+    }
+
+    public static boolean isCompoundStmt(TokenKind tk) {
+        if (tk == forToken || tk == defToken || tk == ifToken || tk == whileToken)
+            return true;
+
+        return false;
     }
 }

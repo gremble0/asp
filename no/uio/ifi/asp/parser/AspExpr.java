@@ -23,6 +23,7 @@ public class AspExpr extends AspSyntax {
             expr.andTests.add(AspAndTest.parse(s));
             if (s.curToken().kind != orToken)
                 break;
+
             skip(s, orToken);
         }
 
