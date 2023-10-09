@@ -18,13 +18,12 @@ public class AspAndTest extends AspSyntax {
         enterParser("and test");
         AspAndTest andTest = new AspAndTest(s.curLineNum());
 
-        // TODO refactor while true loop
-        while (true) {
+        do {
+            if (s.curToken().kind == andToken)
+                s.readNextToken();
+
             andTest.notTests.add(AspNotTest.parse(s));
-            if (s.curToken().kind != andToken)
-                break;
-            skip(s, andToken);
-        }
+        } while(s.curToken().kind == andToken);
 
         leaveParser("and test");
         return andTest;
@@ -33,12 +32,11 @@ public class AspAndTest extends AspSyntax {
     @Override
     public void prettyPrint() {
         int n = 0;
-
-        // TODO convert to while loop
-        for (AspNotTest notTest : notTests) {
+        while (n < notTests.size()) {
             if (n > 0)
                 prettyWrite(" and ");
-            notTest.prettyPrint();
+
+            notTests.get(n).prettyPrint();
             ++n;
         }
     }

@@ -6,7 +6,7 @@ import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspComparison extends AspSyntax {
-    public ArrayList<AspTerm> aspTerms = new ArrayList<>();
+    public ArrayList<AspTerm> terms = new ArrayList<>();
     public ArrayList<AspCompOpr> compOprs = new ArrayList<>();
     
     public AspComparison(int n) {
@@ -17,14 +17,14 @@ public class AspComparison extends AspSyntax {
         enterParser("comparison");
         AspComparison comparison = new AspComparison(s.curLineNum());
 
-        // TODO fix while true loop (do while?)
+        // TODO refactor while true loop
         while (true) {
-            comparison.aspTerms.add(AspTerm.parse(s));
-            // TODO inverse this if else
-            if (AspCompOpr.isCompOpr(s.curToken().kind))
-                comparison.compOprs.add(AspCompOpr.parse(s));
-            else
+            comparison.terms.add(AspTerm.parse(s));
+
+            if (!AspCompOpr.isCompOpr(s.curToken().kind))
                 break;
+
+            comparison.compOprs.add(AspCompOpr.parse(s));
         }
 
         leaveParser("comparison");
@@ -34,11 +34,11 @@ public class AspComparison extends AspSyntax {
     @Override
     public void prettyPrint() {
         int n = 0;
-        // TODO convert to while loop or maybe convert while loops to for loops?
-        for (AspTerm aspTerm : aspTerms) {
+        while (n < terms.size()) {
             if (n > 0)
                 compOprs.get(n - 1).prettyPrint();
-            aspTerm.prettyPrint();
+
+            terms.get(n).prettyPrint();
             ++n;
         }
     }

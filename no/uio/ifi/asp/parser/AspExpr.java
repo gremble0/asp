@@ -18,14 +18,12 @@ public class AspExpr extends AspSyntax {
         enterParser("expr");
         AspExpr expr = new AspExpr(s.curLineNum());
 
-        // TODO refactor while true loop
-        while (true) {
-            expr.andTests.add(AspAndTest.parse(s));
-            if (s.curToken().kind != orToken)
-                break;
+        do {
+            if (s.curToken().kind == orToken)
+                s.readNextToken();
 
-            skip(s, orToken);
-        }
+            expr.andTests.add(AspAndTest.parse(s));
+        } while(s.curToken().kind == orToken);
 
         leaveParser("expr");
         return expr;
