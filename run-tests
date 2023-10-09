@@ -1,8 +1,21 @@
 #!/bin/sh
+# This is a script that will run both the reference interpreter and this version of the interpreter
+# and compare the logged outputs to see if both interpreters behave identically
 
-TESTCHECKPOINT="parser"
+if [ -z "$1" ]; then
+    TESTCHECKPOINT="parser"
+else
+    if [ "$1" != "parser" ] && [ "$1" != "scanner" ]; then
+        echo "Argument needs to be one of ['parser', 'scanner']"
+        exit 1
+    fi
 
-rm ./test/$TESTCHECKPOINT/*.log
+    TESTCHECKPOINT="$1"
+fi
+
+echo "Comparing interpreter with the reference interpreter for the $TESTCHECKPOINT"
+
+rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
 aspfiles=$(ls "./test/$TESTCHECKPOINT")
 
 for file in $aspfiles; do
@@ -16,9 +29,9 @@ for file in $aspfiles; do
         echo "\033[0;32mNo differences in file $file\033[0m"
     else
         echo "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests..."
-        rm ./test/$TESTCHECKPOINT/*.log
-        exit
+        rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
+        exit 0
     fi
 done
 
-rm ./test/$TESTCHECKPOINT/*.log
+rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
