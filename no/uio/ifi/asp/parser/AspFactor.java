@@ -18,7 +18,6 @@ public class AspFactor extends AspSyntax {
         enterParser("factor");
         AspFactor factor = new AspFactor(s.curLineNum());
 
-        // TODO fix while true loop
         while (true) {
             if (AspFactorPrefix.isFactorPrefix(s.curToken().kind)) {
                 factor.prefixes.add(AspFactorPrefix.parse(s));
