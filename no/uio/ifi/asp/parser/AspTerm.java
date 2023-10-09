@@ -17,7 +17,6 @@ public class AspTerm extends AspSyntax {
         enterParser("term");
         AspTerm term = new AspTerm(s.curLineNum());
 
-        // TODO fix while true loop (do while?)
         while (true) {
             term.factors.add(AspFactor.parse(s));
 
@@ -40,6 +39,7 @@ public class AspTerm extends AspSyntax {
                 termOprs.get(n - 1).prettyPrint();
                 prettyWrite(" ");
             }
+
             factors.get(n).prettyPrint();
             ++n;
         }
