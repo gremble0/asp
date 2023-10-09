@@ -24,8 +24,7 @@ public class AspArguments extends AspPrimarySuffix {
         while (s.curToken().kind != rightParToken) {
             arguments.args.add(AspExpr.parse(s));
 
-            if (s.curToken().kind == commaToken)
-                s.readNextToken();
+            ignore(s, commaToken);
         }
         
         skip(s, rightParToken);

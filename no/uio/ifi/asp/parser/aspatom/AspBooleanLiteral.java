@@ -6,7 +6,7 @@ import no.uio.ifi.asp.runtime.*;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspBooleanLiteral extends AspAtom {
-    private boolean tokBool;
+    private boolean booleanLit;
     
     public AspBooleanLiteral(int n) {
         super(n);
@@ -17,9 +17,9 @@ public class AspBooleanLiteral extends AspAtom {
         AspBooleanLiteral booleanLiteral = new AspBooleanLiteral(s.curLineNum());
 
         if (s.curToken().kind == trueToken)
-            booleanLiteral.tokBool = true;
+            booleanLiteral.booleanLit = true;
         else
-            booleanLiteral.tokBool = false;
+            booleanLiteral.booleanLit = false;
 
         s.readNextToken();
 
@@ -29,7 +29,7 @@ public class AspBooleanLiteral extends AspAtom {
 
     @Override
     public void prettyPrint() {
-        if (tokBool)
+        if (booleanLit)
             prettyWrite("True");
         else
             prettyWrite("False");

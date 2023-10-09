@@ -29,8 +29,7 @@ public class AspDictDisplay extends AspAtom {
             dictDisplay.values.add(AspExpr.parse(s));
 
             test(s, commaToken, rightBraceToken);
-            if (s.curToken().kind == commaToken)
-                s.readNextToken();
+            ignore(s, commaToken);
         }
 
         skip(s, rightBraceToken);

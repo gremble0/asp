@@ -24,9 +24,7 @@ public class AspGlobalStmt extends AspSmallStmt {
             globalStmt.globals.add(AspName.parse(s));
 
             test(s, commaToken, newLineToken);
-            // TODO write method skipIfToken in AspSyntax
-            if (s.curToken().kind == commaToken)
-                s.readNextToken();
+            ignore(s, commaToken);
         }
 
         leaveParser("global stmt");

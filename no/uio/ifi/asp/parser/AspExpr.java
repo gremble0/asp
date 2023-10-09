@@ -19,8 +19,7 @@ public class AspExpr extends AspSyntax {
         AspExpr expr = new AspExpr(s.curLineNum());
 
         do {
-            if (s.curToken().kind == orToken)
-                s.readNextToken();
+            ignore(s, orToken);
 
             expr.andTests.add(AspAndTest.parse(s));
         } while(s.curToken().kind == orToken);

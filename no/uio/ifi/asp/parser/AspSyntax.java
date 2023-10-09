@@ -41,6 +41,11 @@ public abstract class AspSyntax {
         s.readNextToken();
     }
 
+    public static void ignore(Scanner s, TokenKind tk) {
+        if (s.curToken().kind == tk)
+            s.readNextToken();
+    }
+
     protected static void enterParser(String nonTerm) {
         Main.log.enterParser(nonTerm);
     }
