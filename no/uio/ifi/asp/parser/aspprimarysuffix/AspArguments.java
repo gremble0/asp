@@ -15,6 +15,11 @@ public class AspArguments extends AspPrimarySuffix {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspArguments}
+      * @return  {@code AspArguments} with a list of the {@code AspExpr}s representing
+      *          the arguments to a function.
+      */
     public static AspArguments parse(Scanner s) {
         enterParser("arguments");
         AspArguments arguments = new AspArguments(s.curLineNum());

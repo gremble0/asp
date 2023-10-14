@@ -15,6 +15,11 @@ public class AspGlobalStmt extends AspSmallStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspGlobalStmt}
+      * @return  {@code AspGlobalStmt} containing a list of all {@code AspName}s the
+      *          global keyword should be applied to.
+      */
     public static AspGlobalStmt parse(Scanner s) {
         enterParser("global stmt");
         AspGlobalStmt globalStmt = new AspGlobalStmt(s.curLineNum());

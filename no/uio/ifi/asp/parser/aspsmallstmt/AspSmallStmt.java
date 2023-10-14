@@ -10,6 +10,13 @@ public abstract class AspSmallStmt extends AspSyntax {
         super(n);
     }
 
+    /**
+      * Calls the appropriate {@code AspSmallStmt} subclass parse method
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspSmallStmt}
+      * @return  Instance of a subclass of {@code AspSmallStmt} containing
+      *          information about the small statement
+      */
     public static AspSmallStmt parse(Scanner s) {
         enterParser("small stmt");
         AspSmallStmt smallStmt = null;

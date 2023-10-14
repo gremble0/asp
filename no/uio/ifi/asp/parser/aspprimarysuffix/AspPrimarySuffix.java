@@ -10,6 +10,11 @@ public abstract class AspPrimarySuffix extends AspSyntax {
         super(n);
     }
     
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspPrimarySuffix}
+      * @return  Instance of a subclass of {@code AspPrimarySuffix} depending on the
+      *          scanners current token
+      */
     public static AspPrimarySuffix parse(Scanner s) {
         enterParser("primary suffix");
         AspPrimarySuffix primarySuffix = null;

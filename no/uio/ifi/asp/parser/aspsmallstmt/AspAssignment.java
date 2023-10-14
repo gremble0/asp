@@ -19,6 +19,12 @@ public class AspAssignment extends AspSmallStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspAssignment}
+      * @return  {@code AspAssignment} containing the parsed {@code AspName} including
+      *          any possible {@code AspSubscription}s and the {@code AspExpr} the name
+      *          is assigned to.
+      */
     public static AspAssignment parse(Scanner s) {
         enterParser("assignment");
         AspAssignment assignment = new AspAssignment(s.curLineNum());

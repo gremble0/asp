@@ -13,6 +13,10 @@ public class AspReturnStmt extends AspSmallStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspReturnStmt}
+      * @return  {@code AspReturnStmt} containing the expression to be returned
+      */
     public static AspReturnStmt parse(Scanner s) {
         enterParser("return stmt");
         AspReturnStmt returnStmt = new AspReturnStmt(s.curLineNum());

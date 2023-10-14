@@ -11,6 +11,10 @@ public class AspExprStmt extends AspSmallStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspExprStm}
+      * @return  {@code AspExprStmt} containing the parsed {@code AspExpr}
+      */
     public static AspExprStmt parse(Scanner s) {
         enterParser("expr stmt");
         AspExprStmt exprStmt = new AspExprStmt(s.curLineNum());

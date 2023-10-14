@@ -13,6 +13,10 @@ public class AspSubscription extends AspPrimarySuffix {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspSubscription}
+      * @return  {@code AspSubscription} containing the parsed {@code AspExpr}
+      */
     public static AspSubscription parse(Scanner s) {
         enterParser("subscription");
         AspSubscription subscription = new AspSubscription(s.curLineNum());
