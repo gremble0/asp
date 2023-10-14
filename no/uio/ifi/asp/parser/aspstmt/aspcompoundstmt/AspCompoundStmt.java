@@ -11,6 +11,13 @@ public abstract class AspCompoundStmt extends AspStmt {
         super(n);
     }
 
+    /**
+      * Calls the appropriate {@code AspCompoundStmt} subclass parse method
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspCompoundStmt}
+      * @return  Instance of a subclass of {@code AspCompoundStmt} containing
+      *          information about the compound statement
+      */
     public static AspStmt parse(Scanner s) {
         enterParser("compound stmt");
         AspStmt stmt = null;

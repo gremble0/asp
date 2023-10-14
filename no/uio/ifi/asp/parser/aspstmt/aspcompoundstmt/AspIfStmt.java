@@ -18,6 +18,11 @@ public class AspIfStmt extends AspCompoundStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspIfStmt}
+      * @return  {@code AspIfStmt} with parsed information about the if statement
+      *          including the tests of all the elif and else branches and their bodies
+      */
     public static AspIfStmt parse(Scanner s) {
         enterParser("if stmt");
         AspIfStmt ifStmt = new AspIfStmt(s.curLineNum());

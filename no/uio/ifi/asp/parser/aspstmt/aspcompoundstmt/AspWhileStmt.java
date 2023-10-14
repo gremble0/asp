@@ -15,6 +15,11 @@ public class AspWhileStmt extends AspCompoundStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspWhileStmt}
+      * @return  {@code AspWhileStmt} with parsed information about the loop
+      *          including its test condition and body
+      */
     public static AspWhileStmt parse(Scanner s) {
         enterParser("while stmt");
         AspWhileStmt whileStmt = new AspWhileStmt(s.curLineNum());

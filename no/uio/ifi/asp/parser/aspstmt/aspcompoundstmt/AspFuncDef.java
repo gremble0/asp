@@ -11,13 +11,18 @@ import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFuncDef extends AspCompoundStmt {
     public AspName funcName;
-    public ArrayList<AspName> params =  new ArrayList<>();
+    public ArrayList<AspName> params = new ArrayList<>();
     public AspSuite body;
     
     public AspFuncDef(int n) {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspFuncDef}
+      * @return  {@code AspFuncDef} with parsed information about the function
+      *          including its name, parameters and body
+      */
     public static AspFuncDef parse(Scanner s) {
         enterParser("func def");
         AspFuncDef funcDef = new AspFuncDef(s.curLineNum());

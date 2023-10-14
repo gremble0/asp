@@ -9,6 +9,13 @@ public abstract class AspStmt extends AspSyntax {
         super(n);
     }
 
+    /**
+      * Calls the appropriate {@code AspStmt} subclass parse method
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspStmt}
+      * @return  Instance of a subclass of {@code AspStmt} containing
+      *          information about the statement
+      */
     public static AspStmt parse(Scanner s) {
         enterParser("stmt");
         AspStmt stmt = null;

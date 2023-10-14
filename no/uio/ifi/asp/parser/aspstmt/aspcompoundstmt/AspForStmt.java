@@ -18,6 +18,11 @@ public class AspForStmt extends AspCompoundStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspForStmt}
+      * @return  {@code AspForStmt} with parsed information about the for loop
+      *          including its iterator, iterable and body
+      */
     public static AspStmt parse(Scanner s) {
         enterParser("for stmt");
         AspForStmt forStmt = new AspForStmt(s.curLineNum());

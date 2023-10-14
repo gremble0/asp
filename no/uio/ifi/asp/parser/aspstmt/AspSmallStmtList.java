@@ -15,6 +15,10 @@ public class AspSmallStmtList extends AspStmt {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspSmallStmtList}
+      * @return  {@code AspSmallStmtList} containing one or more {@code AspSmallStmt}s
+      */
     public static AspSmallStmtList parse(Scanner s) {
         enterParser("small stmt list");
         AspSmallStmtList smallStmtList = new AspSmallStmtList(s.curLineNum());
