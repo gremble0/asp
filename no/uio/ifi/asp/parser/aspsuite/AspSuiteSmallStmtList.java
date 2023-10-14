@@ -14,7 +14,7 @@ public class AspSuiteSmallStmtList extends AspSuite {
     /**
       * This method parses {@code AspSuite}s that consist of a {@code AspSmallStmtList}
       *
-      * @param s {@code Scanner} used for parsing the {@code AspSuiteSmallStmtList}
+      * @param s {@code Scanner} used and mutated to parse the {@code AspSuiteSmallStmtList}
       * @return  {@code AspSmallStmtList} with the body of a compound statement
       */
     public static AspSuiteSmallStmtList parse(Scanner s) {

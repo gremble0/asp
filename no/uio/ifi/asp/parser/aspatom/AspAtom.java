@@ -8,42 +8,37 @@ public abstract class AspAtom extends AspSyntax {
         super(n);
     }
     
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspAtom}
+      * @return  {@code AspAtom} with the literal value of the scanners current token
+      */
     public static AspAtom parse(Scanner s) {
         enterParser("atom");
-        AspAtom aa = null;
+        AspAtom atom = null;
 
         switch (s.curToken().kind) {
-        case falseToken:
-        case trueToken:
-            aa = AspBooleanLiteral.parse(s);
-            break;
+        case trueToken, falseToken:
+            atom = AspBooleanLiteral.parse(s); break;
         case integerToken:
-            aa = AspIntegerLiteral.parse(s);
-            break;
+            atom = AspIntegerLiteral.parse(s); break;
         case leftBraceToken:
-            aa = AspDictDisplay.parse(s);
-            break;
+            atom = AspDictDisplay.parse(s); break;
         case leftBracketToken:
-            aa = AspListDisplay.parse(s);
-            break;
+            atom = AspListDisplay.parse(s); break;
         case leftParToken:
-            aa = AspInnerExpr.parse(s);
-            break;
+            atom = AspInnerExpr.parse(s); break;
         case nameToken:
-            aa = AspName.parse(s);
-            break;
+            atom = AspName.parse(s); break;
         case noneToken:
-            aa = AspNoneLiteral.parse(s);
-            break;
+            atom = AspNoneLiteral.parse(s); break;
         case stringToken:
-            aa = AspStringLiteral.parse(s);
-            break;
+            atom = AspStringLiteral.parse(s); break;
         default:
             parserError("Expected an expression atom but found a " + s.curToken().kind + "!",
                         s.curLineNum());
         }
 
         leaveParser("atom");
-        return aa;
+        return atom;
     }
 }

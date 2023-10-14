@@ -15,6 +15,12 @@ public class AspListDisplay extends AspAtom {
         super(n);
     }
 
+    /**
+      * Parses tokens from the scanner to populate the expressions in the list
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspListDisplay}
+      * @return  {@code AspListDisplay} with a list of {@code AspExpr}s
+      */
     public static AspListDisplay parse(Scanner s) {
         enterParser("list display");
         AspListDisplay listDisplay = new AspListDisplay(s.curLineNum());

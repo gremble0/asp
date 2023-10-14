@@ -12,6 +12,10 @@ public class AspBooleanLiteral extends AspAtom {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspBooleanLiteral}
+      * @return  {@code AspBooleanLiteral} with the literal value of the scanners current token
+      */
     public static AspBooleanLiteral parse(Scanner s) {
         enterParser("boolean literal");
         AspBooleanLiteral booleanLiteral = new AspBooleanLiteral(s.curLineNum());

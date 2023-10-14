@@ -10,6 +10,11 @@ public class AspNoneLiteral extends AspAtom {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspNoneLiteral}
+      * @return  object of class {@code AspNoneLiteral} that represents the none value
+      *          in asp. This object is only useful to check its class
+      */
     public static AspNoneLiteral parse(Scanner s) {
         enterParser("none literal");
 

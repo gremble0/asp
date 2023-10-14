@@ -12,6 +12,12 @@ public class AspName extends AspAtom {
         super(n);
     }
 
+    /**
+      * Parses and stores a variable or function name
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspName}
+      * @return  {@code AspName} with the literal value of the scanners current token
+      */
     public static AspName parse(Scanner s) {
         enterParser("name");
         AspName name = new AspName(s.curLineNum());
@@ -30,7 +36,6 @@ public class AspName extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

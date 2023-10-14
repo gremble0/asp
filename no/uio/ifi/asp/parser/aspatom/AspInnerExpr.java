@@ -13,6 +13,12 @@ public class AspInnerExpr extends AspAtom {
         super(n);
     }
 
+    /**
+      * Parses an expression surrounded by parens
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspInnerExpr}
+      * @return  {@code AspInnerExpr} containing the parsed {@code AspExpr} 
+      */
     public static AspInnerExpr parse(Scanner s) {
         enterParser("inner expr");
         AspInnerExpr innerExpr = new AspInnerExpr(s.curLineNum());

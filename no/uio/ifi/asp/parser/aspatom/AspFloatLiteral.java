@@ -12,6 +12,10 @@ public class AspFloatLiteral extends AspAtom {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspFloatLiteral}
+      * @return  {@code AspFloatLiteral} with the literal value of the scanners current token
+      */
     public static AspFloatLiteral parse(Scanner s) {
         enterParser("float literal");
         AspFloatLiteral floatLiteral = new AspFloatLiteral(s.curLineNum());

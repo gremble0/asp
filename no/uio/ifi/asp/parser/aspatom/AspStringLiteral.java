@@ -12,6 +12,10 @@ public class AspStringLiteral extends AspAtom {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspStringLiteral}
+      * @return  {@code AspStringLiteral} with the literal value of the scanners current token
+      */
     public static AspStringLiteral parse(Scanner s) {
         enterParser("string literal");
         AspStringLiteral stringLiteral = new AspStringLiteral(s.curLineNum());

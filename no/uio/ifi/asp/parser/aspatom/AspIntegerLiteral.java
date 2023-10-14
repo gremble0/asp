@@ -12,6 +12,10 @@ public class AspIntegerLiteral extends AspAtom {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspIntegerLiteral}
+      * @return  {@code AspIntegerLiteral} with the literal value of the scanners current token
+      */
     public static AspIntegerLiteral parse(Scanner s) {
         enterParser("integer literal");
         AspIntegerLiteral integerLiteral = new AspIntegerLiteral(s.curLineNum());

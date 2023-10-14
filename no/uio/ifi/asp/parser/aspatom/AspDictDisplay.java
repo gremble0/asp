@@ -17,6 +17,12 @@ public class AspDictDisplay extends AspAtom {
         super(n);
     }
 
+    /**
+      * Parses tokens from the scanner to populate a dictionarys keys and values
+      *
+      * @param s {@code Scanner} used and mutated to parse the {@code AspDictDisplay}
+      * @return  {@code AspDictDisplay} populated with keys and values
+      */
     public static AspDictDisplay parse(Scanner s) {
         enterParser("dict display");
         AspDictDisplay dictDisplay = new AspDictDisplay(s.curLineNum());
