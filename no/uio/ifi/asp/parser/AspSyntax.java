@@ -36,11 +36,25 @@ public abstract class AspSyntax {
                     s.curToken().kind + "!", s.curLineNum());
     }
 
+    /**
+      * Checks if the current token in the {@code Scanner} is equal to parameter
+      * {@code TokenKind}. If it is, skip it, otherwise raise error.
+      *
+      * @param s  {@code Scanner} to check for current token
+      * @param tk {@code TokenKind} to check for equality with current token
+      */
     public static void skip(Scanner s, TokenKind tk) {
         test(s, tk);
         s.readNextToken();
     }
 
+    /**
+      * Checks if the current token in the {@code Scanner} is equal to parameter
+      * {@code TokenKind}. If it is, skip it, otherwise do nothing.
+      *
+      * @param s  {@code Scanner} to check for current token
+      * @param tk {@code TokenKind} to check for equality with current token
+      */
     public static void ignore(Scanner s, TokenKind tk) {
         if (s.curToken().kind == tk)
             s.readNextToken();

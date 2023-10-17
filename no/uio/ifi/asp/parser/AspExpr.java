@@ -14,6 +14,11 @@ public class AspExpr extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspExpr}
+      * @return  {@code AspExpr} with parsed information about the expression
+      *          including all {@code AspAndTest}s
+      */
     public static AspExpr parse(Scanner s) {
         enterParser("expr");
         AspExpr expr = new AspExpr(s.curLineNum());

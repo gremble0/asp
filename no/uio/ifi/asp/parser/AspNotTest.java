@@ -13,6 +13,12 @@ public class AspNotTest extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspNotTest}
+      * @return  {@code AspNotTest} with parsed information about the not test
+      *          including whether its negated or not (prefixed by a not token) and
+      *          the {@code AspComparison}
+      */
     public static AspNotTest parse(Scanner s) {
         enterParser("not test");
         AspNotTest notTest = new AspNotTest(s.curLineNum());

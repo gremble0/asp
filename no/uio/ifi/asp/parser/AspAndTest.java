@@ -14,6 +14,11 @@ public class AspAndTest extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspAndTest}
+      * @return  {@code AspAndTest} with parsed information about all
+      *          {@code AspNotTest}s
+      */
     public static AspAndTest parse(Scanner s) {
         enterParser("and test");
         AspAndTest andTest = new AspAndTest(s.curLineNum());

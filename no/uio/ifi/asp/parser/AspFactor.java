@@ -14,6 +14,12 @@ public class AspFactor extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspFactor}
+      * @return  {@code AspFactor} with parsed information about the factor
+      *          consisting of 1 or more {@code AspPrimary}s and any potential
+      *          {@code AspFactorPrefix}es and {@code AspFactorOpr}s
+      */
     public static AspFactor parse(Scanner s) {
         enterParser("factor");
         AspFactor factor = new AspFactor(s.curLineNum());

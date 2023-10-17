@@ -15,6 +15,14 @@ public class AspProgram extends AspSyntax {
         super(n);
     }
 
+    /**
+      * Main entrypoint from where you would start the recursive descent to parse
+      * an asp program. Calling this method will delegate the parsing of the program
+      * to each of its subclasses.
+      *
+      * @param s {@code Scanner} used for parsing the {@code AspProgram}
+      * @return  {@code AspPrimary} with parsed information about its {@code AspStmt}s
+      */
     public static AspProgram parse(Scanner s) {
         enterParser("program");
         AspProgram program = new AspProgram(s.curLineNum());

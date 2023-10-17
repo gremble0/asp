@@ -13,6 +13,12 @@ public class AspTerm extends AspSyntax {
         super(n);
     }
     
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspTerm}
+      * @return  {@code AspTerm} with parsed information about the terminal
+      *          consisting of 1 or more {@code AspFactor}s and any potential
+      *          {@code AspTermOpr}s
+      */
     static AspTerm parse(Scanner s) {
         enterParser("term");
         AspTerm term = new AspTerm(s.curLineNum());

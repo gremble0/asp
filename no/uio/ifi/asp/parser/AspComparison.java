@@ -13,6 +13,11 @@ public class AspComparison extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspComparison}
+      * @return  {@code AspComparison} with parsed information about the comparison
+      *          including all {@code AspTerm}s and any potential {@code AspCompOpr}s
+      */
     public static AspComparison parse(Scanner s) {
         enterParser("comparison");
         AspComparison comparison = new AspComparison(s.curLineNum());
