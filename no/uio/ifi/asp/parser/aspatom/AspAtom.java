@@ -9,8 +9,11 @@ public abstract class AspAtom extends AspSyntax {
     }
     
     /**
+      * Calls the appropriate {@code AspAtom} subclass parse method
+      *
       * @param s {@code Scanner} used and mutated to parse the {@code AspAtom}
-      * @return  {@code AspAtom} with the literal value of the scanners current token
+      * @return  Instance of a subclass of {@code AspAtom} with the literal
+      *          value of the scanners current token
       */
     public static AspAtom parse(Scanner s) {
         enterParser("atom");

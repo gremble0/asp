@@ -28,6 +28,11 @@ public abstract class AspSuite extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used and mutated to parse the {@code AspSuite}
+      * @return  {@code AspWhileStmt} with parsed information about the loop
+      *          including its test condition and body
+      */
     public static AspSuite parse(Scanner s) {
         enterParser("suite");
         AspSuite suite = null;
