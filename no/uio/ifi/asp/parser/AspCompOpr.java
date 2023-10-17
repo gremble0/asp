@@ -7,13 +7,24 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspCompOpr extends AspSyntax {
-    public static TokenKind[] compOprs = { lessToken, greaterToken, doubleEqualToken, greaterEqualToken, lessEqualToken, notEqualToken };
+    private static TokenKind[] compOprs = {
+        lessToken,
+        greaterToken,
+        doubleEqualToken,
+        greaterEqualToken,
+        lessEqualToken,
+        notEqualToken,
+    };
     public TokenKind compOprKind;
     
     public AspCompOpr(int n) {
         super(n);
     }
 
+    /**
+     * @param tokKind {@code TokenKind} to check if is a comparison operator
+     * @return        {@code true} if parameter is a comparison operator, {@code false} if not
+     */
     public static boolean isCompOpr(TokenKind tokKind) {
         for (TokenKind compOpr : AspCompOpr.compOprs) {
             if (tokKind == compOpr)
@@ -23,6 +34,11 @@ public class AspCompOpr extends AspSyntax {
         return false;
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspCompOpr}
+      * @return  {@code AspCompOpr} with information about what type of
+      *          comparison operator it is
+      */
     public static AspCompOpr parse(Scanner s) {
         enterParser("comp opr");
         AspCompOpr compOpr = new AspCompOpr(s.curLineNum());

@@ -7,13 +7,20 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspFactorPrefix extends AspSyntax {
-    public static TokenKind[] factorPrefixes = { plusToken, minusToken };
+    private static TokenKind[] factorPrefixes = {
+        plusToken,
+        minusToken,
+    };
     public TokenKind factorPrefixKind;
     
     public AspFactorPrefix(int n) {
         super(n);
     }
 
+    /**
+     * @param tokKind {@code TokenKind} to check if is a factor prefix
+     * @return        {@code true} if parameter is a factor prefix, {@code false} if not
+     */
     public static boolean isFactorPrefix(TokenKind tokKind) {
         for (TokenKind factorPrefix : AspFactorPrefix.factorPrefixes) {
             if (tokKind == factorPrefix)
@@ -23,6 +30,11 @@ public class AspFactorPrefix extends AspSyntax {
         return false;
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspFactorPrefix}
+      * @return  {@code AspFactorPrefix} with information about what type of
+      *          factor prefix it is
+      */
     public static AspFactorPrefix parse(Scanner s) {
         enterParser("factor prefix");
         AspFactorPrefix factorPrefix = new AspFactorPrefix(s.curLineNum());

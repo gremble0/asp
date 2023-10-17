@@ -17,6 +17,11 @@ public class AspPrimary extends AspSyntax {
         super(n);
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspPrimary}
+      * @return  {@code AspPrimary} with parsed information about its {@code AspAtom}
+      *          and any potential {@code AspPrimarySuffix}es
+      */
     public static AspPrimary parse(Scanner s) {
         enterParser("primary");
         AspPrimary primary = new AspPrimary(s.curLineNum());

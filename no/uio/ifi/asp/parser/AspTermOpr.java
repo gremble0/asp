@@ -7,13 +7,20 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspTermOpr extends AspSyntax {
-    public static TokenKind[] termOprs = { plusToken, minusToken };
+    private static TokenKind[] termOprs = {
+        plusToken,
+        minusToken,
+    };
     public TokenKind termOprKind;
     
     public AspTermOpr(int n) {
         super(n);
     }
 
+    /**
+     * @param tokKind {@code TokenKind} to check if is a terminal operator
+     * @return        {@code true} if parameter is a terminal operator, {@code false} if not
+     */
     public static boolean isTermOpr(TokenKind tokKind) {
         for (TokenKind termOpr : AspTermOpr.termOprs) {
             if (tokKind == termOpr)
@@ -23,6 +30,11 @@ public class AspTermOpr extends AspSyntax {
         return false;
     }
 
+    /**
+      * @param s {@code Scanner} used for parsing the {@code AspTermOpr}
+      * @return  {@code AspTermOpr} with information about what type of
+      *          terminal operator it is
+      */
     public static AspTermOpr parse(Scanner s) {
         enterParser("term opr");
         AspTermOpr termOpr = new AspTermOpr(s.curLineNum());
