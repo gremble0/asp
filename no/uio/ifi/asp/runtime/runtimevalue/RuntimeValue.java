@@ -1,6 +1,4 @@
-// © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
-
-package no.uio.ifi.asp.runtime;
+package no.uio.ifi.asp.runtime.runtimevalue;
 
 import java.util.ArrayList;
 
