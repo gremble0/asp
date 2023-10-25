@@ -29,6 +29,7 @@ public class RuntimeBoolValue extends RuntimeValue {
         if (v instanceof RuntimeNoneValue) {
             return new RuntimeBoolValue(false);
         }
+
         runtimeError("Type error for ==.", where);
         return null; // Required by the compiler
     }

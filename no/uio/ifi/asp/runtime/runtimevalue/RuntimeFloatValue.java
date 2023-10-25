@@ -2,6 +2,7 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 
+// TODO: maybe write RuntimeNumberValue abstract class
 public class RuntimeFloatValue extends RuntimeValue {
     double floatValue;
 
@@ -11,7 +12,7 @@ public class RuntimeFloatValue extends RuntimeValue {
 
     @Override
     String typeName() {
-        return "integer";
+        return "float";
     }
 
     @Override
