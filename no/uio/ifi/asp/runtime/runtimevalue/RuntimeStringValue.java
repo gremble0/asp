@@ -155,9 +155,4 @@ public class RuntimeStringValue extends RuntimeValue {
         runtimeError("Type error for ==.", where);
         return null; // Required by the compiler
     }
-
-    @Override
-    public RuntimeValue evalPositive(AspSyntax where) {
-        return new RuntimeFloatValue(+floatValue);
-    }
 }
