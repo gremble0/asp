@@ -3,17 +3,17 @@
 # and compare the logged outputs to see if both interpreters behave identically
 
 if [ -z "$1" ]; then
-    TESTCHECKPOINT="parser"
+    TESTCHECKPOINT="expr"
 else
     if [ "$1" != "parser" ] && [ "$1" != "scanner" ]; then
-        echo "Argument needs to be one of ['parser', 'scanner']"
+        echo "Argument needs to be one of ['parser', 'scanner', 'expr']"
         exit 1
     fi
 
     TESTCHECKPOINT="$1"
 fi
 
-echo "Comparing interpreter with the reference interpreter for the $TESTCHECKPOINT"
+echo "Comparing interpreter with the reference interpreter using the -test$TESTCHECKPOINT flag"
 
 rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
 aspfiles=$(ls "./test/$TESTCHECKPOINT")
