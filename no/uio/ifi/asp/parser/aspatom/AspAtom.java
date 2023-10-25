@@ -21,21 +21,32 @@ public abstract class AspAtom extends AspSyntax {
 
         switch (s.curToken().kind) {
         case trueToken, falseToken:
-            atom = AspBooleanLiteral.parse(s); break;
+            atom = AspBooleanLiteral.parse(s);
+            break;
         case integerToken:
-            atom = AspIntegerLiteral.parse(s); break;
+            atom = AspIntegerLiteral.parse(s);
+            break;
+        case floatToken:
+            atom = AspFloatLiteral.parse(s);
+            break;
         case leftBraceToken:
-            atom = AspDictDisplay.parse(s); break;
+            atom = AspDictDisplay.parse(s);
+            break;
         case leftBracketToken:
-            atom = AspListDisplay.parse(s); break;
+            atom = AspListDisplay.parse(s);
+            break;
         case leftParToken:
-            atom = AspInnerExpr.parse(s); break;
+            atom = AspInnerExpr.parse(s);
+            break;
         case nameToken:
-            atom = AspName.parse(s); break;
+            atom = AspName.parse(s);
+            break;
         case noneToken:
-            atom = AspNoneLiteral.parse(s); break;
+            atom = AspNoneLiteral.parse(s);
+            break;
         case stringToken:
-            atom = AspStringLiteral.parse(s); break;
+            atom = AspStringLiteral.parse(s);
+            break;
         default:
             parserError("Expected an expression atom but found a " + s.curToken().kind + "!",
                         s.curLineNum());
