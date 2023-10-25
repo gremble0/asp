@@ -2,7 +2,10 @@ package no.uio.ifi.asp.parser.aspatom;
 
 import static no.uio.ifi.asp.scanner.TokenKind.floatToken;
 
-import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeFloatValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFloatLiteral extends AspAtom {
@@ -34,6 +37,6 @@ public class AspFloatLiteral extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        return new RuntimeFloatValue(floatLit);
     }
 }

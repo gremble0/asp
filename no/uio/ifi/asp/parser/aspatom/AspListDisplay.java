@@ -5,7 +5,10 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspExpr;
-import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeListValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspListDisplay extends AspAtom {
