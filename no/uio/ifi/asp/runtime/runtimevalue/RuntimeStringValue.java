@@ -59,6 +59,7 @@ public class RuntimeStringValue extends RuntimeValue {
         }
         String vStringValue = v.toString();
 
+        // Simple optimization, if the strings are different lengths they cant be equal
         if (vStringValue.length() != stringValue.length())
             return new RuntimeBoolValue(stringValue.length() > vStringValue.length());
 

@@ -152,7 +152,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeListValue)
-            return new RuntimeBoolValue(rtValues != v.getListValue("!= operand", where);
+            return new RuntimeBoolValue(rtValues != v.getListValue("!= operand", where));
 
         runtimeError("Type error for ==.", where);
         return null; // Required by the compiler

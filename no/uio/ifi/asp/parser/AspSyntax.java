@@ -2,6 +2,7 @@ package no.uio.ifi.asp.parser;
 
 import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 

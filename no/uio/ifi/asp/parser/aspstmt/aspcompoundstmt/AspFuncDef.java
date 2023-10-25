@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
-import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFuncDef extends AspCompoundStmt {

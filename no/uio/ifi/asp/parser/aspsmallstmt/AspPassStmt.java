@@ -2,7 +2,9 @@ package no.uio.ifi.asp.parser.aspsmallstmt;
 
 import static no.uio.ifi.asp.scanner.TokenKind.passToken;
 
-import no.uio.ifi.asp.runtime.*;
+import no.uio.ifi.asp.runtime.RuntimeReturnValue;
+import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspPassStmt extends AspSmallStmt {
