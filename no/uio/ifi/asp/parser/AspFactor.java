@@ -62,58 +62,49 @@ public class AspFactor extends AspSyntax {
         }
     }
 
-    @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // TODO: refactor to foreach with v = null etc.
         RuntimeValue v = primaries.get(0).eval(curScope);
         AspFactorPrefix factorPrefix = prefixes.get(0);
-        if (factorPrefix != null) {
-            switch (factorPrefix.kind) {
-            case plusToken:
-                v = v.evalPositive(this);
-                break;
-            case minusToken:
-                v = v.evalNegate(this);
-                break;
-            default:
-                Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
-            }
-        }
+        if (factorPrefix != null)
+            v = evalFactorPrefixKind(v, factorPrefix);
 
         for (int i = 1; i < primaries.size(); ++i) {
             factorPrefix = prefixes.get(i);
-            if (factorPrefix != null) {
-                switch (factorPrefix.kind) {
-                case plusToken:
-                    v = v.evalPositive(this);
-                    break;
-                case minusToken:
-                    v = v.evalNegate(this);
-                    break;
-                default:
-                    Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
-                }
-            }
-
+            if (factorPrefix != null)
+                v = evalFactorPrefixKind(v, factorPrefix);
+ 
             TokenKind factorOprKind = factorOprs.get(i - 1).kind;
-            switch (factorOprKind) {
-            case astToken:
-                v = v.evalMultiply(primaries.get(i).eval(curScope), this);
-                break;
-            case slashToken:
-                v = v.evalDivide(primaries.get(i).eval(curScope), this);
-                break;
-            case percentToken:
-                v = v.evalModulo(primaries.get(i).eval(curScope), this);
-                break;
-            case doubleSlashToken:
-                v = v.evalIntDivide(primaries.get(i).eval(curScope), this);
-                break;
-            default:
-                Main.panic("Illegal factor operator: " + factorOprKind + "!");
-            }
+            v = evalFactorOprKind(v, primaries.get(i).eval(curScope), factorOprKind);
         }
 
         return v;
+    }
+
+    private RuntimeValue evalFactorPrefixKind(RuntimeValue v, AspFactorPrefix factorPrefix) {
+        switch (factorPrefix.kind) {
+            case plusToken:
+                return v.evalPositive(this);
+            case minusToken:
+                return v.evalNegate(this);
+            default:
+                Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
+                return null; // unreachable, added to avoid compiler error
+        }
+    }
+
+    private RuntimeValue evalFactorOprKind(RuntimeValue v1, RuntimeValue v2, TokenKind kind) {
+        switch (kind) {
+        case astToken:
+            return v1.evalMultiply(v2, this);
+        case slashToken:
+            return v1.evalDivide(v2, this);
+        case percentToken:
+            return v1.evalModulo(v2, this);
+        case doubleSlashToken:
+            return v1.evalIntDivide(v2, this);
+        default:
+            Main.panic("Illegal factor operator: " + kind + "!");
+            return null; // unreachable, added to avoid compiler error
+        }
     }
 }
