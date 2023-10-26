@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeListValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -49,9 +50,7 @@ public class AspProgram extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        RuntimeValue v = statements.get(0).eval(curScope);
-        // for (int i = 1; i < statements.size(); ++i)
-        //     v = statements.get(i - 1).eval(curScope);
+        RuntimeValue v = null;
         for (AspStmt statement : statements)
             v = statement.eval(curScope);
 

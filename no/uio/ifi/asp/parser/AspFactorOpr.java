@@ -4,7 +4,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.RuntimeValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
@@ -15,7 +15,7 @@ public class AspFactorOpr extends AspSyntax {
         percentToken,
         doubleSlashToken,
     };
-    public TokenKind factorOprKind;
+    public TokenKind factorOprKind; // TODO: rename to kind
     
     public AspFactorOpr(int n) {
         super(n);
@@ -57,7 +57,6 @@ public class AspFactorOpr extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
         return null;
     }
 }

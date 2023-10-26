@@ -2,10 +2,12 @@ package no.uio.ifi.asp.parser;
 
 import java.util.ArrayList;
 
+import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
+import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspFactor extends AspSyntax {
     public ArrayList<AspFactorPrefix> prefixes = new ArrayList<>();
@@ -27,15 +29,17 @@ public class AspFactor extends AspSyntax {
         AspFactor factor = new AspFactor(s.curLineNum());
 
         while (true) {
-            if (AspFactorPrefix.isFactorPrefix(s.curToken().kind)) {
+            if (AspFactorPrefix.isFactorPrefix(s.curToken().kind))
                 factor.prefixes.add(AspFactorPrefix.parse(s));
-            } else if (AspFactorOpr.isFactorOpr(s.curToken().kind)) {
+            else 
+                factor.prefixes.add(null);
+
+            factor.primaries.add(AspPrimary.parse(s));
+            if (!AspFactorOpr.isFactorOpr(s.curToken().kind))
+                break;
+
+            if (AspFactorOpr.isFactorOpr(s.curToken().kind))
                 factor.factorOprs.add(AspFactorOpr.parse(s));
-            } else {
-                factor.primaries.add(AspPrimary.parse(s));
-                if (!AspFactorOpr.isFactorOpr(s.curToken().kind))
-                    break;
-            }
         }
         
         leaveParser("factor");
@@ -46,7 +50,7 @@ public class AspFactor extends AspSyntax {
     public void prettyPrint() {
         int n = 0;
         while (n < primaries.size()) {
-            if (n < prefixes.size())
+            if (prefixes.get(n) != null)
                 prefixes.get(n).prettyPrint();
 
             primaries.get(n).prettyPrint();
@@ -60,6 +64,29 @@ public class AspFactor extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        // TODO: refactor to foreach with v = null etc.
+        RuntimeValue v = primaries.get(0).eval(curScope);
+
+        for (int i = 1; i < primaries.size(); ++i) {
+            TokenKind k = factorOprs.get(i - 1).factorOprKind;
+            switch (k) {
+            case astToken:
+                v = v.evalMultiply(primaries.get(i).eval(curScope), this);
+                break;
+            case slashToken:
+                v = v.evalDivide(primaries.get(i).eval(curScope), this);
+                break;
+            case percentToken:
+                v = v.evalModulo(primaries.get(i).eval(curScope), this);
+                break;
+            case doubleSlashToken:
+                v = v.evalIntDivide(primaries.get(i).eval(curScope), this);
+                break;
+            default:
+                Main.panic("Illegal term operator: " + k + "!");
+            }
+        }
+
+        return v;
     }
 }
