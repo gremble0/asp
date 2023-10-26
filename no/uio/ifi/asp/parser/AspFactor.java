@@ -68,8 +68,22 @@ public class AspFactor extends AspSyntax {
         RuntimeValue v = primaries.get(0).eval(curScope);
 
         for (int i = 1; i < primaries.size(); ++i) {
-            TokenKind k = factorOprs.get(i - 1).factorOprKind;
-            switch (k) {
+            TokenKind factorPrefixKind = prefixes.get(i - 1).factorPrefixKind;
+            if (factorPrefixKind != null) {
+                switch (factorPrefixKind) {
+                case plusToken:
+                    v = v.evalPositive(this);
+                    break;
+                case minusToken:
+                    v = v.evalNegate(this);
+                    break;
+                default:
+                    Main.panic("Illegal factor prefix: " + factorPrefixKind + "!");
+                }
+            }
+
+            TokenKind factorOprKind = factorOprs.get(i - 1).factorOprKind;
+            switch (factorOprKind) {
             case astToken:
                 v = v.evalMultiply(primaries.get(i).eval(curScope), this);
                 break;
@@ -83,7 +97,7 @@ public class AspFactor extends AspSyntax {
                 v = v.evalIntDivide(primaries.get(i).eval(curScope), this);
                 break;
             default:
-                Main.panic("Illegal term operator: " + k + "!");
+                Main.panic("Illegal factor operator: " + factorOprKind + "!");
             }
         }
 

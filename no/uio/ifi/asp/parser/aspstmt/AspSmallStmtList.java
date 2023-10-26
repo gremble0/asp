@@ -53,6 +53,10 @@ public class AspSmallStmtList extends AspStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        RuntimeValue v = null;
+        for (AspSmallStmt statement : smallStmts)
+            v = statement.eval(curScope);
+
+        return v;
     }
 }
