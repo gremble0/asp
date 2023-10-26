@@ -15,6 +15,14 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
+    public String showInfo() {
+        if (stringValue.indexOf('\'') >= 0)
+            return "\"" + stringValue + "\"";
+        else
+            return "'" + stringValue + "'";
+    }
+
+    @Override
     public String toString() {
         return stringValue;
     }
@@ -38,7 +46,7 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalAdd(RuntimeValue v, AspSyntax where) {
-        return new RuntimeStringValue(v.toString() + stringValue);
+        return new RuntimeStringValue(stringValue + v.toString());
     }
 
     @Override
