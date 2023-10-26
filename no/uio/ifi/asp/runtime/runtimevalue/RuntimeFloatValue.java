@@ -175,4 +175,15 @@ public class RuntimeFloatValue extends RuntimeValue {
     public RuntimeValue evalPositive(AspSyntax where) {
         return new RuntimeFloatValue(+floatValue);
     }
+
+    @Override
+    public RuntimeValue evalSubtract(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeIntValue)
+            return new RuntimeFloatValue(floatValue - v.getIntValue("+ operand", where));
+        else if (v instanceof RuntimeFloatValue)
+            return new RuntimeFloatValue(floatValue - v.getFloatValue("+ operand", where));
+
+        runtimeError("Type error for -.", where);
+        return null;
+    }
 }
