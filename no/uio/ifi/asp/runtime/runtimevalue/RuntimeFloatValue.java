@@ -65,6 +65,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue == v.getIntValue("== operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue == v.getFloatValue("== operand", where));
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalEqual(this, where);
 
         runtimeError("Type error for ==.", where);
         return null; // Required by the compiler
@@ -76,6 +78,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue > v.getIntValue("> operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue > v.getFloatValue("> operand", where));
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalLess(this, where);
 
         runtimeError("Type error for >.", where);
         return null; // Required by the compiler
@@ -87,6 +91,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue >= v.getIntValue(">= operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue >= v.getFloatValue(">= operand", where));
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalLessEqual(this, where);
 
         runtimeError("Type error for >=.", where);
         return null; // Required by the compiler
@@ -109,6 +115,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue < v.getIntValue("< operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue < v.getFloatValue("< operand", where));
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalGreater(this, where);
 
         runtimeError("Type error for <.", where);
         return null; // Required by the compiler
@@ -120,6 +128,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue <= v.getIntValue("<= operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue <= v.getFloatValue("<= operand", where));
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalGreaterEqual(this, where);
 
         runtimeError("Type error for <=.", where);
         return null; // Required by the compiler

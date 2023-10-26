@@ -26,10 +26,71 @@ public class RuntimeBoolValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeBoolValue))
-            return new RuntimeBoolValue(false);
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue == v.getBoolValue("== operand", where));
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                boolValue == true && v.getIntValue("== operand", where) == 1 ||
+                boolValue == false && v.getIntValue("== operand", where) == 0
+            );
 
-        return new RuntimeBoolValue(boolValue == v.getBoolValue("== operand", where));
+        return new RuntimeBoolValue(false);
+    }
+
+    @Override
+    public RuntimeValue evalGreater(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue == true && v.getBoolValue("> operand", where) == false);
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                (boolValue == true && v.getIntValue("> operand", where) < 1) ||
+                (boolValue == false && v.getIntValue("> operand", where) < 0)
+            );
+
+        runtimeError("Type error for >.", where);
+        return null; // Required by the compiler
+    }
+
+    @Override
+    public RuntimeValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue == true && v.getBoolValue(">= operand", where) == false);
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                (boolValue == true && v.getIntValue(">= operand", where) <= 1) ||
+                (boolValue == false && v.getIntValue(">= operand", where) <= 0)
+            );
+
+        runtimeError("Type error for >=.", where);
+        return null; // Required by the compiler
+    }
+
+    @Override
+    public RuntimeValue evalLess(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue == false && v.getBoolValue("< operand", where) == true);
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                (boolValue == true && v.getIntValue("< operand", where) > 1) ||
+                (boolValue == false && v.getIntValue("< operand", where) > 0)
+            );
+
+        runtimeError("Type error for <.", where);
+        return null; // Required by the compiler
+    }
+
+    @Override
+    public RuntimeValue evalLessEqual(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue == false && v.getBoolValue("< operand", where) == true);
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                (boolValue == true && v.getIntValue("< operand", where) >= 1) ||
+                (boolValue == false && v.getIntValue("< operand", where) >= 0)
+            );
+
+        runtimeError("Type error for <=.", where);
+        return null; // Required by the compiler
     }
 
     @Override
@@ -39,9 +100,14 @@ public class RuntimeBoolValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeBoolValue))
-            return new RuntimeBoolValue(false);
+        if (v instanceof RuntimeBoolValue)
+            return new RuntimeBoolValue(boolValue != v.getBoolValue("!= operand", where));
+        else if (v instanceof RuntimeIntValue || v instanceof RuntimeFloatValue)
+            return new RuntimeBoolValue(
+                boolValue == true && v.getIntValue("!= operand", where) != 1 ||
+                boolValue == false && v.getIntValue("!= operand", where) != 0
+            );
 
-        return new RuntimeBoolValue(boolValue != v.getBoolValue("!= operand", where));
+        return new RuntimeBoolValue(true);
     }
 }
