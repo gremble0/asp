@@ -161,7 +161,7 @@ public class RuntimeStringValue extends RuntimeValue {
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() != stringValue);
 
-        runtimeError("Type error for ==.", where);
+        runtimeError("Type error for !=.", where);
         return null; // Required by the compiler
     }
 }
