@@ -13,7 +13,7 @@ public class AspTermOpr extends AspSyntax {
         plusToken,
         minusToken,
     };
-    public TokenKind termOprKind;
+    public TokenKind kind;
     
     public AspTermOpr(int n) {
         super(n);
@@ -41,7 +41,7 @@ public class AspTermOpr extends AspSyntax {
         enterParser("term opr");
         AspTermOpr termOpr = new AspTermOpr(s.curLineNum());
 
-        termOpr.termOprKind = s.curToken().kind;
+        termOpr.kind = s.curToken().kind;
         s.readNextToken();
         
         leaveParser("term opr");
@@ -50,7 +50,7 @@ public class AspTermOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        prettyWrite(termOprKind.toString());
+        prettyWrite(kind.toString());
     }
 
     @Override

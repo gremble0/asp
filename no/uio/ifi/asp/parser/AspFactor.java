@@ -31,15 +31,15 @@ public class AspFactor extends AspSyntax {
         while (true) {
             if (AspFactorPrefix.isFactorPrefix(s.curToken().kind))
                 factor.prefixes.add(AspFactorPrefix.parse(s));
-            else 
+            else
                 factor.prefixes.add(null);
 
             factor.primaries.add(AspPrimary.parse(s));
+
             if (!AspFactorOpr.isFactorOpr(s.curToken().kind))
                 break;
 
-            if (AspFactorOpr.isFactorOpr(s.curToken().kind))
-                factor.factorOprs.add(AspFactorOpr.parse(s));
+            factor.factorOprs.add(AspFactorOpr.parse(s));
         }
         
         leaveParser("factor");
@@ -66,11 +66,24 @@ public class AspFactor extends AspSyntax {
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         // TODO: refactor to foreach with v = null etc.
         RuntimeValue v = primaries.get(0).eval(curScope);
+        AspFactorPrefix factorPrefix = prefixes.get(0);
+        if (factorPrefix != null) {
+            switch (factorPrefix.kind) {
+            case plusToken:
+                v = v.evalPositive(this);
+                break;
+            case minusToken:
+                v = v.evalNegate(this);
+                break;
+            default:
+                Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
+            }
+        }
 
         for (int i = 1; i < primaries.size(); ++i) {
-            AspFactorPrefix factorPrefix = prefixes.get(i - 1);
+            factorPrefix = prefixes.get(i);
             if (factorPrefix != null) {
-                switch (factorPrefix.factorPrefixKind) {
+                switch (factorPrefix.kind) {
                 case plusToken:
                     v = v.evalPositive(this);
                     break;
@@ -78,11 +91,11 @@ public class AspFactor extends AspSyntax {
                     v = v.evalNegate(this);
                     break;
                 default:
-                    Main.panic("Illegal factor prefix: " + factorPrefix.factorPrefixKind + "!");
+                    Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
                 }
             }
 
-            TokenKind factorOprKind = factorOprs.get(i - 1).factorOprKind;
+            TokenKind factorOprKind = factorOprs.get(i - 1).kind;
             switch (factorOprKind) {
             case astToken:
                 v = v.evalMultiply(primaries.get(i).eval(curScope), this);

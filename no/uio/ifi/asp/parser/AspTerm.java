@@ -61,7 +61,7 @@ public class AspTerm extends AspSyntax {
         RuntimeValue v = factors.get(0).eval(curScope);
 
         for (int i = 1; i < factors.size(); ++i) {
-            TokenKind k = termOprs.get(i - 1).termOprKind;
+            TokenKind k = termOprs.get(i - 1).kind;
             switch (k) {
             case minusToken:
                 v = v.evalSubtract(factors.get(i).eval(curScope), this);

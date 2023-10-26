@@ -17,7 +17,7 @@ public class AspCompOpr extends AspSyntax {
         lessEqualToken,
         notEqualToken,
     };
-    public TokenKind compOprKind;
+    public TokenKind kind;
     
     public AspCompOpr(int n) {
         super(n);
@@ -45,7 +45,7 @@ public class AspCompOpr extends AspSyntax {
         enterParser("comp opr");
         AspCompOpr compOpr = new AspCompOpr(s.curLineNum());
 
-        compOpr.compOprKind = s.curToken().kind;
+        compOpr.kind = s.curToken().kind;
         skip(s, s.curToken().kind);
         
         leaveParser("comp opr");
@@ -54,7 +54,7 @@ public class AspCompOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        prettyWrite(" " + compOprKind.toString() + " ");
+        prettyWrite(" " + kind.toString() + " ");
     }
 
     @Override

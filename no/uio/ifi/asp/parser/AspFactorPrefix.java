@@ -13,7 +13,7 @@ public class AspFactorPrefix extends AspSyntax {
         plusToken,
         minusToken,
     };
-    public TokenKind factorPrefixKind;
+    public TokenKind kind;
     
     public AspFactorPrefix(int n) {
         super(n);
@@ -41,7 +41,7 @@ public class AspFactorPrefix extends AspSyntax {
         enterParser("factor prefix");
         AspFactorPrefix factorPrefix = new AspFactorPrefix(s.curLineNum());
 
-        factorPrefix.factorPrefixKind = s.curToken().kind;
+        factorPrefix.kind = s.curToken().kind;
         s.readNextToken();
         
         leaveParser("factor prefix");
@@ -51,11 +51,21 @@ public class AspFactorPrefix extends AspSyntax {
     @Override
     public void prettyPrint() {
         // " " to match reference interpreter
-        prettyWrite(factorPrefixKind.toString() + " ");
+        prettyWrite(kind.toString() + " ");
     }
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        // switch (factorPrefixKind) {
+        // case plusToken:
+        //     v = v.evalPositive(this);
+        //     break;
+        // case minusToken:
+        //     v = v.evalNegate(this);
+        //     break;
+        // default:
+        //     Main.panic("Illegal factor prefix: " + factorPrefixKind + "!");
+        // }
         return null;
     }
 }

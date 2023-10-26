@@ -15,7 +15,7 @@ public class AspFactorOpr extends AspSyntax {
         percentToken,
         doubleSlashToken,
     };
-    public TokenKind factorOprKind; // TODO: rename to kind
+    public TokenKind kind;
     
     public AspFactorOpr(int n) {
         super(n);
@@ -43,7 +43,7 @@ public class AspFactorOpr extends AspSyntax {
         enterParser("factor opr");
         AspFactorOpr factorOpr = new AspFactorOpr(s.curLineNum());
 
-        factorOpr.factorOprKind = s.curToken().kind;
+        factorOpr.kind = s.curToken().kind;
         s.readNextToken();
         
         leaveParser("factor opr");
@@ -52,7 +52,7 @@ public class AspFactorOpr extends AspSyntax {
 
     @Override
     public void prettyPrint() {
-        prettyWrite(" " + factorOprKind.toString() + " ");
+        prettyWrite(" " + kind.toString() + " ");
     }
 
     @Override
