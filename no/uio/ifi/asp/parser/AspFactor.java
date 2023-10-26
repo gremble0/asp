@@ -68,9 +68,9 @@ public class AspFactor extends AspSyntax {
         RuntimeValue v = primaries.get(0).eval(curScope);
 
         for (int i = 1; i < primaries.size(); ++i) {
-            TokenKind factorPrefixKind = prefixes.get(i - 1).factorPrefixKind;
-            if (factorPrefixKind != null) {
-                switch (factorPrefixKind) {
+            AspFactorPrefix factorPrefix = prefixes.get(i - 1);
+            if (factorPrefix != null) {
+                switch (factorPrefix.factorPrefixKind) {
                 case plusToken:
                     v = v.evalPositive(this);
                     break;
@@ -78,7 +78,7 @@ public class AspFactor extends AspSyntax {
                     v = v.evalNegate(this);
                     break;
                 default:
-                    Main.panic("Illegal factor prefix: " + factorPrefixKind + "!");
+                    Main.panic("Illegal factor prefix: " + factorPrefix.factorPrefixKind + "!");
                 }
             }
 
