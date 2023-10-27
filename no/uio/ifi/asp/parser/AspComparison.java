@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.main.Main;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeBoolValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
@@ -51,35 +52,48 @@ public class AspComparison extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // TODO: refactor to foreach with v = null etc. also probabyl move some of this to compOprs eval?
-        RuntimeValue v = terms.get(0).eval(curScope);
+        // TODO: probably move some of this to compOprs eval?
+        RuntimeValue previousComp = terms.get(0).eval(curScope);
+
+        if (terms.size() == 1)
+            return previousComp;
+        
+        ArrayList<RuntimeValue> compResults = new ArrayList<>();
 
         for (int i = 1; i < terms.size(); ++i) {
+            RuntimeValue nextComp = terms.get(i).eval(curScope);
             TokenKind k = compOprs.get(i - 1).kind;
             switch (k) {
             case lessToken:
-                v = v.evalLess(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalLess(nextComp, this));
+                previousComp = nextComp;
                 break;
             case greaterToken:
-                v = v.evalGreater(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalGreater(nextComp, this));
                 break;
             case doubleEqualToken:
-                v = v.evalEqual(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalEqual(nextComp, this));
                 break;
             case greaterEqualToken:
-                v = v.evalGreaterEqual(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalGreaterEqual(nextComp, this));
                 break;
             case lessEqualToken:
-                v = v.evalLessEqual(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalLessEqual(nextComp, this));
                 break;
             case notEqualToken:
-                v = v.evalNotEqual(terms.get(i).eval(curScope), this);
+                compResults.add(previousComp.evalNotEqual(nextComp, this));
                 break;
             default:
                 Main.panic("Illegal comparison operator: " + k + "!");
             }
         }
 
-        return v;
+        for (RuntimeValue compRes : compResults) {
+            boolean curBool = compRes.getBoolValue("Comparison eval", this);
+            if (!curBool)
+                return new RuntimeBoolValue(false);
+        }
+
+        return new RuntimeBoolValue(true);
     }
 }
