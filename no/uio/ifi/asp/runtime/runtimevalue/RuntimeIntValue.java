@@ -10,7 +10,7 @@ public class RuntimeIntValue extends RuntimeValue {
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "integer";
     }
 
@@ -65,6 +65,8 @@ public class RuntimeIntValue extends RuntimeValue {
             return new RuntimeBoolValue(intValue == v.getIntValue("== operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(intValue == v.getFloatValue("== operand", where));
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(false);
         else if (v instanceof RuntimeBoolValue)
             return v.evalEqual(this, where);
 
@@ -167,9 +169,9 @@ public class RuntimeIntValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNot(AspSyntax where) {
         if (intValue == 0)
-            return new RuntimeBoolValue(false);
+            return new RuntimeBoolValue(true);
         
-        return new RuntimeBoolValue(true);
+        return new RuntimeBoolValue(false);
     }
 
     @Override
@@ -178,6 +180,8 @@ public class RuntimeIntValue extends RuntimeValue {
             return new RuntimeBoolValue(intValue != v.getIntValue("!= operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(intValue != v.getFloatValue("!= operand", where));
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(true);
         else if (v instanceof RuntimeBoolValue)
             return v.evalNotEqual(this, where);
 

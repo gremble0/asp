@@ -11,7 +11,7 @@ public class RuntimeFloatValue extends RuntimeValue {
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "float";
     }
 
@@ -165,9 +165,9 @@ public class RuntimeFloatValue extends RuntimeValue {
     @Override
     public RuntimeValue evalNot(AspSyntax where) {
         if (floatValue == 0.0)
-            return new RuntimeBoolValue(false);
+            return new RuntimeBoolValue(true);
         
-        return new RuntimeBoolValue(true);
+        return new RuntimeBoolValue(false);
     }
 
     @Override
@@ -176,6 +176,10 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue != v.getIntValue("!= operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue != v.getFloatValue("!= operand", where));
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(true);
+        else if (v instanceof RuntimeBoolValue)
+            return v.evalNotEqual(this, where);
 
         runtimeError("Type error for !=.", where);
         return null; // Required by the compiler

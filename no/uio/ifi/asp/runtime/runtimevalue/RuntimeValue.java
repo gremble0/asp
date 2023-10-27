@@ -6,7 +6,7 @@ import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 public abstract class RuntimeValue {
-    abstract String typeName();
+    abstract public String typeName();
 
     public String showInfo() {
         return toString();

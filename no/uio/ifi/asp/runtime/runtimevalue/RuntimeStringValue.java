@@ -10,7 +10,7 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "str";
     }
 
@@ -54,6 +54,8 @@ public class RuntimeStringValue extends RuntimeValue {
         // TODO: make return type RuntimeBoolValue
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() == stringValue);
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(false);
 
         runtimeError("Type error for ==.", where);
         return null; // Required by the compiler
@@ -106,6 +108,7 @@ public class RuntimeStringValue extends RuntimeValue {
     public RuntimeValue evalLess(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeStringValue)) {
             runtimeError("Type error for <.", where);
+            // TODO Not required by the compiler below
             return null; // Required by the compiler
         }
 
@@ -160,6 +163,8 @@ public class RuntimeStringValue extends RuntimeValue {
     public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() != stringValue);
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(true);
 
         runtimeError("Type error for !=.", where);
         return null; // Required by the compiler

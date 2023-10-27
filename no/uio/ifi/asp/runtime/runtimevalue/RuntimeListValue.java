@@ -13,7 +13,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "list";
     }
 

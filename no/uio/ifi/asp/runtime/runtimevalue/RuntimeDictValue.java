@@ -14,7 +14,7 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "dict";
     }
 
