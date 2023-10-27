@@ -76,7 +76,7 @@ public class AspComparison extends AspSyntax {
                 v = v.evalNotEqual(terms.get(i).eval(curScope), this);
                 break;
             default:
-                Main.panic("Illegal term operator: " + k + "!");
+                Main.panic("Illegal comparison operator: " + k + "!");
             }
         }
 

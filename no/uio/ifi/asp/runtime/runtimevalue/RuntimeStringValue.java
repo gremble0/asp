@@ -108,8 +108,8 @@ public class RuntimeStringValue extends RuntimeValue {
             runtimeError("Type error for <.", where);
             return null; // Required by the compiler
         }
-        String vStringValue = v.toString();
 
+        String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
             return new RuntimeBoolValue(stringValue.length() < vStringValue.length());
 
@@ -127,8 +127,8 @@ public class RuntimeStringValue extends RuntimeValue {
             runtimeError("Type error for <=.", where);
             return null; // Required by the compiler
         }
-        String vStringValue = v.toString();
 
+        String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
             return new RuntimeBoolValue(stringValue.length() < vStringValue.length());
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 
+// TODO: superclass RuntimeCollectionValue?
 public class RuntimeListValue extends RuntimeValue {
     ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
