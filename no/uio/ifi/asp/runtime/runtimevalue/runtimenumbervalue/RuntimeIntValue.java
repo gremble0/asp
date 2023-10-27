@@ -156,13 +156,10 @@ public class RuntimeIntValue extends RuntimeNumberValue {
 
     @Override
     public RuntimeNumberValue evalModulo(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeIntValue) {
+        if (v instanceof RuntimeIntValue)
             return new RuntimeIntValue(pythonModulo(intValue, v.getIntValue("% operand", where)));
-            // return new RuntimeIntValue(((intValue % v.getIntValue("", where)) + v.getIntValue("", where)) % v.getIntValue("", where));
-        } else if (v instanceof RuntimeFloatValue) {
+        else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(pythonModulo(intValue, v.getFloatValue("% operand", where)));
-            // return new RuntimeFloatValue(((intValue % v.getFloatValue("", where)) + v.getIntValue("", where)) % v.getIntValue("", where));
-        }
 
         runtimeError("Type error for %.", where);
         return null; // Required by the compiler

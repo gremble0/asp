@@ -64,17 +64,19 @@ public class AspFactor extends AspSyntax {
 
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue v = primaries.get(0).eval(curScope);
-        AspFactorPrefix factorPrefix = prefixes.get(0);
-        if (factorPrefix != null)
-            v = evalFactorPrefixKind(v, factorPrefix);
+        AspFactorPrefix curPrefix = prefixes.get(0);
+        if (curPrefix != null)
+            v = evalFactorPrefixKind(v, curPrefix);
 
         for (int i = 1; i < primaries.size(); ++i) {
-            factorPrefix = prefixes.get(i);
-            if (factorPrefix != null)
-                v = evalFactorPrefixKind(v, factorPrefix);
- 
+            RuntimeValue curValue = primaries.get(i).eval(curScope);
+
+            curPrefix = prefixes.get(i);
+            if (curPrefix != null)
+                curValue = evalFactorPrefixKind(curValue, curPrefix);
+
             TokenKind factorOprKind = factorOprs.get(i - 1).kind;
-            v = evalFactorOprKind(v, primaries.get(i).eval(curScope), factorOprKind);
+            v = evalFactorOprKind(v, curValue, factorOprKind);
         }
 
         return v;
@@ -82,13 +84,13 @@ public class AspFactor extends AspSyntax {
 
     private RuntimeValue evalFactorPrefixKind(RuntimeValue v, AspFactorPrefix factorPrefix) {
         switch (factorPrefix.kind) {
-            case plusToken:
-                return v.evalPositive(this);
-            case minusToken:
-                return v.evalNegate(this);
-            default:
-                Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
-                return null; // unreachable, added to avoid compiler error
+        case plusToken:
+            return v.evalPositive(this);
+        case minusToken:
+            return v.evalNegate(this);
+        default:
+            Main.panic("Illegal factor prefix: " + factorPrefix.kind + "!");
+            return null; // unreachable, added to avoid compiler error
         }
     }
 
