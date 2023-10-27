@@ -57,14 +57,14 @@ public class RuntimeStringValue extends RuntimeValue {
         else if (v instanceof RuntimeNoneValue)
             return new RuntimeBoolValue(false);
 
-        runtimeError("Type error for ==.", where);
+        runtimeError("==", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
     @Override
     public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeStringValue))
-            runtimeError("Type error for >.", where);
+            runtimeError(">", typeName(), v.typeName(), where);
 
         String vStringValue = v.toString();
 
@@ -87,7 +87,7 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeStringValue))
-            runtimeError("Type error for >=.", where);
+            runtimeError(">=", typeName(), v.typeName(), where);
 
         String vStringValue = v.toString();
 
@@ -105,7 +105,7 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeStringValue))
-            runtimeError("Type error for <.", where);
+            runtimeError("<", typeName(), v.typeName(), where);
 
         String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
@@ -122,7 +122,7 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeStringValue))
-            runtimeError("Type error for <=.", where);
+            runtimeError("<=", typeName(), v.typeName(), where);
 
         String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
@@ -143,7 +143,7 @@ public class RuntimeStringValue extends RuntimeValue {
             // need to repeat a string more than Integer.MAX_VALUE times
             return new RuntimeStringValue(stringValue.repeat((int)v.getIntValue("* operand", where)));
 
-        runtimeError("Type error for *.", where);
+        runtimeError("*", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -159,7 +159,7 @@ public class RuntimeStringValue extends RuntimeValue {
         else if (v instanceof RuntimeNoneValue)
             return new RuntimeBoolValue(true);
 
-        runtimeError("Type error for !=.", where);
+        runtimeError("!=", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 }

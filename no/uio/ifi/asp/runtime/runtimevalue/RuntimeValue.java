@@ -146,6 +146,11 @@ public abstract class RuntimeValue {
         runtimeError(message, where.lineNum);
     }
 
+    // Similar to pythons error messages
+    public static void runtimeError(String operand, String type1, String type2, AspSyntax where) {
+        runtimeError(String.format("Unsupported operand types for %s: '%s' and '%s'", operand, type1, type2), where);
+    }
+
     // For part 4:
 
     public void evalAssignElem(RuntimeValue inx, RuntimeValue val, AspSyntax where) {

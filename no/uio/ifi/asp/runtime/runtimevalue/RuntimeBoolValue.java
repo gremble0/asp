@@ -48,7 +48,7 @@ public class RuntimeBoolValue extends RuntimeValue {
                 (boolValue == false && v.getIntValue("> operand", where) < 0)
             );
 
-        runtimeError("Type error for >.", where);
+        runtimeError(">", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -62,7 +62,7 @@ public class RuntimeBoolValue extends RuntimeValue {
                 (boolValue == false && v.getIntValue(">= operand", where) <= 0)
             );
 
-        runtimeError("Type error for >=.", where);
+        runtimeError(">=", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -76,7 +76,7 @@ public class RuntimeBoolValue extends RuntimeValue {
                 (boolValue == false && v.getIntValue("< operand", where) > 0)
             );
 
-        runtimeError("Type error for <.", where);
+        runtimeError("<", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 

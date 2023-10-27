@@ -44,19 +44,18 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(floatValue + v.getFloatValue("+ operand", where));
 
-        runtimeError("Type error for +.", where);
+        runtimeError("+", typeName(), v.typeName(), where);
         return null;
     }
 
     @Override
     public RuntimeNumberValue evalDivide(RuntimeValue v, AspSyntax where) {
-        // TODO: probably better to mutate and make method void
         if (v instanceof RuntimeIntValue)
             return new RuntimeFloatValue(floatValue / v.getIntValue("/ operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(floatValue / v.getFloatValue("/ operand", where));
 
-        runtimeError("Type error for /.", where);
+        runtimeError("/", typeName(), v.typeName(), where);
         return null;
     }
 
@@ -74,7 +73,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue == 0 && v.getBoolValue("== operand", where) == false
             );
 
-        runtimeError("Type error for ==.", where);
+        runtimeError("==", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -90,7 +89,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue > 0 && v.getBoolValue("< operand", where) == false
             );
 
-        runtimeError("Type error for >.", where);
+        runtimeError(">", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -106,7 +105,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue >= 0 && v.getBoolValue("< operand", where) == false
             );
 
-        runtimeError("Type error for >=.", where);
+        runtimeError(">=", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -117,7 +116,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(Math.floor(floatValue / v.getFloatValue("// operand", where)));
 
-        runtimeError("Type error for //.", where);
+        runtimeError("//", typeName(), v.typeName(), where);
         return null;
     }
 
@@ -133,7 +132,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue < 0 && v.getBoolValue("< operand", where) == false
             );
 
-        runtimeError("Type error for <.", where);
+        runtimeError("<", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -149,7 +148,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue <= 0 && v.getBoolValue("< operand", where) == false
             );
 
-        runtimeError("Type error for <=.", where);
+        runtimeError("<=", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -160,7 +159,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(pythonModulo(floatValue, v.getFloatValue("% operand", where)));
 
-        runtimeError("Type error for %.", where);
+        runtimeError("%", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -171,7 +170,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(floatValue * v.getFloatValue("* operand", where));
 
-        runtimeError("Type error for *.", where);
+        runtimeError("*", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -202,7 +201,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
                 floatValue != 0 && v.getBoolValue("== operand", where) == false
             );
 
-        runtimeError("Type error for !=.", where);
+        runtimeError("!=", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
@@ -218,7 +217,7 @@ public class RuntimeFloatValue extends RuntimeNumberValue {
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeFloatValue(floatValue - v.getFloatValue("+ operand", where));
 
-        runtimeError("Type error for -.", where);
+        runtimeError("-", typeName(), v.typeName(), where);
         return null;
     }
 }

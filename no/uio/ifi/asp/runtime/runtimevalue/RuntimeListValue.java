@@ -64,7 +64,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
-            runtimeError("Type error for >.", where);
+            runtimeError(">", typeName(), v.typeName(), where);
             return null; // Required by the compiler
         }
 
@@ -85,7 +85,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
-            runtimeError("Type error for >=.", where);
+            runtimeError(">=", typeName(), v.typeName(), where);
             return null; // Required by the compiler
         }
 
@@ -106,7 +106,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
-            runtimeError("Type error for <.", where);
+            runtimeError("<", typeName(), v.typeName(), where);
             return null; // Required by the compiler
         }
 
@@ -127,7 +127,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
-            runtimeError("Type error for <=.", where);
+            runtimeError("<=", typeName(), v.typeName(), where);
             return null; // Required by the compiler
         }
 
@@ -156,7 +156,7 @@ public class RuntimeListValue extends RuntimeValue {
             return new RuntimeListValue(newRtValues);
         }
 
-        runtimeError("Type error for *.", where);
+        runtimeError("*", typeName(), v.typeName(), where);
         return null; // Required by the compiler
     }
 
