@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 
 public class RuntimeScope {
     private RuntimeScope outer;

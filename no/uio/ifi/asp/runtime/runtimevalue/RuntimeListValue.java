@@ -3,8 +3,8 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
-// TODO: superclass RuntimeCollectionValue?
 public class RuntimeListValue extends RuntimeValue {
     private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalAdd(RuntimeValue v, AspSyntax where) {
+    public RuntimeListValue evalAdd(RuntimeValue v, AspSyntax where) {
         RuntimeListValue newRtValues = new RuntimeListValue(rtValues);
         newRtValues.rtValues.addAll(v.getListValue("+ operand", where));
 
@@ -54,7 +54,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue))
             return new RuntimeBoolValue(false);
 
@@ -62,7 +62,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalGreater(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
             runtimeError("Type error for >.", where);
             return null; // Required by the compiler
@@ -83,7 +83,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
             runtimeError("Type error for >=.", where);
             return null; // Required by the compiler
@@ -104,7 +104,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalLess(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
             runtimeError("Type error for <.", where);
             return null; // Required by the compiler
@@ -125,7 +125,7 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalLessEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue)) {
             runtimeError("Type error for <=.", where);
             return null; // Required by the compiler
@@ -148,7 +148,7 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntValue) {
-            ArrayList<RuntimeValue> newRtValues = new ArrayList<>(); // TODO: (rtValues) in arraylist constructor
+            ArrayList<RuntimeValue> newRtValues = new ArrayList<>();
 
             for (int i = 0; i < v.getIntValue("* operand", where); i++)
                 newRtValues.addAll(rtValues);
@@ -161,12 +161,12 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalNot(AspSyntax where) {
+    public RuntimeBoolValue evalNot(AspSyntax where) {
         return new RuntimeBoolValue(rtValues.size() == 0);
     }
 
     @Override
-    public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeListValue))
             return new RuntimeBoolValue(true);
 

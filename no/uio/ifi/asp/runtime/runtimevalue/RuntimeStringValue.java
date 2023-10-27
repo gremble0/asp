@@ -1,6 +1,7 @@
 package no.uio.ifi.asp.runtime.runtimevalue;
 
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeStringValue extends RuntimeValue {
     private String stringValue;
@@ -45,13 +46,12 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalAdd(RuntimeValue v, AspSyntax where) {
+    public RuntimeStringValue evalAdd(RuntimeValue v, AspSyntax where) {
         return new RuntimeStringValue(stringValue + v.toString());
     }
 
     @Override
-    public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
-        // TODO: make return type RuntimeBoolValue
+    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() == stringValue);
         else if (v instanceof RuntimeNoneValue)
@@ -62,11 +62,10 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalGreater(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue)) {
+    public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
+        if (!(v instanceof RuntimeStringValue))
             runtimeError("Type error for >.", where);
-            return null; // Required by the compiler
-        }
+
         String vStringValue = v.toString();
 
         // Simple optimization, if the strings are different lengths they cant be equal
@@ -86,11 +85,10 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue)) {
+    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
+        if (!(v instanceof RuntimeStringValue))
             runtimeError("Type error for >=.", where);
-            return null; // Required by the compiler
-        }
+
         String vStringValue = v.toString();
 
         if (vStringValue.length() != stringValue.length())
@@ -105,12 +103,9 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalLess(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue)) {
+    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
+        if (!(v instanceof RuntimeStringValue))
             runtimeError("Type error for <.", where);
-            // TODO Not required by the compiler below
-            return null; // Required by the compiler
-        }
 
         String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
@@ -125,11 +120,9 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalLessEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue)) {
+    public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
+        if (!(v instanceof RuntimeStringValue))
             runtimeError("Type error for <=.", where);
-            return null; // Required by the compiler
-        }
 
         String vStringValue = v.toString();
         if (vStringValue.length() != stringValue.length())
@@ -144,7 +137,7 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
+    public RuntimeStringValue evalMultiply(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntValue)
             // Could overflow for really big numbers, but why would you ever
             // need to repeat a string more than Integer.MAX_VALUE times
@@ -155,12 +148,12 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalNot(AspSyntax where) {
+    public RuntimeBoolValue evalNot(AspSyntax where) {
         return new RuntimeBoolValue(stringValue == "");
     }
 
     @Override
-    public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() != stringValue);
         else if (v instanceof RuntimeNoneValue)

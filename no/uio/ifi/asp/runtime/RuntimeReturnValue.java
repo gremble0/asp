@@ -2,6 +2,8 @@
 
 package no.uio.ifi.asp.runtime;
 
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
+
 // For part 4:
 
 public class RuntimeReturnValue extends Exception {

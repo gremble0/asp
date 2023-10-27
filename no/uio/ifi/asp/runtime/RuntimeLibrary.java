@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 
 import no.uio.ifi.asp.main.*;
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 
 public class RuntimeLibrary extends RuntimeScope {
     private Scanner keyboard = new Scanner(System.in);

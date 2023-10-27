@@ -48,7 +48,7 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeDictValue))
             return new RuntimeBoolValue(false);
 
@@ -59,12 +59,12 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeValue evalNot(AspSyntax where) {
+    public RuntimeBoolValue evalNot(AspSyntax where) {
         return new RuntimeBoolValue(rtKeys.size() == 0);
     }
 
     @Override
-    public RuntimeValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         if (!(v instanceof RuntimeDictValue))
             return new RuntimeBoolValue(true);
 
