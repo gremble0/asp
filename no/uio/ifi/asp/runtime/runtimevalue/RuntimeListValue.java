@@ -18,7 +18,20 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public String toString() {
-        return rtValues.toString();
+        String res = "[";
+        for (int i = 0; i < rtValues.size(); i++) {
+            RuntimeValue v = rtValues.get(i);
+            if (v instanceof RuntimeStringValue)
+                res += v.showInfo();
+            else
+                res += v.toString();
+
+            if (i != rtValues.size() - 1)
+                res += ", ";
+        }
+        res += "]";
+            
+        return res;
     }
 
     @Override
@@ -135,7 +148,6 @@ public class RuntimeListValue extends RuntimeValue {
     public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeIntValue) {
             ArrayList<RuntimeValue> newRtValues = new ArrayList<>(); // TODO: (rtValues) in arraylist constructor
-            newRtValues.addAll(rtValues);
 
             for (int i = 0; i < v.getIntValue("* operand", where); i++)
                 newRtValues.addAll(rtValues);

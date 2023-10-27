@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeDictValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -65,6 +66,14 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return null;
+        ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
+        for (AspStringLiteral key : keys)
+            rtKeys.add(key.eval(curScope));
+
+        ArrayList<RuntimeValue> rtValues = new ArrayList<>();
+        for (AspExpr value : values)
+            rtValues.add(value.eval(curScope));
+
+        return new RuntimeDictValue(rtKeys, rtValues);
     }
 }
