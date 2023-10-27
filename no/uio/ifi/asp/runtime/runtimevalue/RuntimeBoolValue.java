@@ -3,14 +3,14 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 public class RuntimeBoolValue extends RuntimeValue {
-    boolean boolValue;
+    private boolean boolValue;
 
     public RuntimeBoolValue(boolean v) {
         boolValue = v;
     }
 
     @Override
-    String typeName() {
+    public String typeName() {
         return "boolean";
     }
 

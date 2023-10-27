@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 public class RuntimeDictValue extends RuntimeValue {
-    ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
-    ArrayList<RuntimeValue> rtValues = new ArrayList<>();
+    private ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
+    private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
     public RuntimeDictValue(ArrayList<RuntimeValue> ks, ArrayList<RuntimeValue> vs) {
         rtKeys = ks;

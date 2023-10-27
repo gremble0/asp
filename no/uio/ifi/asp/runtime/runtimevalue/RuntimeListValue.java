@@ -6,7 +6,7 @@ import no.uio.ifi.asp.parser.AspSyntax;
 
 // TODO: superclass RuntimeCollectionValue?
 public class RuntimeListValue extends RuntimeValue {
-    ArrayList<RuntimeValue> rtValues = new ArrayList<>();
+    private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
     public RuntimeListValue(ArrayList<RuntimeValue> vs) {
         rtValues = vs;

@@ -4,7 +4,7 @@ import no.uio.ifi.asp.parser.AspSyntax;
 
 // TODO: maybe write RuntimeNumberValue abstract class
 public class RuntimeFloatValue extends RuntimeValue {
-    double floatValue;
+    private double floatValue;
 
     public RuntimeFloatValue(double v) {
         floatValue = v;
@@ -65,6 +65,8 @@ public class RuntimeFloatValue extends RuntimeValue {
             return new RuntimeBoolValue(floatValue == v.getIntValue("== operand", where));
         else if (v instanceof RuntimeFloatValue)
             return new RuntimeBoolValue(floatValue == v.getFloatValue("== operand", where));
+        else if (v instanceof RuntimeNoneValue)
+            return new RuntimeBoolValue(false);
         else if (v instanceof RuntimeBoolValue)
             return v.evalEqual(this, where);
 

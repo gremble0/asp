@@ -3,7 +3,7 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 import no.uio.ifi.asp.parser.AspSyntax;
 
 public class RuntimeIntValue extends RuntimeValue {
-    long intValue;
+    private long intValue;
 
     public RuntimeIntValue(long v) {
         intValue = v;
