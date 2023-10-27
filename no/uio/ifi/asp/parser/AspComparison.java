@@ -52,7 +52,6 @@ public class AspComparison extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // TODO: probably move some of this to compOprs eval?
         RuntimeValue previousComp = terms.get(0).eval(curScope);
 
         if (terms.size() == 1)
