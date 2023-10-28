@@ -1,12 +1,39 @@
 package no.uio.ifi.asp.runtime.runtimevalue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeListValue extends RuntimeValue {
     private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
+    // This is mostly unnecessary for this class but i'll add it for extensibility
+    private Map<String, List<Class<? extends RuntimeValue>>> supportedTypes = new HashMap<>() {{
+        put("evalAdd", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+        put("evalMultiply", new ArrayList<>(List.of(
+            RuntimeIntValue.class
+        )));
+        put("evalEqual", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+        put("evalGreater", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+        put("evalLess", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+        put("evalGreaterEqual", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+        put("evalLessEqual", new ArrayList<>(List.of(
+            RuntimeListValue.class
+        )));
+    }};
 
     public RuntimeListValue(ArrayList<RuntimeValue> vs) {
         rtValues = vs;
@@ -47,6 +74,9 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public RuntimeListValue evalAdd(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalAdd").contains(v.getClass()))
+            runtimeError("+", typeName(), v.typeName(), where);
+
         RuntimeListValue newRtValues = new RuntimeListValue(rtValues);
         newRtValues.rtValues.addAll(v.getListValue("+ operand", where));
 
@@ -54,19 +84,41 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue))
-            return new RuntimeBoolValue(false);
+    public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalMultiply").contains(v.getClass()))
+            runtimeError("*", typeName(), v.typeName(), where);
 
-        return new RuntimeBoolValue(rtValues.equals(v.getListValue("== operand", where)));
+       ArrayList<RuntimeValue> newRtValues = new ArrayList<>();
+
+       for (int i = 0; i < v.getIntValue("* operand", where); i++)
+           newRtValues.addAll(rtValues);
+
+       return new RuntimeListValue(newRtValues);
+    }
+
+    @Override
+    public RuntimeBoolValue evalNot(AspSyntax where) {
+        return new RuntimeBoolValue(rtValues.size() == 0);
+    }
+
+    @Override
+    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
+        // We don't raise error if none of the supported types, just return false
+        if (v instanceof RuntimeListValue)
+            return new RuntimeBoolValue(rtValues.equals(v.getListValue("== operand", where)));
+
+        return new RuntimeBoolValue(false);
+    }
+
+    @Override
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+        return evalEqual(v, where).evalNot(where);
     }
 
     @Override
     public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue)) {
+        if (!supportedTypes.get("evalGreater").contains(v.getClass()))
             runtimeError(">", typeName(), v.typeName(), where);
-            return null; // Required by the compiler
-        }
 
         ArrayList<RuntimeValue> vRtValues = v.getListValue("> operand", where);
             
@@ -83,93 +135,38 @@ public class RuntimeListValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue)) {
-            runtimeError(">=", typeName(), v.typeName(), where);
-            return null; // Required by the compiler
-        }
+    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalLess").contains(v.getClass()))
+            runtimeError("<", typeName(), v.typeName(), where);
 
-        ArrayList<RuntimeValue> vRtValues = v.getListValue(">= operand", where);
-            
-        if (rtValues.size() != vRtValues.size())
-            return new RuntimeBoolValue(rtValues.size() > vRtValues.size());
+        RuntimeBoolValue notGreater = evalGreater(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("< operand", where);
         
-        for (int i = 0; i < rtValues.size(); i++) {
-            if (rtValues.get(i) != rtValues.get(i)) {
-                return rtValues.get(i).evalGreaterEqual(vRtValues.get(i), where);
-            }
-        }
+        RuntimeBoolValue notEqual = evalEqual(v, where).evalNot(where);
+        boolean notEqualBool = notEqual.getBoolValue("< operand", where);
 
-        return new RuntimeBoolValue(true);
+        return new RuntimeBoolValue(notGreaterBool && notEqualBool);
     }
 
     @Override
-    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue)) {
-            runtimeError("<", typeName(), v.typeName(), where);
-            return null; // Required by the compiler
-        }
+    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalGreaterEqual").contains(v.getClass()))
+            runtimeError(">=", typeName(), v.typeName(), where);
 
-        ArrayList<RuntimeValue> vRtValues = v.getListValue("< operand", where);
-            
-        if (rtValues.size() != vRtValues.size())
-            return new RuntimeBoolValue(rtValues.size() < vRtValues.size());
-        
-        for (int i = 0; i < rtValues.size(); i++) {
-            if (rtValues.get(i) != rtValues.get(i)) {
-                return rtValues.get(i).evalLess(vRtValues.get(i), where);
-            }
-        }
+        RuntimeBoolValue notGreater = evalLess(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
 
-        return new RuntimeBoolValue(false);
+        return new RuntimeBoolValue(notGreaterBool);
     }
 
     @Override
     public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue)) {
+        if (!supportedTypes.get("evalLessEqual").contains(v.getClass()))
             runtimeError("<=", typeName(), v.typeName(), where);
-            return null; // Required by the compiler
-        }
 
-        ArrayList<RuntimeValue> vRtValues = v.getListValue("<= operand", where);
-            
-        if (rtValues.size() != vRtValues.size())
-            return new RuntimeBoolValue(rtValues.size() < vRtValues.size());
-        
-        for (int i = 0; i < rtValues.size(); i++) {
-            if (rtValues.get(i) != rtValues.get(i)) {
-                return rtValues.get(i).evalLessEqual(vRtValues.get(i), where);
-            }
-        }
+        RuntimeBoolValue notGreater = evalGreater(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
 
-        return new RuntimeBoolValue(true);
-    }
-
-    @Override
-    public RuntimeValue evalMultiply(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeIntValue) {
-            ArrayList<RuntimeValue> newRtValues = new ArrayList<>();
-
-            for (int i = 0; i < v.getIntValue("* operand", where); i++)
-                newRtValues.addAll(rtValues);
-
-            return new RuntimeListValue(newRtValues);
-        }
-
-        runtimeError("*", typeName(), v.typeName(), where);
-        return null; // Required by the compiler
-    }
-
-    @Override
-    public RuntimeBoolValue evalNot(AspSyntax where) {
-        return new RuntimeBoolValue(rtValues.size() == 0);
-    }
-
-    @Override
-    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeListValue))
-            return new RuntimeBoolValue(true);
-
-        return new RuntimeBoolValue(!rtValues.equals(v.getListValue("!= operand", where)));
+        return new RuntimeBoolValue(notGreaterBool);
     }
 }

@@ -48,26 +48,23 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeDictValue))
-            return new RuntimeBoolValue(false);
-
-        return new RuntimeBoolValue(
-            rtValues.equals(v.getListValue("== operand", where)) &&
-            rtKeys.equals(v.getListValue("== operand", where))
-        );
-    }
-
-    @Override
     public RuntimeBoolValue evalNot(AspSyntax where) {
         return new RuntimeBoolValue(rtKeys.size() == 0);
     }
 
     @Override
-    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeDictValue))
-            return new RuntimeBoolValue(true);
+    public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeDictValue)
+            return new RuntimeBoolValue(
+                rtValues.equals(v.getListValue("== operand", where)) &&
+                rtKeys.equals(v.getListValue("== operand", where))
+            );
 
-        return new RuntimeBoolValue(!rtValues.equals(v.getListValue("!= operand", where)));
+        return new RuntimeBoolValue(false);
+    }
+
+    @Override
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+        return evalEqual(v, where).evalNot(where);
     }
 }
