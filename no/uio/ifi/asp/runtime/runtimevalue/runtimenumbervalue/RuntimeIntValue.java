@@ -210,18 +210,13 @@ public class RuntimeIntValue extends RuntimeNumberValue {
 
     @Override
     public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeIntValue)
-            return new RuntimeBoolValue(intValue >= v.getIntValue(">= operand", where));
-        else if (v instanceof RuntimeFloatValue)
-            return new RuntimeBoolValue(intValue >= v.getFloatValue(">= operand", where));
-        else if (v instanceof RuntimeBoolValue)
-            return new RuntimeBoolValue(
-                intValue >= 1 && v.getBoolValue("< operand", where) == true ||
-                intValue >= 0 && v.getBoolValue("< operand", where) == false
-            );
+        if (!supportedTypes.get("evalGreaterEqual").contains(v.getClass()))
+            runtimeError(">=", typeName(), v.typeName(), where);
 
-        runtimeError(">=", typeName(), v.typeName(), where);
-        return null; // Required by the compiler
+        RuntimeBoolValue notGreater = evalLess(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
+
+        return new RuntimeBoolValue(notGreaterBool);
     }
 
     @Override
@@ -229,7 +224,7 @@ public class RuntimeIntValue extends RuntimeNumberValue {
         if (!supportedTypes.get("evalLessEqual").contains(v.getClass()))
             runtimeError("<=", typeName(), v.typeName(), where);
 
-        RuntimeBoolValue notGreater = v.evalGreater(v, where).evalNot(where);
+        RuntimeBoolValue notGreater = evalGreater(v, where).evalNot(where);
         boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
 
         return new RuntimeBoolValue(notGreaterBool);
