@@ -12,14 +12,17 @@ public class RuntimeListValue extends RuntimeValue {
     private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
     // This is mostly unnecessary for this class but i'll add it for extensibility
     private Map<String, List<Class<? extends RuntimeValue>>> supportedTypes = new HashMap<>() {{
+        // Math operations
         put("evalAdd", new ArrayList<>(List.of(
             RuntimeListValue.class
         )));
         put("evalMultiply", new ArrayList<>(List.of(
             RuntimeIntValue.class
         )));
+
+        // Comparisons
         put("evalEqual", new ArrayList<>(List.of(
-            RuntimeListValue.class
+            RuntimeListValue.class, RuntimeNoneValue.class
         )));
         put("evalGreater", new ArrayList<>(List.of(
             RuntimeListValue.class
@@ -70,6 +73,11 @@ public class RuntimeListValue extends RuntimeValue {
     @Override
     public ArrayList<RuntimeValue> getListValue(String what, AspSyntax where) {
         return rtValues;
+    }
+
+    @Override
+    public RuntimeIntValue evalLen(AspSyntax where) {
+        return new RuntimeIntValue(rtValues.size());
     }
 
     @Override

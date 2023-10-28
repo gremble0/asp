@@ -3,8 +3,10 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspSyntax;
+import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeDictValue extends RuntimeValue {
+    // TODO implement as hashmap, and change dictdisplay
     private ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
     private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
@@ -45,6 +47,11 @@ public class RuntimeDictValue extends RuntimeValue {
     @Override
     public ArrayList<RuntimeValue> getDictValues(String what, AspSyntax where) {
         return rtValues;
+    }
+
+    @Override
+    public RuntimeIntValue evalLen(AspSyntax where) {
+        return new RuntimeIntValue(rtKeys.size());
     }
 
     @Override

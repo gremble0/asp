@@ -11,7 +11,6 @@ import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.*;
 public class RuntimeBoolValue extends RuntimeValue {
     private boolean boolValue;
     private Map<String, List<Class<? extends RuntimeValue>>> supportedTypes = new HashMap<>() {{
-        // Math operations
         put("evalGreater", new ArrayList<>(List.of(
             RuntimeFloatValue.class, RuntimeIntValue.class, RuntimeBoolValue.class
         )));

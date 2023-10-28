@@ -80,6 +80,11 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
+    public RuntimeIntValue evalLen(AspSyntax where) {
+        return new RuntimeIntValue(stringValue.length());
+    }
+
+    @Override
     public RuntimeStringValue evalAdd(RuntimeValue v, AspSyntax where) {
         if (!supportedTypes.get("evalAdd").contains(v.getClass()))
             runtimeError("+", typeName(), v.typeName(), where);
