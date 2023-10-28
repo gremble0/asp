@@ -1,10 +1,44 @@
 package no.uio.ifi.asp.runtime.runtimevalue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeStringValue extends RuntimeValue {
     private String stringValue;
+    private Map<String, List<Class<? extends RuntimeValue>>> supportedTypes = new HashMap<>() {{
+        // Math operations
+        put("evalAdd", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+        put("evalMultiply", new ArrayList<>(List.of(
+            RuntimeIntValue.class
+        )));
+
+        // Comparisons
+        put("evalEqual", new ArrayList<>(List.of(
+            RuntimeStringValue.class, RuntimeNoneValue.class
+        )));
+        put("evalNotEqual", new ArrayList<>(List.of(
+            RuntimeStringValue.class, RuntimeNoneValue.class
+        )));
+        put("evalGreater", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+        put("evalLess", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+        put("evalGreaterEqual", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+        put("evalLessEqual", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+    }};
 
     public RuntimeStringValue(String v) {
         stringValue = v;
@@ -47,24 +81,50 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public RuntimeStringValue evalAdd(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalAdd").contains(v.getClass()))
+            runtimeError("+", typeName(), v.typeName(), where);
+
         return new RuntimeStringValue(stringValue + v.toString());
     }
 
     @Override
+    public RuntimeStringValue evalMultiply(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalMultiply").contains(v.getClass()))
+            runtimeError("*", typeName(), v.typeName(), where);
+
+        // Could overflow for really big numbers, but why would you ever
+        // need to repeat a string more than Integer.MAX_VALUE times
+        return new RuntimeStringValue(stringValue.repeat((int)v.getIntValue("* operand", where)));
+    }
+
+    @Override
+    public RuntimeBoolValue evalNot(AspSyntax where) {
+        return new RuntimeBoolValue(stringValue == "");
+    }
+
+    @Override
     public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalEqual").contains(v.getClass()))
+            runtimeError("==", typeName(), v.typeName(), where);
+
         if (v instanceof RuntimeStringValue)
             return new RuntimeBoolValue(v.toString() == stringValue);
-        else if (v instanceof RuntimeNoneValue)
+        else // v is RuntimeNoneValue
             return new RuntimeBoolValue(false);
+    }
 
-        runtimeError("==", typeName(), v.typeName(), where);
-        return null; // Required by the compiler
+    @Override
+    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalNotEqual").contains(v.getClass()))
+            runtimeError("!=", typeName(), v.typeName(), where);
+
+        return evalEqual(v, where).evalNot(where);
     }
 
     @Override
     public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue))
-            runtimeError(">", typeName(), v.typeName(), where);
+        if (!supportedTypes.get("evalGreater").contains(v.getClass()))
+            runtimeError("==", typeName(), v.typeName(), where);
 
         String vStringValue = v.toString();
 
@@ -85,81 +145,38 @@ public class RuntimeStringValue extends RuntimeValue {
     }
 
     @Override
-    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue))
-            runtimeError(">=", typeName(), v.typeName(), where);
+    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalLess").contains(v.getClass()))
+            runtimeError("<", typeName(), v.typeName(), where);
 
-        String vStringValue = v.toString();
+        RuntimeBoolValue notGreater = evalGreater(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("< operand", where);
+        
+        RuntimeBoolValue notEqual = evalEqual(v, where).evalNot(where);
+        boolean notEqualBool = notEqual.getBoolValue("< operand", where);
 
-        if (vStringValue.length() != stringValue.length())
-            return new RuntimeBoolValue(stringValue.length() > vStringValue.length());
-
-        for (int i = 0; i < stringValue.length(); i++) {
-            if (vStringValue.charAt(i) != stringValue.charAt(i))
-                return new RuntimeBoolValue(stringValue.charAt(i) > vStringValue.charAt(i));
-        }
-
-        return new RuntimeBoolValue(true);
+        return new RuntimeBoolValue(notGreaterBool && notEqualBool);
     }
 
     @Override
-    public RuntimeBoolValue evalLess(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue))
-            runtimeError("<", typeName(), v.typeName(), where);
+    public RuntimeBoolValue evalGreaterEqual(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalGreaterEqual").contains(v.getClass()))
+            runtimeError(">=", typeName(), v.typeName(), where);
 
-        String vStringValue = v.toString();
-        if (vStringValue.length() != stringValue.length())
-            return new RuntimeBoolValue(stringValue.length() < vStringValue.length());
+        RuntimeBoolValue notGreater = evalLess(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
 
-        for (int i = 0; i < stringValue.length(); i++) {
-            if (vStringValue.charAt(i) != stringValue.charAt(i))
-                return new RuntimeBoolValue(stringValue.charAt(i) < vStringValue.charAt(i));
-        }
-
-        return new RuntimeBoolValue(false);
+        return new RuntimeBoolValue(notGreaterBool);
     }
 
     @Override
     public RuntimeBoolValue evalLessEqual(RuntimeValue v, AspSyntax where) {
-        if (!(v instanceof RuntimeStringValue))
+        if (!supportedTypes.get("evalLessEqual").contains(v.getClass()))
             runtimeError("<=", typeName(), v.typeName(), where);
 
-        String vStringValue = v.toString();
-        if (vStringValue.length() != stringValue.length())
-            return new RuntimeBoolValue(stringValue.length() < vStringValue.length());
+        RuntimeBoolValue notGreater = evalGreater(v, where).evalNot(where);
+        boolean notGreaterBool = notGreater.getBoolValue("> operand", where);
 
-        for (int i = 0; i < stringValue.length(); i++) {
-            if (vStringValue.charAt(i) != stringValue.charAt(i))
-                return new RuntimeBoolValue(stringValue.charAt(i) < vStringValue.charAt(i));
-        }
-
-        return new RuntimeBoolValue(true);
-    }
-
-    @Override
-    public RuntimeStringValue evalMultiply(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeIntValue)
-            // Could overflow for really big numbers, but why would you ever
-            // need to repeat a string more than Integer.MAX_VALUE times
-            return new RuntimeStringValue(stringValue.repeat((int)v.getIntValue("* operand", where)));
-
-        runtimeError("*", typeName(), v.typeName(), where);
-        return null; // Required by the compiler
-    }
-
-    @Override
-    public RuntimeBoolValue evalNot(AspSyntax where) {
-        return new RuntimeBoolValue(stringValue == "");
-    }
-
-    @Override
-    public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeStringValue)
-            return new RuntimeBoolValue(v.toString() != stringValue);
-        else if (v instanceof RuntimeNoneValue)
-            return new RuntimeBoolValue(true);
-
-        runtimeError("!=", typeName(), v.typeName(), where);
-        return null; // Required by the compiler
+        return new RuntimeBoolValue(notGreaterBool);
     }
 }
