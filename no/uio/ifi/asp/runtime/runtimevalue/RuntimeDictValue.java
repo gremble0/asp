@@ -1,18 +1,16 @@
 package no.uio.ifi.asp.runtime.runtimevalue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeDictValue extends RuntimeValue {
-    // TODO implement as hashmap, and change dictdisplay
-    private ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
-    private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
+    private HashMap<RuntimeValue, RuntimeValue> dict = new HashMap<>();
 
-    public RuntimeDictValue(ArrayList<RuntimeValue> ks, ArrayList<RuntimeValue> vs) {
-        rtKeys = ks;
-        rtValues = vs;
+    public RuntimeDictValue(HashMap<RuntimeValue, RuntimeValue> dict) {
+        this.dict = dict;
     }
 
     @Override
@@ -23,11 +21,15 @@ public class RuntimeDictValue extends RuntimeValue {
     @Override
     public String toString() {
         String res = "{\n";
-        for (int i = 0; i < rtKeys.size(); i++) {
-            res += rtKeys.get(i);
+
+        int n = 0;
+        for (RuntimeValue key : dict.keySet()) {
+            res += dict.get(key);
             res += ":";
-            res += rtValues.get(i);
-            res += ",\n";
+            res += key;
+            if (n != dict.size() - 1)
+                res += ",\n";
+            ++n;
         }
         res += "}";
 
@@ -36,35 +38,43 @@ public class RuntimeDictValue extends RuntimeValue {
 
     @Override
     public boolean getBoolValue(String what, AspSyntax where) {
-        return rtKeys.size() != 0;
+        return dict.size() != 0;
+    }
+
+    @Override
+    public HashMap<RuntimeValue, RuntimeValue> getDictValue(String what, AspSyntax where) {
+        return dict;
     }
 
     @Override
     public ArrayList<RuntimeValue> getDictKeys(String what, AspSyntax where) {
-        return rtValues;
+        ArrayList<RuntimeValue> keys = new ArrayList<>();
+        keys.addAll(dict.keySet());
+        return keys;
     }
 
     @Override
     public ArrayList<RuntimeValue> getDictValues(String what, AspSyntax where) {
-        return rtValues;
+        ArrayList<RuntimeValue> values = new ArrayList<>();
+        values.addAll(dict.values());
+        return values;
     }
 
     @Override
     public RuntimeIntValue evalLen(AspSyntax where) {
-        return new RuntimeIntValue(rtKeys.size());
+        return new RuntimeIntValue(dict.size());
     }
 
     @Override
     public RuntimeBoolValue evalNot(AspSyntax where) {
-        return new RuntimeBoolValue(rtKeys.size() == 0);
+        return new RuntimeBoolValue(dict.size() == 0);
     }
 
     @Override
     public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
         if (v instanceof RuntimeDictValue)
             return new RuntimeBoolValue(
-                rtValues.equals(v.getListValue("== operand", where)) &&
-                rtKeys.equals(v.getListValue("== operand", where))
+                dict.equals(v.getDictValue("== operand", where))
             );
 
         return new RuntimeBoolValue(false);

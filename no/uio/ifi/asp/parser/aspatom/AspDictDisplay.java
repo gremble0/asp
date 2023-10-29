@@ -2,7 +2,7 @@ package no.uio.ifi.asp.parser.aspatom;
 
 import static no.uio.ifi.asp.scanner.TokenKind.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
@@ -13,8 +13,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 
 
 public class AspDictDisplay extends AspAtom {
-    ArrayList<AspStringLiteral> keys = new ArrayList<>();
-    ArrayList<AspExpr> values = new ArrayList<>();
+    HashMap<AspStringLiteral, AspExpr> dict = new HashMap<>();
     
     public AspDictDisplay(int n) {
         super(n);
@@ -33,9 +32,9 @@ public class AspDictDisplay extends AspAtom {
         skip(s, leftBraceToken);
 
         while (s.curToken().kind != rightBraceToken) {
-            dictDisplay.keys.add(AspStringLiteral.parse(s));
+            AspStringLiteral key = AspStringLiteral.parse(s);
             skip(s, colonToken);
-            dictDisplay.values.add(AspExpr.parse(s));
+            dictDisplay.dict.put(key, AspExpr.parse(s));
 
             test(s, commaToken, rightBraceToken);
             ignore(s, commaToken);
@@ -52,11 +51,11 @@ public class AspDictDisplay extends AspAtom {
         prettyWrite("{");
 
         int n = 0;
-        while (n < keys.size()) {
-            keys.get(n).prettyPrint();
+        for (AspStringLiteral key : dict.keySet()) {
+            key.prettyPrint();
             prettyWrite(":");
-            values.get(n).prettyPrint();
-            if (n != keys.size() - 1)
+            dict.get(key).prettyPrint();
+            if (n != dict.size() - 1)
                 prettyWrite(", ");
             ++n;
         }
@@ -66,14 +65,12 @@ public class AspDictDisplay extends AspAtom {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        ArrayList<RuntimeValue> rtKeys = new ArrayList<>();
-        for (AspStringLiteral key : keys)
-            rtKeys.add(key.eval(curScope));
+        HashMap<RuntimeValue, RuntimeValue> v = new HashMap<>();
 
-        ArrayList<RuntimeValue> rtValues = new ArrayList<>();
-        for (AspExpr value : values)
-            rtValues.add(value.eval(curScope));
+        for (AspStringLiteral key : dict.keySet()) {
+            v.put(key.eval(curScope), dict.get(key).eval(curScope));
+        }
 
-        return new RuntimeDictValue(rtKeys, rtValues);
+        return new RuntimeDictValue(v);
     }
 }
