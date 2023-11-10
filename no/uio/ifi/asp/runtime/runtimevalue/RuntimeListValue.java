@@ -36,6 +36,11 @@ public class RuntimeListValue extends RuntimeValue {
         put("evalLessEqual", new ArrayList<>(List.of(
             RuntimeListValue.class
         )));
+
+        // Suffixes
+        put("evalSubscription", new ArrayList<>(List.of(
+            RuntimeIntValue.class
+        )));
     }};
 
     public RuntimeListValue(ArrayList<RuntimeValue> vs) {
@@ -180,6 +185,9 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+        if (!supportedTypes.get("evalSubscription").contains(v.getClass()))
+            runtimeError("subscription", typeName(), v.typeName(), where);
+
         return rtValues.get((int)v.getIntValue("subscription", where));
     }
 }
