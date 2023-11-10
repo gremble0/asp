@@ -10,7 +10,7 @@ import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspExpr extends AspSyntax {
-    ArrayList<AspAndTest> andTests = new ArrayList<>();
+    public ArrayList<AspAndTest> andTests = new ArrayList<>();
 
     public AspExpr(int n) {
         super(n);

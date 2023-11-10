@@ -13,7 +13,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 
 
 public class AspDictDisplay extends AspAtom {
-    HashMap<AspStringLiteral, AspExpr> dict = new HashMap<>();
+    public HashMap<AspStringLiteral, AspExpr> dict = new HashMap<>();
     
     public AspDictDisplay(int n) {
         super(n);
@@ -67,9 +67,8 @@ public class AspDictDisplay extends AspAtom {
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         HashMap<RuntimeValue, RuntimeValue> v = new HashMap<>();
 
-        for (AspStringLiteral key : dict.keySet()) {
+        for (AspStringLiteral key : dict.keySet())
             v.put(key.eval(curScope), dict.get(key).eval(curScope));
-        }
 
         return new RuntimeDictValue(v);
     }

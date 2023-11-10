@@ -84,4 +84,13 @@ public class RuntimeDictValue extends RuntimeValue {
     public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
         return evalEqual(v, where).evalNot(where);
     }
+
+    @Override
+    public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+        if (v instanceof RuntimeStringValue)
+            return dict.get(v);
+
+        runtimeError("subscription", typeName(), v.typeName(), where);
+        return null;
+    }
 }

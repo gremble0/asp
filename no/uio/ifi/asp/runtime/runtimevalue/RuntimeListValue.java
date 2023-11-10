@@ -177,4 +177,9 @@ public class RuntimeListValue extends RuntimeValue {
 
         return new RuntimeBoolValue(notGreaterBool);
     }
+
+    @Override
+    public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
+        return rtValues.get((int)v.getIntValue("subscription", where));
+    }
 }

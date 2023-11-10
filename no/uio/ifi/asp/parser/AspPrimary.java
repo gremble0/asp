@@ -46,7 +46,11 @@ public class AspPrimary extends AspSyntax {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // TODO suffixes
-        return atom.eval(curScope);
+        RuntimeValue v = atom.eval(curScope);
+
+        for (AspPrimarySuffix suffix : suffixes)
+            v = v.evalSubscription(suffix.eval(curScope), this);
+        
+        return v;
     }
 }
