@@ -21,9 +21,8 @@ public class RuntimeListValue extends RuntimeValue {
         )));
 
         // Comparisons
-        put("evalEqual", new ArrayList<>(List.of(
-            RuntimeListValue.class, RuntimeNoneValue.class
-        )));
+        // NOTE: these are not implemented for lists in the reference interpreter, but it
+        // is in python, so i have implemented it with the slightly weird python behavior.
         put("evalGreater", new ArrayList<>(List.of(
             RuntimeListValue.class
         )));
@@ -116,11 +115,20 @@ public class RuntimeListValue extends RuntimeValue {
 
     @Override
     public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
-        // We don't raise error if none of the supported types, just return false
-        if (v instanceof RuntimeListValue)
-            return new RuntimeBoolValue(rtValues.equals(v.getListValue("== operand", where)));
+        // We don't raise error if none of the supported types, just return false (like in python)
+        if (!(v instanceof RuntimeListValue) || rtValues.size() != v.getListValue("==", where).size())
+            return new RuntimeBoolValue(false);
+        
+        ArrayList<RuntimeValue> vRtValues = v.getListValue("==", where);
+        for (int i = 0; i < rtValues.size(); i++) {
+            RuntimeValue rtValue = rtValues.get(i);
+            RuntimeValue vRtValue = vRtValues.get(i);
 
-        return new RuntimeBoolValue(false);
+            if (!rtValue.evalEqual(vRtValue, where).getBoolValue("==", where))
+                return new RuntimeBoolValue(false);
+        }
+
+        return new RuntimeBoolValue(true);
     }
 
     @Override

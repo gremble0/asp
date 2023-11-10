@@ -2,12 +2,22 @@ package no.uio.ifi.asp.runtime.runtimevalue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeDictValue extends RuntimeValue {
     private HashMap<RuntimeStringValue, RuntimeValue> dict = new HashMap<>();
+    // This is mostly unnecessary for this class but i'll add it for extensibility
+    private Map<String, List<Class<? extends RuntimeValue>>> supportedTypes = new HashMap<>() {{
+        // Suffixes
+        put("evalSubscription", new ArrayList<>(List.of(
+            RuntimeStringValue.class
+        )));
+    }};
+
 
     public RuntimeDictValue(HashMap<RuntimeStringValue, RuntimeValue> dict) {
         this.dict = dict;
@@ -72,12 +82,21 @@ public class RuntimeDictValue extends RuntimeValue {
 
     @Override
     public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeDictValue)
-            return new RuntimeBoolValue(
-                dict.equals(v.getDictValue("== operand", where))
-            );
+        // NOTE: == is not implemented for dicts in the reference interpreter, but it
+        // is in python, so i have implemented it with the python behavior
+        if (!(v instanceof RuntimeDictValue) || dict.size() != v.getDictValue("==", where).size())
+            return new RuntimeBoolValue(false);
 
-        return new RuntimeBoolValue(false);
+        HashMap<RuntimeStringValue, RuntimeValue> vDict = v.getDictValue("==", where);
+        for (RuntimeStringValue key : dict.keySet()) {
+            RuntimeValue rtValue = dict.get(key);
+            RuntimeValue vRtValue = vDict.get(key); // null if the key does not exist
+
+            if (vRtValue == null || !rtValue.evalEqual(vRtValue, where).getBoolValue("==", where))
+                return new RuntimeBoolValue(false);
+        }
+
+        return new RuntimeBoolValue(true);
     }
 
     @Override
@@ -87,13 +106,9 @@ public class RuntimeDictValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeStringValue) {
-            // RuntimeValue asd = dict.get(v);
-            System.out.println(dict + " " + v + " " + dict.get(v));
-            return dict.get((RuntimeStringValue)v);
-        }
+        if (!supportedTypes.get("evalSubscription").contains(v.getClass()))
+            runtimeError("subscription", typeName(), v.typeName(), where);
 
-        runtimeError("subscription", typeName(), v.typeName(), where);
-        return null;
+        return dict.get(v);
     }
 }
