@@ -7,9 +7,9 @@ import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
 public class RuntimeDictValue extends RuntimeValue {
-    private HashMap<RuntimeValue, RuntimeValue> dict = new HashMap<>();
+    private HashMap<RuntimeStringValue, RuntimeValue> dict = new HashMap<>();
 
-    public RuntimeDictValue(HashMap<RuntimeValue, RuntimeValue> dict) {
+    public RuntimeDictValue(HashMap<RuntimeStringValue, RuntimeValue> dict) {
         this.dict = dict;
     }
 
@@ -42,7 +42,7 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public HashMap<RuntimeValue, RuntimeValue> getDictValue(String what, AspSyntax where) {
+    public HashMap<RuntimeStringValue, RuntimeValue> getDictValue(String what, AspSyntax where) {
         return dict;
     }
 
@@ -87,8 +87,11 @@ public class RuntimeDictValue extends RuntimeValue {
 
     @Override
     public RuntimeValue evalSubscription(RuntimeValue v, AspSyntax where) {
-        if (v instanceof RuntimeStringValue)
-            return dict.get(v);
+        if (v instanceof RuntimeStringValue) {
+            // RuntimeValue asd = dict.get(v);
+            System.out.println(dict + " " + v + " " + dict.get(v));
+            return dict.get((RuntimeStringValue)v);
+        }
 
         runtimeError("subscription", typeName(), v.typeName(), where);
         return null;

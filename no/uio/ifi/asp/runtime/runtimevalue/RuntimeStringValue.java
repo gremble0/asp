@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
@@ -60,6 +61,28 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public String toString() {
         return stringValue;
+    }
+
+    @Override
+    public int hashCode() {
+        // We override the hashcode of RuntimeStringValues so that we can .get() them
+        // in RuntimeDictValue by the RuntimeStringValues stringValue
+        return Objects.hash(stringValue);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // The HashMap in the RuntimeDictValue implementation depends on
+        // RuntimeStringValue's equals() method, and we need it to compare
+        // the values of the strings, not just the memory address
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        RuntimeStringValue other = (RuntimeStringValue)obj;
+        return stringValue.equals(other.stringValue);
     }
 
     @Override
