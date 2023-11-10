@@ -4,7 +4,6 @@ import static no.uio.ifi.asp.scanner.TokenKind.integerToken;
 
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
-import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -36,7 +35,7 @@ public class AspIntegerLiteral extends AspAtom {
     }
 
     @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+    public RuntimeIntValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         return new RuntimeIntValue(integerLit);
     }
 }

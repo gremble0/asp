@@ -5,7 +5,6 @@ import static no.uio.ifi.asp.scanner.TokenKind.trueToken;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeBoolValue;
-import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspBooleanLiteral extends AspAtom {
@@ -43,7 +42,7 @@ public class AspBooleanLiteral extends AspAtom {
     }
 
     @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+    public RuntimeBoolValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         return new RuntimeBoolValue(booleanLit);
     }
 }

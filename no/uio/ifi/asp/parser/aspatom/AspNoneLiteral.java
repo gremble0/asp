@@ -5,7 +5,6 @@ import static no.uio.ifi.asp.scanner.TokenKind.noneToken;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeNoneValue;
-import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspNoneLiteral extends AspAtom {
@@ -33,7 +32,7 @@ public class AspNoneLiteral extends AspAtom {
     }
 
     @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+    public RuntimeNoneValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         return new RuntimeNoneValue();
     }
 }

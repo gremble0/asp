@@ -59,7 +59,7 @@ public class AspListDisplay extends AspAtom {
     }
 
     @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+    public RuntimeListValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         ArrayList<RuntimeValue> rtValues = new ArrayList<>();
 
         for (AspExpr expr : exprs)

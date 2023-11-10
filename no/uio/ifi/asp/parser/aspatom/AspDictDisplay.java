@@ -8,9 +8,9 @@ import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeDictValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeStringValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
-
 
 public class AspDictDisplay extends AspAtom {
     public HashMap<AspStringLiteral, AspExpr> dict = new HashMap<>();
@@ -64,8 +64,8 @@ public class AspDictDisplay extends AspAtom {
     }
 
     @Override
-    public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        HashMap<RuntimeValue, RuntimeValue> v = new HashMap<>();
+    public RuntimeDictValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        HashMap<RuntimeStringValue, RuntimeValue> v = new HashMap<>();
 
         for (AspStringLiteral key : dict.keySet())
             v.put(key.eval(curScope), dict.get(key).eval(curScope));
