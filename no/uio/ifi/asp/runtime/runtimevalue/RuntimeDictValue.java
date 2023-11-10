@@ -20,15 +20,15 @@ public class RuntimeDictValue extends RuntimeValue {
 
     @Override
     public String toString() {
-        String res = "{\n";
+        String res = "{";
 
         int n = 0;
         for (RuntimeValue key : dict.keySet()) {
+            res += "'" + key + "'";
+            res += ": ";
             res += dict.get(key);
-            res += ":";
-            res += key;
             if (n != dict.size() - 1)
-                res += ",\n";
+                res += ",";
             ++n;
         }
         res += "}";
