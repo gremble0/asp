@@ -13,6 +13,7 @@ import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
 
 public class AspIfStmt extends AspCompoundStmt {
+    // TODO: make else field
     public ArrayList<AspExpr> tests = new ArrayList<>();
     public ArrayList<AspSuite> bodies = new ArrayList<>();
 
@@ -23,7 +24,9 @@ public class AspIfStmt extends AspCompoundStmt {
     /**
       * @param s {@code Scanner} used and mutated to parse the {@code AspIfStmt}
       * @return  {@code AspIfStmt} with parsed information about the if statement
-      *          including the tests of all the elif and else branches and their bodies
+      *          including the tests of all the elif and else branches and their bodies.
+      *          if bodies.size() > tests.size(), then the last element of bodies is
+      *          the else branch.
       */
     public static AspIfStmt parse(Scanner s) {
         enterParser("if stmt");
@@ -85,7 +88,20 @@ public class AspIfStmt extends AspCompoundStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
+        int n = 0;
+
+        // Loop and trace the false tests
+        while (tests.get(n).eval(curScope).getBoolValue("if test", this)) {
+            trace("if False:");
+            ++n;
+        }
+
+        // If we stopped looping and there are more bodies left we hit a true (or else) statement
+        if (n < bodies.size()) {
+            trace("if True: ...");
+            bodies.get(n).eval(curScope);
+        }
+
         return null;
     }
 }

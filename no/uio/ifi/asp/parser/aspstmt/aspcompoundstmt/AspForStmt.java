@@ -8,6 +8,7 @@ import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeListValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -52,6 +53,17 @@ public class AspForStmt extends AspCompoundStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        RuntimeValue lst = iterable.eval(curScope);
+        if (!(lst instanceof RuntimeListValue)) // TODO: RuntimeCollectionValue, even better: interface for iterable (includes strings)
+            parserError("Cannot iterate over expression of type: " + lst.typeName(), lineNum);
+
+        // loop start
+        // TODO: assign iterator (field)
+        // RuntimeValue it = lst.evalSubscription(lst, body);
+
+        // TODO: loop through body after assignment
+        // loop stop
+
         return null;
     }
 }
