@@ -89,7 +89,7 @@ public abstract class AspSyntax {
         Main.log.prettyWriteLn(s);
     }
 
-    void trace(String what) {
+    protected void trace(String what) {
         Main.log.traceEval(what, this);
     }
 }

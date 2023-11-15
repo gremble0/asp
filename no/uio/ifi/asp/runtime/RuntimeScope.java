@@ -1,8 +1,4 @@
-// © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
-
 package no.uio.ifi.asp.runtime;
-
-// For part 4:
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +9,7 @@ import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 
 public class RuntimeScope {
     private RuntimeScope outer;
-    private HashMap<String, RuntimeValue> decls = new HashMap<>();
+    private HashMap<String, RuntimeValue> decls = new HashMap<>(); // TODO: <AspName, RuntimeValue>, change name to bindings
     private ArrayList<String> globalNames = new ArrayList<>();
 
     public RuntimeScope() {
@@ -21,9 +17,9 @@ public class RuntimeScope {
         outer = null;
     }
 
-    public RuntimeScope(RuntimeScope oScope) {
+    public RuntimeScope(RuntimeScope outer) {
         // Used by all user scopes
-        outer = oScope;
+        this.outer = outer;
     }
 
     public void assign(String id, RuntimeValue val) {

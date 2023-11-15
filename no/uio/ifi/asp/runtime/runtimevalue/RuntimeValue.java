@@ -148,6 +148,7 @@ public abstract class RuntimeValue {
         Main.error("Asp runtime error on line " + lNum + ": " + message);
     }
 
+    // TODO: typeError()
     public static void runtimeError(String message, AspSyntax where) {
         runtimeError(message, where.lineNum);
     }

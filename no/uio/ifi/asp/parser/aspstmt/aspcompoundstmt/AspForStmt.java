@@ -55,7 +55,7 @@ public class AspForStmt extends AspCompoundStmt {
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue lst = iterable.eval(curScope);
         if (!(lst instanceof RuntimeListValue)) // TODO: RuntimeCollectionValue, even better: interface for iterable (includes strings)
-            parserError("Cannot iterate over expression of type: " + lst.typeName(), lineNum);
+            RuntimeValue.runtimeError("Cannot iterate over expression of type: " + lst.typeName(), body);
 
         // loop start
         // TODO: assign iterator (field)
