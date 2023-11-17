@@ -9,6 +9,8 @@ import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspSubscription;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeDictValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeListValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -55,8 +57,34 @@ public class AspAssignment extends AspSmallStmt {
         expr.prettyPrint();
     }
 
+    /**
+     * @param curScope {@code RuntimeScope} to add the binding to
+     *
+     * Adds a binding from {@code this.name.name} to the result of {@code this.expr.eval(curScope)}
+     * if {@code this.subscriptions.size() > 0}, update the value the subscription(s) point to.
+     */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        if (subscriptions.size() != 0) {
+            RuntimeValue var = curScope.find(name.name, this);
+
+            RuntimeValue val = expr.eval(curScope);
+            int n = 0;
+            while (n < subscriptions.size()) {
+                if (!(var instanceof RuntimeListValue) && !(var instanceof RuntimeDictValue)) // TODO: collection, also check that the index is string for dict and int for list
+                    RuntimeValue.runtimeError("Variable of type '" + var.typeName() +
+                                              "' does not support indexation", this);
+
+                var = var.evalSubscription(subscriptions.get(n).eval(curScope), this);
+
+                if (n == subscriptions.size() - 1)
+                    var.evalAssignElem(subscriptions.get(n).eval(curScope), val, this);
+                ++n;
+            }
+        } else {
+            curScope.assign(name.name, expr.eval(curScope));
+        }
+        
         return null;
     }
 }

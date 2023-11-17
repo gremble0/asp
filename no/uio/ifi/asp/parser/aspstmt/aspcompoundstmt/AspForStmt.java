@@ -57,12 +57,13 @@ public class AspForStmt extends AspCompoundStmt {
         if (!(lst instanceof RuntimeListValue)) // TODO: RuntimeCollectionValue, even better: interface for iterable (includes strings)
             RuntimeValue.runtimeError("Cannot iterate over expression of type: " + lst.typeName(), body);
 
-        // loop start
-        // TODO: assign iterator (field)
-        // RuntimeValue it = lst.evalSubscription(lst, body);
+        int n = 0;
+        while (true) {
+            // TODO: assign iterator (field)
+            RuntimeValue it = lst.evalSubscription(lst, body);
 
-        // TODO: loop through body after assignment
-        // loop stop
+            // TODO: loop through body after assignment
+        }
 
         return null;
     }
