@@ -57,8 +57,8 @@ public class RuntimeDictValue extends RuntimeValue {
     }
 
     @Override
-    public ArrayList<RuntimeValue> getDictKeys(String what, AspSyntax where) {
-        ArrayList<RuntimeValue> keys = new ArrayList<>();
+    public ArrayList<RuntimeStringValue> getDictKeys(String what, AspSyntax where) {
+        ArrayList<RuntimeStringValue> keys = new ArrayList<>();
         keys.addAll(dict.keySet());
         return keys;
     }

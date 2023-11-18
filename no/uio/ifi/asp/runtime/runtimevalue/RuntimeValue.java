@@ -45,7 +45,7 @@ public abstract class RuntimeValue {
         return null; // Required by the compiler!
     }
 
-    public ArrayList<RuntimeValue> getDictKeys(String what, AspSyntax where) {
+    public ArrayList<RuntimeStringValue> getDictKeys(String what, AspSyntax where) {
         runtimeError("Type error: " + what + " is not a dict!", where);
         return null; // Required by the compiler!
     }
