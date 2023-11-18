@@ -12,6 +12,7 @@ import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeDictValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeListValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeStringValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 import no.uio.ifi.asp.scanner.Scanner;
@@ -71,10 +72,9 @@ public class AspForStmt extends AspCompoundStmt {
     private RuntimeValue evalDict(RuntimeScope curScope, RuntimeDictValue dict) throws RuntimeReturnValue {
         RuntimeValue it;
         int n = 0;
-        ArrayList<RuntimeValue> keys = dict.getDictKeys("for loop", this);
+        ArrayList<RuntimeStringValue> keys = dict.getDictKeys("for loop", this);
         while (n < dict.evalLen(this).getIntValue("for loop", this)) {
-            RuntimeValue curKey = keys.get(n);
-            it = dict.evalSubscription(new RuntimeIntValue(n++), body);
+            it = dict.evalSubscription(keys.get(n), body);
             curScope.assign(iterator.name, it);
             body.eval(curScope);
         }
