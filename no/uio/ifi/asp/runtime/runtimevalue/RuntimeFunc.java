@@ -1,5 +1,7 @@
 package no.uio.ifi.asp.runtime.runtimevalue;
 
+import java.util.ArrayList;
+
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt.AspFuncDef;
 import no.uio.ifi.asp.runtime.RuntimeScope;
@@ -17,31 +19,37 @@ public class RuntimeFunc extends RuntimeValue {
 
     @Override
     public String typeName() {
-        return "None";
+        return "function";
     }
 
-    @Override
-    public String toString() {
-        return "None";
-    }
+    // Maybe write this? Python writes mem address
+    // @Override
+    // public String toString() {}
 
     @Override
     public boolean getBoolValue(String what, AspSyntax where) {
-        return false;
+        // Python behavior
+        return true;
     }
 
     @Override
     public RuntimeBoolValue evalEqual(RuntimeValue v, AspSyntax where) {
-        return new RuntimeBoolValue(v instanceof RuntimeNoneValue);
+        return new RuntimeBoolValue(this == v);
     }
 
     @Override
     public RuntimeBoolValue evalNot(AspSyntax where) {
-        return new RuntimeBoolValue(true);
+        return new RuntimeBoolValue(false);
     }
 
     @Override
     public RuntimeBoolValue evalNotEqual(RuntimeValue v, AspSyntax where) {
-        return new RuntimeBoolValue(!(v instanceof RuntimeNoneValue));
+        return new RuntimeBoolValue(!evalEqual(v, where).getBoolValue("!= operand", where));
+    }
+    
+    @Override
+    public RuntimeValue evalFuncCall(ArrayList<RuntimeValue> actualParams, AspSyntax where) {
+        // TODO:
+        return null;
     }
 }

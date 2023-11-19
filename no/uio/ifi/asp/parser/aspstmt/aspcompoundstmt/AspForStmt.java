@@ -65,7 +65,7 @@ public class AspForStmt extends AspCompoundStmt {
             return evalDict(curScope, (RuntimeDictValue)runtimeIterable);
         }
 
-        RuntimeValue.runtimeError("Cannot iterate over expression of type: " + runtimeIterable.typeName(), body);
+        RuntimeValue.runtimeError("'" + runtimeIterable.typeName() + "' object is not iterable", this);
         return null; // required by the compiler
     }
     

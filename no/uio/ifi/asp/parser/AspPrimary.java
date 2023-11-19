@@ -5,9 +5,12 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.aspatom.AspAtom;
+import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspPrimarySuffix;
+import no.uio.ifi.asp.parser.aspprimarysuffix.AspSubscription;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeFunc;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -47,9 +50,21 @@ public class AspPrimary extends AspSyntax {
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue v = atom.eval(curScope);
+        
+        if (suffixes.get(0) instanceof AspSubscription) {
+            for (AspPrimarySuffix subscription : suffixes)
+                v = v.evalSubscription(subscription.eval(curScope), this);
+        } else {
+            ArrayList<RuntimeValue> params = new ArrayList<>();
+            
+            for (AspPrimarySuffix argument : suffixes)
+                params.add(argument.eval(curScope));
 
-        for (AspPrimarySuffix suffix : suffixes)
-            v = v.evalSubscription(suffix.eval(curScope), this);
+            if (!(v instanceof RuntimeFunc))
+                RuntimeValue.runtimeError("'" + v.typeName() + "' is not callable", this);
+            
+            v = v.evalFuncCall(params, this);
+        }
         
         return v;
     }
