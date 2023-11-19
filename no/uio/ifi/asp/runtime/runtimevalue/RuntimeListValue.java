@@ -199,4 +199,9 @@ public class RuntimeListValue extends RuntimeValue {
 
         return rtValues.get((int)v.getIntValue("subscription", where));
     }
+    
+    @Override
+    public void evalAssignElem(RuntimeValue inx, RuntimeValue val, AspSyntax where) {
+        rtValues.set((int)inx.getIntValue("= operand", where), val);
+    }
 }

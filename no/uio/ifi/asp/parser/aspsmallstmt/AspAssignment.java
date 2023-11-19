@@ -65,25 +65,30 @@ public class AspAssignment extends AspSmallStmt {
      */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
+        String tracedAssignment = name.name;
+        RuntimeValue val = expr.eval(curScope);
         if (subscriptions.size() != 0) {
             RuntimeValue var = curScope.find(name.name, this);
 
-            RuntimeValue val = expr.eval(curScope);
             int n = 0;
             while (n < subscriptions.size()) {
                 if (!(var instanceof RuntimeListValue) && !(var instanceof RuntimeDictValue)) // TODO: collection, also check that the index is string for dict and int for list
                     RuntimeValue.runtimeError("Variable of type '" + var.typeName() +
-                                              "' does not support indexation", this);
-
-                var = var.evalSubscription(subscriptions.get(n).eval(curScope), this);
+                                              "' does not support subscription", this);
 
                 if (n == subscriptions.size() - 1)
                     var.evalAssignElem(subscriptions.get(n).eval(curScope), val, this);
-                ++n;
+
+                RuntimeValue subscription = subscriptions.get(n++).eval(curScope);
+                var = var.evalSubscription(subscription, this);
+                tracedAssignment += "[" + subscription + "]";
             }
+
         } else {
-            curScope.assign(name.name, expr.eval(curScope));
+            curScope.assign(name.name, val);
         }
+
+        trace(tracedAssignment + " = " + val);
         
         return null;
     }
