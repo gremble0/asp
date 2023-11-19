@@ -9,6 +9,7 @@ import no.uio.ifi.asp.parser.aspsuite.AspSuite;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeFunc;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFuncDef extends AspCompoundStmt {
@@ -71,7 +72,6 @@ public class AspFuncDef extends AspCompoundStmt {
 
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
-        return null;
+        return new RuntimeFunc(this, funcName.name, curScope);
     }
 }
