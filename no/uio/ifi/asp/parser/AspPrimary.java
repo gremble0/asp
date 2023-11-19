@@ -51,17 +51,21 @@ public class AspPrimary extends AspSyntax {
         RuntimeValue v = atom.eval(curScope);
         
         if (suffixes.size() == 0)
+            // We're doing a normal variable assignment
             return v;
         
         if (suffixes.get(0) instanceof AspArguments) {
+            // We're calling a function
             if (!(v instanceof RuntimeFunc))
                 RuntimeValue.runtimeError("'" + v.typeName() + "' is not callable", this);
             
             // TODO: evalFuncCall with RuntimeListValue as arg
             // If suffixes.get(0) is AspArguments, there will only be one element in the list
             ArrayList<RuntimeValue> arguments = suffixes.get(0).eval(curScope).getListValue("func call", this);
+            trace("Call function " + v + " with params " + arguments);
             v = v.evalFuncCall(arguments, this);
         } else {
+            // We're assigning an element inside a list
             for (AspPrimarySuffix subscription : suffixes)
                 v = v.evalSubscription(subscription.eval(curScope), this);
         }

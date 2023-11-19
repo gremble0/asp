@@ -25,7 +25,7 @@ public class RuntimeFunc extends RuntimeValue {
 
     @Override
     public String toString() {
-        return name + "()";
+        return name;
     }
 
     @Override
