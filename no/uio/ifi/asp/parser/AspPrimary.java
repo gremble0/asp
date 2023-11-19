@@ -5,7 +5,7 @@ import static no.uio.ifi.asp.scanner.TokenKind.*;
 import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.aspatom.AspAtom;
-import no.uio.ifi.asp.parser.aspatom.AspName;
+import no.uio.ifi.asp.parser.aspprimarysuffix.AspArguments;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspPrimarySuffix;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspSubscription;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
@@ -51,19 +51,16 @@ public class AspPrimary extends AspSyntax {
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue v = atom.eval(curScope);
         
-        if (suffixes.get(0) instanceof AspSubscription) {
-            for (AspPrimarySuffix subscription : suffixes)
-                v = v.evalSubscription(subscription.eval(curScope), this);
-        } else {
-            ArrayList<RuntimeValue> params = new ArrayList<>();
-            
-            for (AspPrimarySuffix argument : suffixes)
-                params.add(argument.eval(curScope));
-
+        if (suffixes.get(0) instanceof AspArguments) {
             if (!(v instanceof RuntimeFunc))
                 RuntimeValue.runtimeError("'" + v.typeName() + "' is not callable", this);
             
-            v = v.evalFuncCall(params, this);
+            // TODO: evalFuncCall with RuntimeListValue as arg
+            ArrayList<RuntimeValue> arguments = suffixes.get(0).eval(curScope).getListValue("func call", this);
+            v = v.evalFuncCall(arguments, this);
+        } else {
+            for (AspPrimarySuffix subscription : suffixes)
+                v = v.evalSubscription(subscription.eval(curScope), this);
         }
         
         return v;

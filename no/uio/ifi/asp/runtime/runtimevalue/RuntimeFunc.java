@@ -49,7 +49,7 @@ public class RuntimeFunc extends RuntimeValue {
     
     @Override
     public RuntimeValue evalFuncCall(ArrayList<RuntimeValue> actualParams, AspSyntax where) {
-        // TODO:
+        // TODO: Make it accept a RuntimeListValue as param
         return null;
     }
 }
