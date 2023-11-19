@@ -74,7 +74,8 @@ public class AspForStmt extends AspCompoundStmt {
         int n = 0;
         ArrayList<RuntimeStringValue> keys = dict.getDictKeys("for loop", this);
         while (n < dict.evalLen(this).getIntValue("for loop", this)) {
-            it = dict.evalSubscription(keys.get(n), body);
+            trace("for#" + n);
+            it = dict.evalSubscription(keys.get(n++), this);
             curScope.assign(iterator.name, it);
             body.eval(curScope);
         }
@@ -85,8 +86,10 @@ public class AspForStmt extends AspCompoundStmt {
     private RuntimeValue evalList(RuntimeScope curScope, RuntimeListValue list) throws RuntimeReturnValue {
         RuntimeValue it;
         int n = 0;
+
         while (n < list.evalLen(this).getIntValue("for loop", this)) {
-            it = list.evalSubscription(new RuntimeIntValue(n++), body);
+            trace("for#" + n);
+            it = list.evalSubscription(new RuntimeIntValue(n++), this);
             curScope.assign(iterator.name, it);
             body.eval(curScope);
         }
