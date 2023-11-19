@@ -71,6 +71,11 @@ public class RuntimeIntValue extends RuntimeNumberValue {
     }
 
     @Override
+    public String getStringValue(String what, AspSyntax where) {
+        return String.valueOf(intValue);
+    }
+
+    @Override
     public double getFloatValue(String what, AspSyntax where) {
         return (double)intValue;
     }

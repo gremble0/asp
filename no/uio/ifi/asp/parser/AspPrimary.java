@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.parser.aspatom.AspAtom;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspArguments;
 import no.uio.ifi.asp.parser.aspprimarysuffix.AspPrimarySuffix;
-import no.uio.ifi.asp.parser.aspprimarysuffix.AspSubscription;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeFunc;
@@ -50,6 +49,9 @@ public class AspPrimary extends AspSyntax {
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         RuntimeValue v = atom.eval(curScope);
+        
+        if (suffixes.size() == 0)
+            return v;
         
         if (suffixes.get(0) instanceof AspArguments) {
             if (!(v instanceof RuntimeFunc))

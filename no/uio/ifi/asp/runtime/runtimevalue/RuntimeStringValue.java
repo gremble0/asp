@@ -95,6 +95,11 @@ public class RuntimeStringValue extends RuntimeValue {
         // Can raise error
         return Long.parseLong(stringValue);
     }
+    
+    @Override
+    public String getStringValue(String what, AspSyntax where) {
+        return stringValue;
+    }
 
     @Override
     public double getFloatValue(String what, AspSyntax where) {
