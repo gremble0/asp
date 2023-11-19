@@ -8,6 +8,7 @@ import no.uio.ifi.asp.parser.AspExpr;
 import no.uio.ifi.asp.parser.aspsuite.AspSuite;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeBoolValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 import no.uio.ifi.asp.scanner.TokenKind;
@@ -90,15 +91,16 @@ public class AspIfStmt extends AspCompoundStmt {
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         int n = 0;
 
-        // Loop and trace the false tests
-        while (tests.get(n).eval(curScope).getBoolValue("if test", this)) {
-            trace("if False:");
-            ++n;
-        }
+        // Loop until we find a truthy test
+        while (n < tests.size() && !tests.get(n).eval(curScope).getBoolValue("if test", this))
+            n++;
 
-        // If we stopped looping and there are more bodies left we hit a true (or else) statement
+        // If we stopped looping and there are more bodies left we hit an if True (or else) statement
         if (n < bodies.size()) {
-            trace("if True: ...");
+            if (n < tests.size())
+                trace("if True alt #" + (n + 1) + ": ...");
+            else
+                trace("else: ...");
             bodies.get(n).eval(curScope);
         }
 
