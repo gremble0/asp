@@ -88,7 +88,7 @@ public class AspAssignment extends AspSmallStmt {
             curScope.assign(name.name, val);
         }
 
-        trace(tracedAssignment + " = " + val);
+        trace(tracedAssignment + " = " + val.showInfo());
         
         return null;
     }
