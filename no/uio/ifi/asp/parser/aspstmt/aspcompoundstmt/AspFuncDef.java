@@ -10,6 +10,7 @@ import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeFunc;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeNoneValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
 public class AspFuncDef extends AspCompoundStmt {
@@ -70,8 +71,16 @@ public class AspFuncDef extends AspCompoundStmt {
         body.prettyPrint();
     }
 
+    /**
+     * Adds binding to this function definition in current scope.
+     * Only called for side effects, always returns a new {@code RuntimeNoneValue}
+     *
+     * @param curScope Scope to bind function definition to
+     */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        return new RuntimeFunc(this, funcName.name, new RuntimeScope(curScope));
+        trace("def " + funcName.name);
+        curScope.assign(funcName.name, new RuntimeFunc(this, funcName.name, new RuntimeScope(curScope)));
+        return new RuntimeNoneValue();
     }
 }

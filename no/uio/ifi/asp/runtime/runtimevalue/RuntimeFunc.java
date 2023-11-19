@@ -69,6 +69,6 @@ public class RuntimeFunc extends RuntimeValue {
             return ret.value;
         }
 
-        return null;
+        return new RuntimeNoneValue();
     }
 }

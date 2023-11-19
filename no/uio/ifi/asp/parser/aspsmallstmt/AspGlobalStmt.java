@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import no.uio.ifi.asp.parser.aspatom.AspName;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeNoneValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -52,13 +53,16 @@ public class AspGlobalStmt extends AspSmallStmt {
     }
 
     /**
-     * Only called for side effects, always returns null
+     * Registers all globals in this {@code AspGlobalStmt} as global variables.
+     * Only called for side effects, always returns a new {@code RuntimeNoneValue}
+     *
+     * @param curScope Scope in which variables will be looked up globally
      */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
         for (AspName global : globals)
             curScope.registerGlobalName(global.name);
         
-        return null;
+        return new RuntimeNoneValue();
     }
 }

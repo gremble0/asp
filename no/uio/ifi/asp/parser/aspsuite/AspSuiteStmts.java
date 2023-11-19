@@ -8,6 +8,7 @@ import no.uio.ifi.asp.parser.aspstmt.AspSmallStmtList;
 import no.uio.ifi.asp.parser.aspstmt.AspStmt;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
+import no.uio.ifi.asp.runtime.runtimevalue.RuntimeNoneValue;
 import no.uio.ifi.asp.runtime.runtimevalue.RuntimeValue;
 import no.uio.ifi.asp.scanner.Scanner;
 
@@ -60,7 +61,8 @@ public class AspSuiteStmts extends AspSuite {
     }
 
     /**
-     * Only called for side effects, always returns null
+     * Evaluates every statement in {@code this.stmts}
+     * Only called for side effects, always returns a new {@code RuntimeNoneValue}
      */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
@@ -68,6 +70,6 @@ public class AspSuiteStmts extends AspSuite {
         for (AspStmt stmt : stmts)
             stmt.eval(curScope);
         
-        return null;
+        return new RuntimeNoneValue();
     }
 }
