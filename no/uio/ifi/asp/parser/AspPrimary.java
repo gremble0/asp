@@ -56,6 +56,7 @@ public class AspPrimary extends AspSyntax {
                 RuntimeValue.runtimeError("'" + v.typeName() + "' is not callable", this);
             
             // TODO: evalFuncCall with RuntimeListValue as arg
+            // If suffixes.get(0) is AspArguments, there will only be one element in the list
             ArrayList<RuntimeValue> arguments = suffixes.get(0).eval(curScope).getListValue("func call", this);
             v = v.evalFuncCall(arguments, this);
         } else {

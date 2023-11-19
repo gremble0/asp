@@ -59,9 +59,15 @@ public class AspSuiteStmts extends AspSuite {
         // prettyWriteLn("");
     }
 
+    /**
+     * Only called for side effects, always returns null
+     */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // -- Must be changed in part 4:
+        // TODO: catch exception?
+        for (AspStmt stmt : stmts)
+            stmt.eval(curScope);
+        
         return null;
     }
 }
