@@ -4,20 +4,28 @@ import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt.AspFuncDef;
+import no.uio.ifi.asp.runtime.RuntimeLibrary;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 
 public class RuntimeFunc extends RuntimeValue {
     public AspFuncDef def;
-    public String name;
     public RuntimeScope defScope;
+    public String name;
     
-    public RuntimeFunc(AspFuncDef def, String name, RuntimeScope defScope) {
+    public RuntimeFunc(AspFuncDef def, RuntimeScope defScope, String name) {
         this.def = def;
-        this.name = name;
         this.defScope = defScope;
+        this.name = name;
     }
-
+    
+    /**
+     * Used by {@code RuntimeLibrary} anonymous classes
+     */
+    public RuntimeFunc(String name) {
+        this.name = name;
+    }
+    
     @Override
     public String typeName() {
         return "function";
