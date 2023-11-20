@@ -1,44 +1,36 @@
 #!/bin/sh
 # This is a script that will run both the reference interpreter and this version of the interpreter
 # and compare the logged outputs to see if both interpreters behave identically
-run_tests () {
-    READDIR="$1"
-    FLAGS="$2"
-    
-    rm $READDIR/*.log > /dev/null 2>&1
-    aspfiles=$(ls "$READDIR")
-
-    for file in $aspfiles; do
-        java -jar ref-asp.jar "$FLAGS" "$READDIR/$file" > /dev/null 2>&1
-        mv "$READDIR/${file%.asp}.log" "$READDIR/${file%.asp}-ref.log"
-
-        java -jar asp.jar "$FLAGS" "$READDIR/$file" > /dev/null 2>&1
-
-        diffs="$(diff $READDIR/${file%.asp}-ref.log $READDIR/${file%.asp}.log)"
-        if [ -z "$diffs" ]; then
-            printf "\033[0;32mNo differences in file $file\033[0m\n"
-        else
-            printf "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests...\n"
-            rm $READDIR/*.log > /dev/null 2>&1
-            exit 1
-        fi
-    done
-
-    rm $READDIR/*.log > /dev/null 2>&1
-}
-
-# if [ -z "$1" ]; then
-[ -z "$1" ] && echo "Cannot run tests without a test checkpoint" && exit 1
-
-if [ "$1" != "parser" ] && [ "$1" != "scanner" ] && [ "$1" != "expr" ]; then
-    FLAGS="$@"
-    READDIR="./test/rest"
+if [ -z "$1" ]; then
+    TESTCHECKPOINT="expr"
 else
-    FLAGS="-test$1"
-    READDIR="./test/$1"
+    if [ "$1" != "parser" ] && [ "$1" != "scanner" ]; then
+        printf "Argument needs to be one of ['parser', 'scanner', 'expr']\n"
+        exit 1
+    fi
+
+    TESTCHECKPOINT="$1"
 fi
 
-echo "Comparing interpreter with the reference interpreter using the following flags '$FLAGS'"
+echo "Comparing interpreter with the reference interpreter using the -test$TESTCHECKPOINT flag"
 
-run_tests "$READDIR" "$FLAGS"
-exit 0
+rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
+aspfiles=$(ls "./test/$TESTCHECKPOINT")
+
+for file in $aspfiles; do
+    java -jar ref-asp.jar "-test$TESTCHECKPOINT" "./test/$TESTCHECKPOINT/$file" > /dev/null 2>&1
+    mv "./test/$TESTCHECKPOINT/${file%.asp}.log" "./test/$TESTCHECKPOINT/${file%.asp}-ref.log"
+
+    java -jar asp.jar "-test$TESTCHECKPOINT" "./test/$TESTCHECKPOINT/$file" > /dev/null 2>&1
+
+    diffs="$(diff ./test/$TESTCHECKPOINT/${file%.asp}-ref.log ./test/$TESTCHECKPOINT/${file%.asp}.log)"
+    if [ -z "$diffs" ]; then
+        printf "\033[0;32mNo differences in file $file\033[0m\n"
+    else
+        printf "\033[0;31mFound differences in file $file\033[0m\n $diffs\n\n Stopping execution of tests...\n"
+        rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1
+        exit 0
+    fi
+done
+
+rm ./test/$TESTCHECKPOINT/*.log > /dev/null 2>&1

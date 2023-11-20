@@ -66,7 +66,6 @@ public class AspSuiteStmts extends AspSuite {
      */
     @Override
     public RuntimeValue eval(RuntimeScope curScope) throws RuntimeReturnValue {
-        // TODO: catch exception?
         for (AspStmt stmt : stmts)
             stmt.eval(curScope);
         

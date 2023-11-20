@@ -8,7 +8,7 @@ import java.util.Map;
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.runtime.runtimevalue.runtimenumbervalue.RuntimeIntValue;
 
-// TODO: make superclass RuntimeCollectionValue
+// TODO: make superclass: RuntimeCollectionValue
 public class RuntimeListValue extends RuntimeValue {
     private ArrayList<RuntimeValue> rtValues = new ArrayList<>();
     // This is mostly unnecessary for this class but i'll add it for extensibility
