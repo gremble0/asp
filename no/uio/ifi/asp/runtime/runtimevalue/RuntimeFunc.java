@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import no.uio.ifi.asp.parser.AspSyntax;
 import no.uio.ifi.asp.parser.aspstmt.aspcompoundstmt.AspFuncDef;
-import no.uio.ifi.asp.runtime.RuntimeLibrary;
 import no.uio.ifi.asp.runtime.RuntimeReturnValue;
 import no.uio.ifi.asp.runtime.RuntimeScope;
 

@@ -1,11 +1,7 @@
-// © 2021 Dag Langmyhr, Institutt for informatikk, Universitetet i Oslo
-
 package no.uio.ifi.asp.scanner;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import no.uio.ifi.asp.main.*;
 
 public enum TokenKind {
     // Names and literals:
