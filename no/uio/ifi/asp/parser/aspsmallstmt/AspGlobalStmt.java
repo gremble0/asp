@@ -31,6 +31,11 @@ public class AspGlobalStmt extends AspSmallStmt {
         while (s.curToken().kind != newLineToken) {
             globalStmt.globals.add(AspName.parse(s));
 
+            if (s.curToken().kind == semicolonToken) {
+                s.readNextToken();
+                break;
+            }
+
             test(s, commaToken, newLineToken);
             ignore(s, commaToken);
         }

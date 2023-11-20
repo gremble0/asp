@@ -88,7 +88,7 @@ public class AspForStmt extends AspCompoundStmt {
         int n = 0;
 
         while (n < list.evalLen(this).getIntValue("for loop", this)) {
-            trace("for#" + n);
+            trace("for #" + (n + 1) + ": " + iterator.name + " = " + n);
             it = list.evalSubscription(new RuntimeIntValue(n++), this);
             curScope.assign(iterator.name, it);
             body.eval(curScope);

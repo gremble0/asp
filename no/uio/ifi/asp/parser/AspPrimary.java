@@ -62,7 +62,20 @@ public class AspPrimary extends AspSyntax {
             // TODO: evalFuncCall with RuntimeListValue as arg
             // If suffixes.get(0) is AspArguments, there will only be one element in the list
             ArrayList<RuntimeValue> arguments = suffixes.get(0).eval(curScope).getListValue("func call", this);
-            trace("Call function " + v.showInfo() + " with params " + arguments);
+
+            // For prettier logging
+            String tracedArguments = "[";
+            int n = 0;
+            while (n < arguments.size()) {
+                tracedArguments += arguments.get(n).showInfo();
+                
+                if (n != arguments.size() - 1)
+                    tracedArguments += ", ";
+                n++;
+            }
+            tracedArguments += "]";
+
+            trace("Call function " + v.showInfo() + " with params " + tracedArguments);
             v = v.evalFuncCall(arguments, this);
         } else {
             // We're assigning an element inside a list
