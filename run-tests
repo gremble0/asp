@@ -4,7 +4,7 @@
 if [ -z "$1" ]; then
     TESTCHECKPOINT="expr"
 else
-    if [ "$1" != "parser" ] && [ "$1" != "scanner" ]; then
+    if [ "$1" != "parser" ] && [ "$1" != "scanner" ] && [ "$1" != "expr" ]; then
         printf "Argument needs to be one of ['parser', 'scanner', 'expr']\n"
         exit 1
     fi

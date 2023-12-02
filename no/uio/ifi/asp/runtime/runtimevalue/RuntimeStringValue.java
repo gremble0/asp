@@ -146,7 +146,7 @@ public class RuntimeStringValue extends RuntimeValue {
             runtimeError("==", typeName(), v.typeName(), where);
 
         if (v instanceof RuntimeStringValue)
-            return new RuntimeBoolValue(v.toString() == stringValue);
+            return new RuntimeBoolValue(v.getStringValue("== operand", where).equals(stringValue));
         else // v is RuntimeNoneValue
             return new RuntimeBoolValue(false);
     }
