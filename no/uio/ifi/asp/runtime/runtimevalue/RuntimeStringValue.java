@@ -100,7 +100,7 @@ public class RuntimeStringValue extends RuntimeValue {
         try {
             return Long.parseLong(stringValue);
         } catch(NumberFormatException e) {
-            runtimeError("invalid literal for int(): " + stringValue, where);
+            runtimeError("invalid literal for int(): '" + stringValue + "'", where);
             return 0; // Unreachable, required by the compiler
         }
     }
@@ -115,7 +115,7 @@ public class RuntimeStringValue extends RuntimeValue {
         try {
             return Double.parseDouble(stringValue);
         } catch(NumberFormatException e) {
-            runtimeError("invalid literal for float(): " + stringValue, where);
+            runtimeError("invalid literal for float(): '" + stringValue + "'", where);
             return 0.0; // Unreachable, required by the compiler
         }
     }
