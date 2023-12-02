@@ -97,8 +97,12 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public long getIntValue(String what, AspSyntax where) {
-        // Can raise error
-        return Long.parseLong(stringValue);
+        try {
+            return Long.parseLong(stringValue);
+        } catch(NumberFormatException e) {
+            runtimeError("invalid literal for int(): " + stringValue, where);
+            return 0; // Unreachable, required by the compiler
+        }
     }
     
     @Override
@@ -108,8 +112,12 @@ public class RuntimeStringValue extends RuntimeValue {
 
     @Override
     public double getFloatValue(String what, AspSyntax where) {
-        // Can raise error
-        return Double.parseDouble(stringValue);
+        try {
+            return Double.parseDouble(stringValue);
+        } catch(NumberFormatException e) {
+            runtimeError("invalid literal for float(): " + stringValue, where);
+            return 0.0; // Unreachable, required by the compiler
+        }
     }
 
     @Override
