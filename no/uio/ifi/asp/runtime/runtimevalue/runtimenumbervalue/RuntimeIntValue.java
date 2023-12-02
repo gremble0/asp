@@ -189,8 +189,8 @@ public class RuntimeIntValue extends RuntimeNumberValue {
             return new RuntimeBoolValue(intValue > v.getFloatValue("> operand", where));
         else // v is RuntimeBoolValue
             return new RuntimeBoolValue(
-                intValue > 1 && v.getBoolValue("< operand", where) == true ||
-                intValue > 0 && v.getBoolValue("< operand", where) == false
+                intValue > 1 && v.getBoolValue("> operand", where) == true ||
+                intValue > 0 && v.getBoolValue("> operand", where) == false
             );
     }
 

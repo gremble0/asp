@@ -130,7 +130,7 @@ public class RuntimeStringValue extends RuntimeValue {
         if (!supportedTypes.get("evalAdd").contains(v.getClass()))
             runtimeError("+", typeName(), v.typeName(), where);
 
-        return new RuntimeStringValue(stringValue + v.toString());
+        return new RuntimeStringValue(stringValue + v.getStringValue("+ operand", where));
     }
 
     @Override
@@ -170,9 +170,9 @@ public class RuntimeStringValue extends RuntimeValue {
     @Override
     public RuntimeBoolValue evalGreater(RuntimeValue v, AspSyntax where) {
         if (!supportedTypes.get("evalGreater").contains(v.getClass()))
-            runtimeError("==", typeName(), v.typeName(), where);
+            runtimeError(">", typeName(), v.typeName(), where);
 
-        String vStringValue = v.toString();
+        String vStringValue = v.getStringValue("> operand", where);
 
         // Simple optimization, if the strings are different lengths they cant be equal
         if (vStringValue.length() != stringValue.length())
